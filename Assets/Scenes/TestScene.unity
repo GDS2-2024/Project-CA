@@ -559,6 +559,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  clipSize: 0
+  currentClip: 0
 --- !u!114 &983206697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,6 +577,7 @@ MonoBehaviour:
   spawnPos: {x: 0, y: 0, z: 0}
   playerCam: {fileID: 804247817}
   gun: {fileID: 346105566}
+  shotSpeed: 0
 --- !u!114 &983206698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -848,6 +851,7 @@ MonoBehaviour:
   spawnPos: {x: 0, y: 0, z: 0}
   playerCam: {fileID: 963194227}
   gun: {fileID: 220713010}
+  shotSpeed: 0.5
 --- !u!114 &1224929494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,6 +865,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  clipSize: 5
+  currentClip: 0
 --- !u!1 &1437363785
 GameObject:
   m_ObjectHideFlags: 0

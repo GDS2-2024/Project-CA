@@ -5,17 +5,22 @@ using UnityEngine;
 public class PlayerStatManager : MonoBehaviour
 {
     public float health;
+    public int clipSize;
+    public int currentClip;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentClip = clipSize;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown("r"))
+        {
+            Reload();
+        }
     }
 
     public void TakeDamage(float damage)
@@ -30,6 +35,16 @@ public class PlayerStatManager : MonoBehaviour
         {
             Die();
         }
+    }
+
+    public void ReduceAmmo()
+    {
+        currentClip -= 1;
+    }
+
+    public void Reload()
+    {
+        currentClip = clipSize;
     }
 
     void Die()

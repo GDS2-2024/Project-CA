@@ -9,23 +9,29 @@ public class TestShoot : MonoBehaviour
     private TestProjectile projectileScript;
     private RaycastHit hit;
     private Vector3 target;
+    private PlayerStatManager statScript;
+    private bool shotDelay;
 
     public GameObject bullet;
     public Vector3 spawnPos;
     public Camera playerCam;
     public GameObject gun;
+    public float shotSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        statScript = gameObject.GetComponent<PlayerStatManager>();
+        shotDelay = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0) && statScript.currentClip > 0 && !shotDelay)
         {
+            statScript.ReduceAmmo();
+
             // Perform a raycast from the center of the camera
             if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 100f))
             {
@@ -45,6 +51,15 @@ public class TestShoot : MonoBehaviour
             newBullet = Instantiate(bullet, spawnPos, transform.rotation);
             projectileScript = newBullet.GetComponent<TestProjectile>();
             projectileScript.Shoot(direction);
+
+            StartCoroutine(ShotTimer());
         }
+    }
+
+    IEnumerator ShotTimer()
+    {
+        shotDelay = true;
+        yield return new WaitForSeconds(shotSpeed);
+        shotDelay = false;
     }
 }
