@@ -8,6 +8,7 @@ public class TestProjectile : MonoBehaviour
     private Rigidbody rb;
 
     public float bulletSpeed;
+    public float damage;
 
     // Start is called before the first frame update
     void Awake()
@@ -28,6 +29,12 @@ public class TestProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.tag == "Player")
+        {
+            PlayerStatManager statScript = collision.gameObject.GetComponent<PlayerStatManager>();
+            statScript.TakeDamage(damage);
+        }
+
         Destroy(gameObject);
     }
 }

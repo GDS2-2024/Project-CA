@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerStatManager : MonoBehaviour
 {
+    public float health;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,24 @@ public class PlayerStatManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+
+        if (health > 0)
+        {
+            
+        }
+        else
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
     }
 }
