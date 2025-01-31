@@ -99,7 +99,8 @@ public class PlayerMoveBase : MonoBehaviour
 
     void Move()
     {
-        rb.velocity = moveDir * moveSpeed;
+        Vector3 newVelocity = moveDir * moveSpeed;
+        rb.velocity = new Vector3(newVelocity.x, rb.velocity.y, newVelocity.z);
     }
 
     void HandleCamera()
