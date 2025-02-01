@@ -8,22 +8,39 @@ public class PlayerManager : MonoBehaviour
 {
     private int playerCount = 1;
     private int maxPlayerCount = 4;
-    private List<InputDevice> inputDevices;
 
     public InputDevice p1Controller = null;
     public InputDevice p2Controller = null;
     public InputDevice p3Controller = null;
     public InputDevice p4Controller = null;
+    public List<InputDevice> inputDevices = new List<InputDevice>();
+
+    public static PlayerManager instance;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            // If no instance exists, set this one
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            // If an instance already exists, destroy this one
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        inputDevices = new List<InputDevice>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Press any button on keyboard or controller to join assign a player number to your device
         if (playerCount <= maxPlayerCount)
         {
             if (Keyboard.current.anyKey.wasPressedThisFrame && !inputDevices.Contains(Keyboard.current))
@@ -48,6 +65,7 @@ public class PlayerManager : MonoBehaviour
 
     public void AssignController(InputDevice current, int playerNo)
     {
+        //assigns player number to your device
         switch (playerNo)
         {
             case 1:
