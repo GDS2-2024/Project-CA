@@ -81,10 +81,13 @@ public class PlayerMoveBase : MonoBehaviour
 
     void MoveDirection()
     {
+        //gets vertical and horizontal input from the keyboard
         moveZ = Input.GetAxisRaw("Vertical");
         moveX = Input.GetAxisRaw("Horizontal");
 
+        //move direction is based on the direction the camera is facing
         moveDir = playerCam.transform.TransformDirection(new Vector3(moveX, 0f, moveZ).normalized);
+        //Stops players from running into the air
         moveDir.y = 0;
 
         if (moveDir.z > 0 || moveDir.x > 0)
@@ -105,14 +108,17 @@ public class PlayerMoveBase : MonoBehaviour
 
     void HandleCamera()
     {
+        //Gets input from the mouse
         mouseX = Input.GetAxis("Mouse X") * cameraSens;
         mouseY = Input.GetAxis("Mouse Y") * cameraSens;
 
         cameraYaw += mouseX;
 
         cameraPitch += mouseY;
+        //stops the player from looking too high or too low
         cameraPitch = Mathf.Clamp(cameraPitch, minClamp, maxClamp);
 
+        //Rotate the camera around the player
         Quaternion rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0);
         Vector3 newPos = transform.position + rotation * cameraOffset;
 
@@ -121,8 +127,10 @@ public class PlayerMoveBase : MonoBehaviour
         //rotate the character the face the x direction of the camera
         transform.rotation = Quaternion.Euler(0, cameraYaw, 0);
 
+        //offsets ensure that the character isn't positioned in the middle of the screen for the players POV
         Vector3 rightOffsetVec = playerCam.transform.right * rightOffset;
         Vector3 heightOffsetVec = playerCam.transform.up * heightOffset;
+        //ensure that the camera is always looking at the player
         playerCam.transform.LookAt(transform.position + rightOffsetVec + heightOffsetVec);
     }
 }

@@ -30,6 +30,7 @@ public class TestShoot : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && statScript.currentClip > 0 && !shotDelay)
         {
+            //Reduce Player ammo
             statScript.ReduceAmmo();
 
             // Perform a raycast from the center of the camera
@@ -44,14 +45,18 @@ public class TestShoot : MonoBehaviour
                 target = playerCam.transform.position + playerCam.transform.forward * 100f;
             }
 
+            //Spawns the bullet at the gun location and passes the direction information to the bullet
             spawnPos = gun.transform.position;
 
+            //calculates the direction of the bullet by subtracting vectors
             Vector3 direction = (target - spawnPos).normalized;
 
             newBullet = Instantiate(bullet, spawnPos, transform.rotation);
+            //Gets the projectile script of the just created bullet
             projectileScript = newBullet.GetComponent<TestProjectile>();
             projectileScript.Shoot(direction);
 
+            //Stops all bullets from firing at once, gives a variable fire rate
             StartCoroutine(ShotTimer());
         }
     }

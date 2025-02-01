@@ -29,6 +29,7 @@ public class TestProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        //Deal damage if hit a player
         if (collision.gameObject.tag == "Player")
         {
             PlayerStatManager statScript = collision.gameObject.GetComponent<PlayerStatManager>();
