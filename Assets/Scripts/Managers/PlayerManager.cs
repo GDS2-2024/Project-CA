@@ -1,0 +1,74 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+
+public class PlayerManager : MonoBehaviour
+{
+    private int playerCount = 1;
+    private int maxPlayerCount = 4;
+    private List<InputDevice> inputDevices;
+
+    public InputDevice p1Controller = null;
+    public InputDevice p2Controller = null;
+    public InputDevice p3Controller = null;
+    public InputDevice p4Controller = null;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        inputDevices = new List<InputDevice>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playerCount <= maxPlayerCount)
+        {
+            if (Keyboard.current.anyKey.wasPressedThisFrame && !inputDevices.Contains(Keyboard.current))
+            {
+                AssignController(Keyboard.current, playerCount);
+            }
+            else
+            {
+                foreach (var gamepad in Gamepad.all)
+                {
+                    foreach (var control in Gamepad.current.allControls)
+                    {
+                        if (control is ButtonControl button && button.wasPressedThisFrame && !inputDevices.Contains(Gamepad.current))
+                        {
+                            AssignController(Gamepad.current, playerCount);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void AssignController(InputDevice current, int playerNo)
+    {
+        switch (playerNo)
+        {
+            case 1:
+                p1Controller = current;
+                print("Player 1 Controller: " + current);
+                break;
+            case 2:
+                p2Controller = current;
+                print("Player 2 Controller: " + current);
+                break;
+            case 3:
+                p3Controller = current;
+                print("Player 3 Controller: " + current);
+                break;
+            case 4:
+                p4Controller = current;
+                print("Player 4 Controller: " + current);
+                break;
+        }
+
+        inputDevices.Add(current);
+        playerCount++;
+    }
+}
