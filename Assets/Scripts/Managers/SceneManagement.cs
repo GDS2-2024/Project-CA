@@ -36,4 +36,9 @@ public class SceneManagement : MonoBehaviour
         print("quitting application");
         Application.Quit();
     }
+
+    public void LoadDeathMatch()
+    {
+        SceneManager.LoadScene(2);
+    }
 }

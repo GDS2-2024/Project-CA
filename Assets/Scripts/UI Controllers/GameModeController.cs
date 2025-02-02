@@ -13,15 +13,26 @@ public class GameModeController : MonoBehaviour
     private Button selectedBtn;
     private string[] gameModes = { "Death Match", "King of the Hill", "Life Steal" };
     private bool[] playersSelected = { false, false, false, false };
+    private bool allSelected = false;
+    private bool validDraw = false;
+    private GameObject sceneManager;
+    private SceneManagement sceneManagement;
 
     public List<Button> buttons = new List<Button>();
     public List<Text> playersJoined = new List<Text>();
     public List<Text> votes = new List<Text>();
+    public Button drawBtn;
+    public string chosenMode;
+    public Text chosenModeTxt;
+    public float startGameTimer;
+    public Text timerTxt;
 
     // Start is called before the first frame update
     void Start()
     {
         playerManager = GameObject.Find("Player Manager");
+        sceneManager = GameObject.Find("SceneManager");
+        sceneManagement = sceneManager.GetComponent<SceneManagement>();
         playerManagerScript = playerManager.GetComponent<PlayerManager>();
         playerManagerScript.inputDevices.Clear();
         playerManagerScript.p1Controller = null;
@@ -29,12 +40,15 @@ public class GameModeController : MonoBehaviour
         playerManagerScript.p3Controller = null;
         playerManagerScript.p4Controller = null;
         playerManagerScript.playerCount = 0;
+        drawBtn.interactable = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckNewPlayerAdded();
+
+        CheckAllPlayersSelected();
 
         if (playerManagerScript.inputDevices.Count > 0)
         {
@@ -54,6 +68,10 @@ public class GameModeController : MonoBehaviour
                     {
                         ToggleSelectGameMode(i);
                     }
+                    else if (keyboard.qKey.wasPressedThisFrame && allSelected && !validDraw)
+                    {
+                        drawBtn.onClick.Invoke();
+                    }
                 }
                 else if (playerManagerScript.inputDevices[i] is Gamepad gamepad)
                 {
@@ -69,7 +87,21 @@ public class GameModeController : MonoBehaviour
                     {
                         ToggleSelectGameMode(i);
                     }
+                    else if (gamepad.buttonNorth.wasPressedThisFrame && allSelected && !validDraw)
+                    {
+                        drawBtn.onClick.Invoke();
+                    }
                 }
+            }
+        }
+
+        if (validDraw)
+        {
+            startGameTimer -= Time.deltaTime;
+            timerTxt.text = Mathf.Round(startGameTimer).ToString();
+            if (startGameTimer <= 0)
+            {
+                sceneManagement.LoadDeathMatch();
             }
         }
     }
@@ -105,6 +137,23 @@ public class GameModeController : MonoBehaviour
                     playerCountCurrent++;
                     break;
             }
+        }
+    }
+
+    void CheckAllPlayersSelected()
+    {
+        for (int i = 0; i < playerCountCurrent; i++)
+        {
+            if (!playersSelected[i])
+            {
+                allSelected = false;
+                drawBtn.interactable = false;
+            }
+        }
+        if (playerCountCurrent > 0)
+        {
+            allSelected = true;
+            drawBtn.interactable = true;
         }
     }
 
@@ -225,11 +274,18 @@ public class GameModeController : MonoBehaviour
         }
         else if (playersSelected[playerNo])
         {
-            foreach (Text vote in votes)
+            for (int i = votes.Count - 1; i >= 0; i--)
             {
+                Text vote = votes[i];
                 if (vote.text == gameModes[playerHovers[playerNo] - 1])
                 {
-                    vote.text = "-";
+                    for (int j = i; j < votes.Count - 1; j++)
+                    {
+                        votes[j].text = votes[j + 1].text;
+                    }
+
+                    votes[votes.Count - 1].text = "-";
+
                     playersSelected[playerNo] = false;
                     return;
                 }
@@ -237,7 +293,7 @@ public class GameModeController : MonoBehaviour
         }
     }
 
-    public void AddDeathMatch()
+    public void AddDeathMatch(int playerNo)
     {
         for (int i = 0; i < votes.Count; i++)
         {
@@ -271,5 +327,25 @@ public class GameModeController : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void Draw()
+    {
+        int randomDraw = Random.Range(0, votes.Count);
+
+        while (validDraw == false)
+        {
+            if (votes[randomDraw].text == "-")
+            {
+                randomDraw = Random.Range(0, votes.Count);
+            }
+            else
+            {
+                validDraw = true;
+            }
+        }
+        chosenMode = votes[randomDraw].text;
+
+        chosenModeTxt.text = chosenMode;
     }
 }
