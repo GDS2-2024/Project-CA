@@ -35,6 +35,5 @@ public class SceneManagement : MonoBehaviour
     {
         print("quitting application");
         Application.Quit();
-     
     }
 }
