@@ -21,7 +21,7 @@ public class AbilityCamo : Ability
         
     }
 
-    override public void OnPressAbility()
+    public override void OnPressAbility()
     {
         if (!isInvisible && !isOnCooldown)
         {
@@ -58,12 +58,12 @@ public class AbilityCamo : Ability
         playerMeshRenderer.enabled = !state;
     }
 
-    override public void OnHoldingAbility()
+    public override void OnHoldingAbility()
     {
         // This ability does not need this function
     }
 
-    override public void OnReleaseAbility()
+    public override void OnReleaseAbility()
     {
         // This ability does not need this function
     }

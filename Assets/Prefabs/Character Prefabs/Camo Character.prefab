@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownTime: 0
+  abilityDuration: 5
 --- !u!1 &5277313788314044828
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +62,7 @@ GameObject:
   - component: {fileID: 5277313788314044806}
   - component: {fileID: 5277313788314044807}
   - component: {fileID: 5277313788314044804}
+  - component: {fileID: 6652693744231432859}
   m_Layer: 0
   m_Name: Camo Character
   m_TagString: Player
@@ -202,6 +204,7 @@ MonoBehaviour:
   spawnPos: {x: 0, y: 0, z: 0}
   playerCam: {fileID: 5277313789657682977}
   gun: {fileID: 5277313789453134176}
+  shotSpeed: 0
 --- !u!114 &5277313788314044804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,7 +217,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b440c078cd89114b989c9587ebef4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EquippedAbility: {fileID: 0}
+  UtilityAbility: {fileID: 3168541372931968882}
+  DamageAbility: {fileID: 0}
+--- !u!114 &6652693744231432859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5277313788314044828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  clipSize: 10
+  currentClip: 0
 --- !u!1 &5277313789453134176
 GameObject:
   m_ObjectHideFlags: 0
