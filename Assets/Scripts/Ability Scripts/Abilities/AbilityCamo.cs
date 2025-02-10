@@ -29,7 +29,7 @@ public class AbilityCamo : Ability
             StartCoroutine(ActivateCamo());
         } else
         {
-            Debug.Log("Ability on cooldown, wait to use again!");
+            Debug.Log("Camo Ability on cooldown, wait to use again!");
         }      
     }
 
