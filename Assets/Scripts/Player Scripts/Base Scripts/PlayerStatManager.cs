@@ -44,13 +44,13 @@ public class PlayerStatManager : MonoBehaviour
     public void ReduceAmmo()
     {
         currentClip -= 1;
-        playerHUD.UpateAmmoUI(currentClip);
+        if (playerHUD) playerHUD.UpateAmmoUI(currentClip);
     }
 
     public void Reload()
     {
         currentClip = clipSize;
-        playerHUD.UpateAmmoUI(currentClip);
+        if (playerHUD) playerHUD.UpateAmmoUI(currentClip);
     }
 
     void Die()

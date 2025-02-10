@@ -24,7 +24,7 @@ public class PlayerHUD : MonoBehaviour
 
     public void UpateAmmoUI(int newAmount)
     {
-        ammoTextComponent.text = "Ammo: " + newAmount;
+        ammoTextComponent.text = "" + newAmount;
     }
 
     public void UpdateUtilityCooldown(int newAmount)
