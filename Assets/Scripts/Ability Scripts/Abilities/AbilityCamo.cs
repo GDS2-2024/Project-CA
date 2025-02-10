@@ -11,7 +11,7 @@ public class AbilityCamo : Ability
     // Start is called before the first frame update
     void Start()
     {
-        cooldownTime = 10.0f;
+        cooldown = 10.0f;
         playerMeshRenderer = GetComponentInParent<MeshRenderer>();
     }
 
@@ -30,14 +30,9 @@ public class AbilityCamo : Ability
         } else
         {
             Debug.Log("Camo Ability on cooldown, wait to use again!");
-        }      
+        }
     }
 
-    protected override void OnFinishCooldown()
-    {
-        Debug.Log("Camo cooldown finished, can use again!");
-        playerMeshRenderer.enabled = true;
-    }
     private IEnumerator ActivateCamo()
     {
         isInvisible = true;

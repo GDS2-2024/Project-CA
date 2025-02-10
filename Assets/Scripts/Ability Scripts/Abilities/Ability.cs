@@ -4,26 +4,27 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
-    /// <summary>
-    /// Cooldown starts once ability is finsihed being used.
-    /// </summary>
-    public float cooldownTime;
+
+    public float cooldown;
+    public int currentCooldownTime;
     protected bool isOnCooldown = false;
 
     public abstract void OnPressAbility();
     public abstract void OnHoldingAbility();
     public abstract void OnReleaseAbility();
-    protected virtual void OnFinishCooldown()
-    {
-        // Optional, override function if ability has a cooldown
-    }
 
-    public virtual IEnumerator Cooldown() // StartCoroutine(Cooldown());
+    public virtual IEnumerator Cooldown() // use as: StartCoroutine(Cooldown());
     {
         isOnCooldown = true;
-        yield return new WaitForSeconds(cooldownTime);
+        currentCooldownTime = (int)cooldown;
+
+        while (currentCooldownTime > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            currentCooldownTime--;
+        }
+
         isOnCooldown = false;
-        OnFinishCooldown();
     }
 
 

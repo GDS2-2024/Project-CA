@@ -6,12 +6,15 @@ public class PlayerAbilityHandler : MonoBehaviour
 {
     public Ability UtilityAbility;
     public Ability DamageAbility;
+
+    private PlayerHUD playerHUD;
     private bool hasUtilityAbility = true;
     private bool hasDamageAbility = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerHUD = gameObject.GetComponent<PlayerHUD>();
         if (UtilityAbility == null)
         {
             Debug.Log("The Character does not have a UTILITY ability.");
@@ -27,8 +30,16 @@ public class PlayerAbilityHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasUtilityAbility) { ManageUtilityAbility(); }
-        if (hasDamageAbility) { ManageDamageAbility(); }
+        if (hasUtilityAbility)
+        {
+            ManageUtilityAbility();
+            playerHUD.UpdateUtilityCooldown(UtilityAbility.currentCooldownTime);
+        }
+        if (hasDamageAbility)
+        {
+            ManageDamageAbility();
+            playerHUD.UpdateDamageCooldown(DamageAbility.currentCooldownTime);
+        }
     }
 
     private void ManageUtilityAbility()

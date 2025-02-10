@@ -18,7 +18,6 @@ public class AbilityFMJ : Ability
         statScript = GetComponentInParent<PlayerStatManager>();
 
         isOnCooldown = true;
-        cooldownTime = 5.0f;
         StartCoroutine(Cooldown());
     }
 

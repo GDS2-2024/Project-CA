@@ -61,11 +61,6 @@ public class AbilityJetpack : Ability
         StartFalling();
     }
 
-    protected override void OnFinishCooldown()
-    {
-        Debug.Log("Jetpack cooldown finished, can use again!");
-    }
-
     private void StartFalling()
     {
         fuelRemaining = 0;
