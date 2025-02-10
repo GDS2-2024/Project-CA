@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class TestShoot : MonoBehaviour
@@ -22,7 +23,7 @@ public class TestShoot : MonoBehaviour
     void Start()
     {
         statScript = gameObject.GetComponent<PlayerStatManager>();
-        shotDelay = false;
+        shotDelay = false;       
     }
 
     // Update is called once per frame

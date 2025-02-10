@@ -8,10 +8,14 @@ public class PlayerStatManager : MonoBehaviour
     public int clipSize;
     public int currentClip;
 
+    private PlayerHUD playerHUD;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerHUD = gameObject.GetComponent<PlayerHUD>();
         currentClip = clipSize;
+        if (playerHUD) playerHUD.UpateAmmoUI(currentClip);
     }
 
     // Update is called once per frame
@@ -40,11 +44,13 @@ public class PlayerStatManager : MonoBehaviour
     public void ReduceAmmo()
     {
         currentClip -= 1;
+        playerHUD.UpateAmmoUI(currentClip);
     }
 
     public void Reload()
     {
         currentClip = clipSize;
+        playerHUD.UpateAmmoUI(currentClip);
     }
 
     void Die()
