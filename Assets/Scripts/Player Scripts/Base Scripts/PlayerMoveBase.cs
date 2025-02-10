@@ -44,6 +44,9 @@ public class PlayerMoveBase : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         currentState = playerState.Idle;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
