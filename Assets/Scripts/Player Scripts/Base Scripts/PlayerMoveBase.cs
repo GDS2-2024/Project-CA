@@ -32,6 +32,10 @@ public class PlayerMoveBase : MonoBehaviour
     public float heightOffset;
     public float smoothSpeed;
 
+    // Ability variables
+    private bool isGrappling;
+    public void SetIsGrappling(bool grappling) { isGrappling = grappling; }
+
     public enum playerState
     {
         Idle,
@@ -52,7 +56,7 @@ public class PlayerMoveBase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveDirection();
+        if (!isGrappling) MoveDirection();
 
         HandleCamera();
     }
