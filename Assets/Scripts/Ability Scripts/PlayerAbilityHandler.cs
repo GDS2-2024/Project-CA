@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAbilityHandler : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class PlayerAbilityHandler : MonoBehaviour
     private PlayerHUD playerHUD;
     private bool hasUtilityAbility = true;
     private bool hasDamageAbility = true;
+    private InputDevice thisController;
+    private PlayerController controllerScript;
+
+    public Ability EquippedAbility;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +30,8 @@ public class PlayerAbilityHandler : MonoBehaviour
             Debug.Log("The Character does not have a DAMAGE ability.");
             hasDamageAbility = false;
         }
+        controllerScript = gameObject.GetComponent<PlayerController>();
+        thisController = controllerScript.GetController();
     }
 
     // Update is called once per frame

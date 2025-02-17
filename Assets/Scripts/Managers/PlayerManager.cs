@@ -6,9 +6,9 @@ using UnityEngine.InputSystem.Controls;
 
 public class PlayerManager : MonoBehaviour
 {
-    private int playerCount = 1;
     private int maxPlayerCount = 4;
 
+    public int playerCount = 0;
     public InputDevice p1Controller = null;
     public InputDevice p2Controller = null;
     public InputDevice p3Controller = null;
