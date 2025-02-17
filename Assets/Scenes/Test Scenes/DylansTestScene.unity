@@ -2934,10 +2934,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5277313788314044801, guid: 61b414d96c576bb48a3b3f021773f037, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     - target: {fileID: 5277313788314044828, guid: 61b414d96c576bb48a3b3f021773f037, type: 3}
       propertyPath: m_Name
       value: Outlaw Character
