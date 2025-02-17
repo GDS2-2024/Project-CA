@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dec8350f940d4b4fb14fca13b34a299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 0
+  cooldown: 0
+  currentCooldownTime: 0
   abilityDuration: 5
 --- !u!1 &5277313788314044828
 GameObject:
@@ -166,7 +167,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &5277313788314044806
 MonoBehaviour:

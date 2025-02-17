@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfaf06ff209802d4cbaca0411990f4e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 5
+  cooldown: 0
+  currentCooldownTime: 0
   initialBoost: 5
   maxJetpackForce: 1
   jetpackDecayRate: 10
@@ -170,7 +171,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &5277313788314044806
 MonoBehaviour:
