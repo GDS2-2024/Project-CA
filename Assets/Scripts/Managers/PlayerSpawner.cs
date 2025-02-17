@@ -12,6 +12,7 @@ public class PlayerSpawner : MonoBehaviour
     public int playerCount = 0;
     private List<GameObject> players = new List<GameObject>();
     private GameObject newPlayer;
+    private Camera thisCam;
 
     // Start is called before the first frame update
     void Start()
@@ -22,10 +23,44 @@ public class PlayerSpawner : MonoBehaviour
         playerCount = playerManagerScript.playerCount;
 
         //spawn characters at their spawn points
-        for (int i = 1; i <= playerCount; i++)
+        for (int i = 0; i <= playerCount; i++)
         {
             newPlayer = Instantiate(playerPrefab, spawnPoints[i].transform);
             players.Add(newPlayer);
+
+            //Handle Split Screen
+            thisCam = newPlayer.GetComponentInChildren<Camera>();
+            if (playerCount <= 2)
+            {
+                //Handle 2 player mode
+                switch (i)
+                {
+                    case 1:
+                        thisCam.rect = new Rect(0f, 0f, 0.5f, 1f);
+                        break;
+                    case 2:
+                        thisCam.rect = new Rect(0.5f, 0f, 0.5f, 1f);
+                        break;
+                }
+            } else
+            {
+                //Handle 3 or 4 player mode
+                switch (i)
+                {
+                    case 1:
+                        thisCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+                        break;
+                    case 2:
+                        thisCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+                        break;
+                    case 3:
+                        thisCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
+                        break;
+                    case 4:
+                        thisCam.rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
+                        break;
+                }
+            }
         }
     }
 
