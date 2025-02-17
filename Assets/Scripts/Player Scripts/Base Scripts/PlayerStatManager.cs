@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerStatManager : MonoBehaviour
 {
+    private InputDevice thisController;
+    private PlayerController controllerScript;
+
     public float health;
     public int clipSize;
     public int currentClip;
@@ -12,14 +16,26 @@ public class PlayerStatManager : MonoBehaviour
     void Start()
     {
         currentClip = clipSize;
+        controllerScript = gameObject.GetComponent<PlayerController>();
+        thisController = controllerScript.GetController();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("r"))
+        if (thisController is Keyboard keyboard)
         {
-            Reload();
+            if (keyboard.rKey.wasPressedThisFrame)
+            {
+                Reload();
+            }
+        }
+        else if (thisController is Gamepad controller)
+        {
+            if (controller.buttonWest.wasPressedThisFrame)
+            {
+                Reload();
+            }
         }
     }
 

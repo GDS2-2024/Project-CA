@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerSpawner : MonoBehaviour
 {
@@ -13,9 +14,8 @@ public class PlayerSpawner : MonoBehaviour
     private List<GameObject> players = new List<GameObject>();
     private GameObject newPlayer;
     private Camera thisCam;
-    //private GameObject thisCanvas;
-    //private GameObject thisCrossHair;
-    //private RectTransform thisRectT;
+    private PlayerController controllerScript;
+    private InputDevice thisController;
 
     // Start is called before the first frame update
     void Start()
@@ -33,10 +33,10 @@ public class PlayerSpawner : MonoBehaviour
 
             //Handle Split Screen
             thisCam = newPlayer.GetComponentInChildren<Camera>();
-            //thisCanvas = newPlayer.transform.Find("Player HUD")?.gameObject;
-            //thisCrossHair = thisCanvas.transform.Find("Crosshair")?.gameObject;
-            //thisRectT = thisCrossHair.GetComponent<RectTransform>();
-            //print(thisRectT);
+            controllerScript = newPlayer.GetComponent<PlayerController>();
+            thisController = playerManagerScript.inputDevices[i - 1];
+            controllerScript.SetController(thisController);
+
             if (playerCount <= 2)
             {
                 //Handle 2 player mode
@@ -56,32 +56,18 @@ public class PlayerSpawner : MonoBehaviour
                 {
                     case 1:
                         thisCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
-                        //thisRectT.anchorMin = new Vector2(0f, 0.5f);
-                        //thisRectT.anchorMax = new Vector2(0.5f, 1f);
                         break;
                     case 2:
                         thisCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
-                        //thisRectT.anchorMin = new Vector2(0.5f, 0.5f);
-                        //thisRectT.anchorMax = new Vector2(1f, 1f);
                         break;
                     case 3:
                         thisCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
-                        //thisRectT.anchorMin = new Vector2(0f, 0f);
-                        //thisRectT.anchorMax = new Vector2(0.5f, 0.5f);
                         break;
                     case 4:
                         thisCam.rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
-                        //thisRectT.anchorMin = new Vector2(0.5f, 0f);
-                        //thisRectT.anchorMax = new Vector2(1f, 0.5f);
                         break;
                 }
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

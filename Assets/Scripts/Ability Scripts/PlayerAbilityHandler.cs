@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAbilityHandler : MonoBehaviour
 {
+    private InputDevice thisController;
+    private PlayerController controllerScript;
+
     public Ability EquippedAbility;
 
     // Start is called before the first frame update
@@ -13,6 +17,8 @@ public class PlayerAbilityHandler : MonoBehaviour
         {
             Debug.Log("The Character does not have an ability.");
         }
+        controllerScript = gameObject.GetComponent<PlayerController>();
+        thisController = controllerScript.GetController();
     }
 
     // Update is called once per frame
