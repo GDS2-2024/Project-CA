@@ -9,6 +9,8 @@ public class PlayerHUD : MonoBehaviour
     public TMP_Text ammoTextComponent;
     public TMP_Text UtilCooldownText;
     public TMP_Text DamageCooldownText;
+    public TMP_Text GameTimerText;
+    public TMP_Text ObjectiveText;
 
     // Start is called before the first frame update
     void Start()
@@ -36,4 +38,15 @@ public class PlayerHUD : MonoBehaviour
     {
         DamageCooldownText.text = "" + newAmount;
     }
+
+    public void UpdateGameTimer(int newTime)
+    {
+        GameTimerText.text = "" + newTime;
+    }
+
+    public void UpdateObjective(string currentObjective)
+    {
+        ObjectiveText.text = "" + currentObjective;
+    }
+
 }
