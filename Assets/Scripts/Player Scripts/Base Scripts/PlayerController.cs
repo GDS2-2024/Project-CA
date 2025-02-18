@@ -7,6 +7,11 @@ public class PlayerController : MonoBehaviour
 {
     private InputDevice controller = null;
 
+    private void Awake()
+    {
+        controller = Keyboard.current;
+    }
+
     public void SetController(InputDevice newController)
     {
         controller = newController;
