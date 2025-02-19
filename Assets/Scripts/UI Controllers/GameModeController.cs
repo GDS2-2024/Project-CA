@@ -148,6 +148,7 @@ public class GameModeController : MonoBehaviour
             {
                 allSelected = false;
                 drawBtn.interactable = false;
+                return;
             }
         }
         if (playerCountCurrent > 0)
