@@ -35,6 +35,14 @@ public class SceneManagement : MonoBehaviour
     {
         print("quitting application");
         Application.Quit();
-     
+    }
+
+    public void LoadDeathMatch()
+    {
+        SceneManager.LoadScene(2);
+    }
+    public void LoadKingOfTheHill()
+    {
+        SceneManager.LoadScene(3);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TestShoot : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class TestShoot : MonoBehaviour
     private Vector3 target;
     private PlayerStatManager statScript;
     private bool shotDelay;
+    private InputDevice thisController;
+    private PlayerController controllerScript;
 
     public GameObject bullet;
     public Vector3 spawnPos;
@@ -23,43 +26,61 @@ public class TestShoot : MonoBehaviour
     void Start()
     {
         statScript = gameObject.GetComponent<PlayerStatManager>();
-        shotDelay = false;       
+        shotDelay = false;
+        controllerScript = gameObject.GetComponent<PlayerController>();
+        thisController = controllerScript.GetController();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0) && statScript.currentClip > 0 && !shotDelay)
+        if (thisController is Keyboard)
         {
-            //Reduce Player ammo
-            statScript.ReduceAmmo();
-
-            // Perform a raycast from the center of the camera
-            if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 100f))
+            Mouse mouse = Mouse.current;
+            if (mouse.leftButton.isPressed && statScript.currentClip > 0 && !shotDelay)
             {
-                // If the ray hits something, set the target point to the hit position
-                target = hit.point;
+                ShootBullet();
             }
-            else
-            {
-                // If no hit, set the target point far in front of the camera
-                target = playerCam.transform.position + playerCam.transform.forward * 100f;
-            }
-
-            //Spawns the bullet at the gun location and passes the direction information to the bullet
-            spawnPos = gun.transform.position;
-
-            //calculates the direction of the bullet by subtracting vectors
-            Vector3 direction = (target - spawnPos).normalized;
-
-            newBullet = Instantiate(bullet, spawnPos, transform.rotation);
-            //Gets the projectile script of the just created bullet
-            projectileScript = newBullet.GetComponent<TestProjectile>();
-            projectileScript.Shoot(direction);
-
-            //Stops all bullets from firing at once, gives a variable fire rate
-            StartCoroutine(ShotTimer());
         }
+        else if (thisController is Gamepad controller)
+        {
+            if (controller.rightTrigger.isPressed && statScript.currentClip > 0 && !shotDelay)
+            {
+                ShootBullet();
+            }
+        }
+    }
+
+    void ShootBullet()
+    {
+        //Reduce Player ammo
+        statScript.ReduceAmmo();
+
+        // Perform a raycast from the center of the camera
+        if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, 100f))
+        {
+            // If the ray hits something, set the target point to the hit position
+            target = hit.point;
+        }
+        else
+        {
+            // If no hit, set the target point far in front of the camera
+            target = playerCam.transform.position + playerCam.transform.forward * 100f;
+        }
+
+        //Spawns the bullet at the gun location and passes the direction information to the bullet
+        spawnPos = gun.transform.position;
+
+        //calculates the direction of the bullet by subtracting vectors
+        Vector3 direction = (target - spawnPos).normalized;
+
+        newBullet = Instantiate(bullet, spawnPos, transform.rotation);
+        //Gets the projectile script of the just created bullet
+        projectileScript = newBullet.GetComponent<TestProjectile>();
+        projectileScript.Shoot(direction);
+
+        //Stops all bullets from firing at once, gives a variable fire rate
+        StartCoroutine(ShotTimer());
     }
 
     IEnumerator ShotTimer()

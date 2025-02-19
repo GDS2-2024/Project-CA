@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMoveBase : MonoBehaviour
 {
 
     private playerState currentState;
+
+    //Controller
+    private InputDevice thisController;
+    private PlayerController controllerScript;
 
     //Movement variables
     private Rigidbody rb;
@@ -32,10 +37,6 @@ public class PlayerMoveBase : MonoBehaviour
     public float heightOffset;
     public float smoothSpeed;
 
-    // Ability variables
-    private bool isGrappling;
-    public void SetIsGrappling(bool grappling) { isGrappling = grappling; }
-
     public enum playerState
     {
         Idle,
@@ -51,12 +52,14 @@ public class PlayerMoveBase : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        controllerScript = gameObject.GetComponent<PlayerController>();
+        thisController = controllerScript.GetController();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isGrappling) MoveDirection();
+        MoveDirection();
 
         HandleCamera();
     }
@@ -88,9 +91,18 @@ public class PlayerMoveBase : MonoBehaviour
 
     void MoveDirection()
     {
-        //gets vertical and horizontal input from the keyboard
-        moveZ = Input.GetAxisRaw("Vertical");
-        moveX = Input.GetAxisRaw("Horizontal");
+        //gets vertical and horizontal input from the input device
+        if (thisController is Keyboard keyboard)
+        {
+            moveZ = keyboard.wKey.isPressed ? 1 : keyboard.sKey.isPressed ? -1 : 0;
+            moveX = keyboard.dKey.isPressed ? 1 : keyboard.aKey.isPressed ? -1 : 0;
+        }
+        else if (thisController is Gamepad controller)
+        {
+            moveZ = controller.leftStick.up.isPressed ? 1 : controller.leftStick.down.isPressed ? -1 : 0;
+            moveX = controller.leftStick.right.isPressed ? 1 : controller.leftStick.left.isPressed ? -1 : 0;
+        }
+
 
         //move direction is based on the direction the camera is facing
         moveDir = playerCam.transform.TransformDirection(new Vector3(moveX, 0f, moveZ).normalized);
@@ -115,9 +127,18 @@ public class PlayerMoveBase : MonoBehaviour
 
     void HandleCamera()
     {
-        //Gets input from the mouse
-        mouseX = Input.GetAxis("Mouse X") * cameraSens;
-        mouseY = Input.GetAxis("Mouse Y") * cameraSens;
+        //Gets input from the input device
+        if (thisController is Keyboard)
+        {
+            Mouse mouse = Mouse.current;
+            mouseX = mouse.delta.x.ReadValue() * cameraSens;
+            mouseY = mouse.delta.y.ReadValue() * cameraSens;
+        }
+        else if (thisController is Gamepad controller)
+        {
+            mouseX = controller.rightStick.right.isPressed ? 1 * cameraSens : controller.rightStick.left.isPressed ? -1 * cameraSens : 0;
+            mouseY = controller.rightStick.up.isPressed ? 1 * cameraSens : controller.rightStick.down.isPressed ? -1 * cameraSens : 0;
+        }
 
         cameraYaw += mouseX;
 

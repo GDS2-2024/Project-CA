@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAbilityHandler : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerAbilityHandler : MonoBehaviour
     private PlayerHUD playerHUD;
     private bool hasUtilityAbility = true;
     private bool hasDamageAbility = true;
+    private InputDevice thisController;
+    private PlayerController controllerScript;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +28,8 @@ public class PlayerAbilityHandler : MonoBehaviour
             Debug.Log("The Character does not have a DAMAGE ability.");
             hasDamageAbility = false;
         }
+        controllerScript = gameObject.GetComponent<PlayerController>();
+        thisController = controllerScript.GetController();
     }
 
     // Update is called once per frame
@@ -44,33 +49,33 @@ public class PlayerAbilityHandler : MonoBehaviour
 
     private void ManageUtilityAbility()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (thisController is Keyboard keyboard)
         {
-            UtilityAbility.OnPressAbility();
+            if (keyboard.eKey.wasPressedThisFrame) { UtilityAbility.OnPressAbility(); }
+            if (keyboard.eKey.isPressed) { UtilityAbility.OnHoldingAbility(); }
+            if (keyboard.eKey.wasReleasedThisFrame) { UtilityAbility.OnReleaseAbility(); }
         }
-        if (Input.GetKey(KeyCode.LeftShift))
+        else if (thisController is Gamepad controller)
         {
-            UtilityAbility.OnHoldingAbility();
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            UtilityAbility.OnReleaseAbility();
+            if (controller.rightShoulder.wasPressedThisFrame) { UtilityAbility.OnPressAbility(); }
+            if (controller.rightShoulder.isPressed) { UtilityAbility.OnHoldingAbility(); }
+            if (controller.rightShoulder.wasReleasedThisFrame) { UtilityAbility.OnReleaseAbility(); }
         }
     }
 
     private void ManageDamageAbility()
     {
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        if (thisController is Keyboard keyboard)
         {
-            DamageAbility.OnPressAbility();
+            if (keyboard.qKey.wasPressedThisFrame) { DamageAbility.OnPressAbility(); }
+            if (keyboard.qKey.isPressed) { DamageAbility.OnHoldingAbility(); }
+            if (keyboard.qKey.wasReleasedThisFrame) { DamageAbility.OnReleaseAbility(); }
         }
-        if (Input.GetKey(KeyCode.RightShift))
+        else if (thisController is Gamepad controller)
         {
-            DamageAbility.OnHoldingAbility();
-        }
-        if (Input.GetKeyUp(KeyCode.RightShift))
-        {
-            DamageAbility.OnReleaseAbility();
+            if (controller.leftShoulder.wasPressedThisFrame) { DamageAbility.OnPressAbility(); }
+            if (controller.leftShoulder.isPressed) { DamageAbility.OnHoldingAbility(); }
+            if (controller.leftShoulder.wasReleasedThisFrame) { DamageAbility.OnReleaseAbility(); }
         }
     }
 }

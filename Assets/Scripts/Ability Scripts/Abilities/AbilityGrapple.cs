@@ -12,11 +12,10 @@ public class AbilityGrapple : Ability
     private Rigidbody playerRb;
     private PlayerMoveBase playerMove;
     private bool isGrappling = false;
-    private float grappleSpeedMultiplier = 2f; // Controls how fast speed increases
-    private float stopDistance = 1f; // Distance from the grapple point where the player stops
+    private float grappleSpeedMultiplier = 50f; // Controls how fast speed increases
+    private float stopDistance = 1.2f; // Distance from the grapple point where the player stops
 
     private float grappleStartTime;
-
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -24,21 +23,25 @@ public class AbilityGrapple : Ability
         playerMove = GetComponentInParent<PlayerMoveBase>();
     }
 
-    void Update()
+    public override void OnPressAbility()
     {
         if (!isOnCooldown)
         {
-            if (Input.GetMouseButtonDown(1))
-            {
-                StartGrapple();
-            }
-            else if (Input.GetMouseButtonUp(1))
-            {
-                StopGrapple();
-                StartCoroutine(Cooldown());
-            }
+            StartGrapple();
         }
+    }
 
+    public override void OnReleaseAbility()
+    {
+        if (!isOnCooldown)
+        {
+            StopGrapple();
+            StartCoroutine(Cooldown());
+        }
+    }
+
+    void FixedUpdate()
+    {
         if (isGrappling)
         {
             PullPlayerTowardsGrapple();
@@ -55,7 +58,6 @@ public class AbilityGrapple : Ability
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, whatIsGrappleable))
         {
-            playerMove.SetIsGrappling(true); // Disables player movement whilst grappling
             grapplePoint = hit.point;
             grappleStartTime = Time.time;
             isGrappling = true;
@@ -67,7 +69,6 @@ public class AbilityGrapple : Ability
 
     void StopGrapple()
     {
-        playerMove.SetIsGrappling(false); // Resumes player movement
         isGrappling = false;
         lineRenderer.positionCount = 0;
     }
@@ -80,20 +81,21 @@ public class AbilityGrapple : Ability
         Vector3 direction = (grapplePoint - player.position);
         float distance = Vector3.Distance(player.position, grapplePoint);
 
-        // Exponentially increase speed over time
-        float timeSinceGrappleStart = Time.time - grappleStartTime;
-        float speed = Mathf.Exp(timeSinceGrappleStart * grappleSpeedMultiplier);
-
-        // Apply force towards the grapple point
-        playerRb.velocity = Vector3.zero;
-        playerRb.AddForce(new Vector3(direction.x * speed, direction.y * speed, direction.z * speed), ForceMode.Acceleration);
-
         // Stop grappling if close enough to the grapple point
         if (distance < stopDistance)
         {
             StopGrapple();
             StartCoroutine(Cooldown());
+            return;
         }
+
+        // Exponentially increase speed over time
+        float timeSinceGrappleStart = Time.time - grappleStartTime;
+        float speed = Mathf.Pow(timeSinceGrappleStart, 2) * grappleSpeedMultiplier;
+
+        // Apply force towards the grapple point
+        playerRb.velocity = Vector3.zero;
+        playerRb.AddForce(new Vector3(direction.x * speed, direction.y * speed, direction.z * speed), ForceMode.Acceleration);
 
     }
 
@@ -108,27 +110,7 @@ public class AbilityGrapple : Ability
         lineRenderer.SetPosition(1, currentGrapplePosition);
     }
 
-    public bool IsGrappling()
-    {
-        return isGrappling;
-    }
-
-    public Vector3 GetGrapplePoint()
-    {
-        return grapplePoint;
-    }
-
     public override void OnHoldingAbility()
-    {
-        // This ability does not need this function
-    }
-
-    public override void OnPressAbility()
-    {
-        // This ability does not need this function
-    }
-
-    public override void OnReleaseAbility()
     {
         // This ability does not need this function
     }

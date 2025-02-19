@@ -15,7 +15,9 @@ public class PlayerHUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (!ammoTextComponent) { Debug.Log("PlayerHUD: There is no ammo text component assigned."); }
+        if (!UtilCooldownText) { Debug.Log("PlayerHUD: There is no utility cooldown text component assigned."); }
+        if (!DamageCooldownText) { Debug.Log("PlayerHUD: There is no damage cooldown text component assigned."); }
     }
 
     // Update is called once per frame
