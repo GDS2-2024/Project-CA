@@ -41,4 +41,8 @@ public class SceneManagement : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
+    public void LoadKingOfTheHill()
+    {
+        SceneManager.LoadScene(3);
+    }
 }

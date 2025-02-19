@@ -101,7 +101,18 @@ public class GameModeController : MonoBehaviour
             timerTxt.text = Mathf.Round(startGameTimer).ToString();
             if (startGameTimer <= 0)
             {
-                sceneManagement.LoadDeathMatch();
+                switch (chosenMode)
+                {
+                    case "Death Match":
+                        sceneManagement.LoadDeathMatch();
+                        break;
+                    case "King of the Hill":
+                        sceneManagement.LoadKingOfTheHill();
+                        break;
+                    default:
+                        // code block
+                        break;
+                }
             }
         }
     }
