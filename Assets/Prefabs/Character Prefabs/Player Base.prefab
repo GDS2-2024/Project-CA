@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 5903094053358665333}
   - component: {fileID: 6797758679327343705}
   - component: {fileID: 4613914936141617935}
+  - component: {fileID: 4371058044870796072}
   m_Layer: 0
   m_Name: Player Base
   m_TagString: Player
@@ -495,3 +496,17 @@ MonoBehaviour:
   ammoTextComponent: {fileID: 0}
   UtilCooldownText: {fileID: 0}
   DamageCooldownText: {fileID: 0}
+--- !u!114 &4371058044870796072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5903094053358665325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b440c078cd89114b989c9587ebef4bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UtilityAbility: {fileID: 0}
+  DamageAbility: {fileID: 0}
