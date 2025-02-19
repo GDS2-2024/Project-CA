@@ -14,8 +14,6 @@ public class PlayerAbilityHandler : MonoBehaviour
     private InputDevice thisController;
     private PlayerController controllerScript;
 
-    public Ability EquippedAbility;
-
     // Start is called before the first frame update
     void Start()
     {
