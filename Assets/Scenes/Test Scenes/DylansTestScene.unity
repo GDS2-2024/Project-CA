@@ -2972,6 +2972,10 @@ PrefabInstance:
       propertyPath: DamageCooldownText
       value: 
       objectReference: {fileID: 768973889}
+    - target: {fileID: 3970698525403144173, guid: 61b414d96c576bb48a3b3f021773f037, type: 3}
+      propertyPath: cooldown
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5277313788314044800, guid: 61b414d96c576bb48a3b3f021773f037, type: 3}
       propertyPath: m_RootOrder
       value: 3

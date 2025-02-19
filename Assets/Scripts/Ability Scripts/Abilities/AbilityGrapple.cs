@@ -12,11 +12,10 @@ public class AbilityGrapple : Ability
     private Rigidbody playerRb;
     private PlayerMoveBase playerMove;
     private bool isGrappling = false;
-    private float grappleSpeedMultiplier = 2f; // Controls how fast speed increases
+    private float grappleSpeedMultiplier = 50f; // Controls how fast speed increases
     private float stopDistance = 1.2f; // Distance from the grapple point where the player stops
 
     private float grappleStartTime;
-
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -24,21 +23,25 @@ public class AbilityGrapple : Ability
         playerMove = GetComponentInParent<PlayerMoveBase>();
     }
 
-    void Update()
+    public override void OnPressAbility()
     {
         if (!isOnCooldown)
         {
-            if (Input.GetMouseButtonDown(1))
-            {
-                StartGrapple();
-            }
-            else if (Input.GetMouseButtonUp(1))
-            {
-                StopGrapple();
-                StartCoroutine(Cooldown());
-            }
+            StartGrapple();
         }
+    }
 
+    public override void OnReleaseAbility()
+    {
+        if (!isOnCooldown)
+        {
+            StopGrapple();
+            StartCoroutine(Cooldown());
+        }
+    }
+
+    void FixedUpdate()
+    {
         if (isGrappling)
         {
             PullPlayerTowardsGrapple();
@@ -107,27 +110,7 @@ public class AbilityGrapple : Ability
         lineRenderer.SetPosition(1, currentGrapplePosition);
     }
 
-    public bool IsGrappling()
-    {
-        return isGrappling;
-    }
-
-    public Vector3 GetGrapplePoint()
-    {
-        return grapplePoint;
-    }
-
     public override void OnHoldingAbility()
-    {
-        // This ability does not need this function
-    }
-
-    public override void OnPressAbility()
-    {
-        // This ability does not need this function
-    }
-
-    public override void OnReleaseAbility()
     {
         // This ability does not need this function
     }
