@@ -37,7 +37,12 @@ public class PlayerSpawner : MonoBehaviour
             thisController = playerManagerScript.inputDevices[i - 1];
             controllerScript.SetController(thisController);
 
-            if (playerCount <= 2)
+            if (playerCount == 1)
+            {
+                //Handle 1 player mode
+                thisCam.rect = new Rect(0f, 0f, 1f, 1f);
+            }
+            else if (playerCount == 2)
             {
                 //Handle 2 player mode
                 switch (i)
