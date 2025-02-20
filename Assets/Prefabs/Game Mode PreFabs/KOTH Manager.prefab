@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   remainingGameTime: 600
   remainingHillTime: 60
-  hillsList:
+  scoreToWin: 250
+  hills:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  currentHill: {fileID: 0}
+  - {fileID: 0}
+  activeHill: {fileID: 0}

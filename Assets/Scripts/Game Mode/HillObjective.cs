@@ -29,6 +29,7 @@ public class HillObjective : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (KOTHManager.hasGameFinished) { return; }
         if (numOfPlayersInHill == 1 && other.tag == "Player") { KOTHManager.AddScoreToPlayer(other.gameObject); }
         else if (numOfPlayersInHill > 1 && other.tag == "Player") { other.GetComponent<PlayerHUD>().UpdateObjectivePrompt("The Hill is contested!"); }
     }

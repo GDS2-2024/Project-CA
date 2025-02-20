@@ -29,4 +29,19 @@ public class ScoreBoardManager : MonoBehaviour
     {
         
     }
+
+    public PlayerScore GetHighestPlayerScore()
+    {
+        float currentBestScore = 0;
+        PlayerScore currentBestPlayer = null;
+        foreach (PlayerScore playerScore in playerScores)
+        {
+            if (playerScore.GetObjectiveScore() >= currentBestScore)
+            {
+                currentBestScore = playerScore.GetObjectiveScore();
+                currentBestPlayer = playerScore;
+            }
+        }
+        return currentBestPlayer;
+    }
 }

@@ -2393,10 +2393,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6660858813532343492, guid: 55b112336fa8a8649a6b5d2aaf937fb8, type: 3}
-      propertyPath: hills.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6660858813532343492, guid: 55b112336fa8a8649a6b5d2aaf937fb8, type: 3}
       propertyPath: hills.Array.data[0]
       value: 
       objectReference: {fileID: 270769641}
