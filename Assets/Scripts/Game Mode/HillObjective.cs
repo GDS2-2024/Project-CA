@@ -29,9 +29,8 @@ public class HillObjective : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        // Currently calling AddScoreToPlayer() for every frame they are in the hill
-        // TO DO: Only add to score every 1 second.
         if (numOfPlayersInHill == 1 && other.tag == "Player") { KOTHManager.AddScoreToPlayer(other.gameObject); }
+        else if (numOfPlayersInHill > 1 && other.tag == "Player") { other.GetComponent<PlayerHUD>().UpdateObjectivePrompt("The Hill is contested!"); }
     }
 
     private void OnTriggerExit(Collider other)
