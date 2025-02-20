@@ -45,9 +45,9 @@ public class PlayerHUD : MonoBehaviour
         DamageCooldownText.text = "" + newAmount;
     }
 
-    public void UpdateGameTimer(int newTime)
+    public void UpdateGameTimer(string newTime)
     {
-        GameTimerText.text = "" + newTime;
+        GameTimerText.text = newTime;
     }
 
     public void UpdateObjectiveScore(int currentScore)

@@ -30,7 +30,9 @@ public class KOTHManager : MonoBehaviour
         playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>();
         playerList = playerSpawnerScript.GetPlayersInGame();
         SwitchToNextHill();
+
         InvokeRepeating("CheckIfPlayerHasWon", 1.0f, 1.0f);
+        InvokeRepeating("UpdateAllPlayerHUDs", 0.0f, 1.0f);
     }
 
     // Update is called once per frame
@@ -83,6 +85,23 @@ public class KOTHManager : MonoBehaviour
             SwitchToNextHill();
         }
     }
+
+    // Updates the game timer on the players HUDs
+    private void UpdateAllPlayerHUDs()
+    {
+        foreach (GameObject player in playerList)
+        {
+            PlayerHUD hud = player.GetComponent<PlayerHUD>();
+
+            int minutes = Mathf.FloorToInt(remainingGameTime / 60); // Get minutes
+            int seconds = Mathf.FloorToInt(remainingGameTime % 60); // Get remaining seconds
+
+            string formattedTime = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+            hud.UpdateGameTimer(formattedTime);
+        }
+    }
+
 
     public void AddScoreToPlayer(GameObject player)
     {
