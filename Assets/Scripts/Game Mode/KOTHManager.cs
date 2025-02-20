@@ -66,8 +66,7 @@ public class KOTHManager : MonoBehaviour
 
     public void AddScoreToPlayer(GameObject player)
     {
-        // TO DO: Need a Score Manager
-
+        player.GetComponent<PlayerScore>().AddObjectiveScore(Time.deltaTime);
     }
 
     private void EndGame()

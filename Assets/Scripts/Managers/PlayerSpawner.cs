@@ -17,8 +17,10 @@ public class PlayerSpawner : MonoBehaviour
     private PlayerController controllerScript;
     private InputDevice thisController;
 
-    // Start is called before the first frame update
-    void Start()
+    public List<GameObject> GetPlayersInGame() { return players; }
+
+    // Awake is called when the script instance is being loaded
+    void Awake()
     {
         playerManager = GameObject.Find("Player Manager");
         playerManagerScript = playerManager.GetComponent<PlayerManager>();
