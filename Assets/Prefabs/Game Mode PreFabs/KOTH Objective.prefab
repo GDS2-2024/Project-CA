@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 81495277}
   - component: {fileID: 81495280}
   - component: {fileID: 81495279}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3916229290002533893}
   - component: {fileID: 3916229290002533892}
   - component: {fileID: 2586650074185854642}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: KOTH Objective
   m_TagString: Untagged
   m_Icon: {fileID: 0}
