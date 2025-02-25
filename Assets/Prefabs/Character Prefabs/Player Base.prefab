@@ -1189,7 +1189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
-  jumpHeight: 2
+  jumpForce: 1
   playerCam: {fileID: 5903094051481199568}
   cameraSens: 0.1
   cameraOffset: {x: 0, y: 3, z: 0}

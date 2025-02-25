@@ -17,9 +17,10 @@ public class PlayerMoveBase : MonoBehaviour
     private Vector3 moveDir;
     private float moveX;
     private float moveZ;
+    private float moveY;
 
     public float moveSpeed;
-    public float jumpHeight;
+    public float jumpForce;
 
     //Camera variables
     private float mouseX;
@@ -96,6 +97,10 @@ public class PlayerMoveBase : MonoBehaviour
         {
             moveZ = keyboard.wKey.isPressed ? 1 : keyboard.sKey.isPressed ? -1 : 0;
             moveX = keyboard.dKey.isPressed ? 1 : keyboard.aKey.isPressed ? -1 : 0;
+            if (keyboard.spaceKey.wasPressedThisFrame)
+            {
+                Jump();
+            }
         }
         else if (thisController is Gamepad controller)
         {
@@ -105,9 +110,7 @@ public class PlayerMoveBase : MonoBehaviour
 
 
         //move direction is based on the direction the camera is facing
-        moveDir = playerCam.transform.TransformDirection(new Vector3(moveX, 0f, moveZ).normalized);
-        //Stops players from running into the air
-        moveDir.y = 0;
+        moveDir = playerCam.transform.TransformDirection(new Vector3(moveX, 0, moveZ).normalized);
 
         if (moveDir.z > 0 || moveDir.x > 0)
         {
@@ -160,5 +163,10 @@ public class PlayerMoveBase : MonoBehaviour
         Vector3 heightOffsetVec = playerCam.transform.up * heightOffset;
         //ensure that the camera is always looking at the player
         playerCam.transform.LookAt(transform.position + rightOffsetVec + heightOffsetVec);
+    }
+
+    void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 }
