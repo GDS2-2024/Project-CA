@@ -7,6 +7,7 @@ public class PlayerSpawner : MonoBehaviour
 {
     public List<GameObject> spawnPoints = new List<GameObject>();
     public GameObject playerPrefab;
+    public GameObject blankCameraPrefab; // Used to render black pixels if there are only 3 players
 
     private GameObject playerManager;
     private PlayerManager playerManagerScript;
@@ -26,6 +27,7 @@ public class PlayerSpawner : MonoBehaviour
         playerManagerScript = playerManager.GetComponent<PlayerManager>();
 
         playerCount = playerManagerScript.playerCount;
+        if (playerCount == 3) { GameObject blankCam = Instantiate(blankCameraPrefab); }
 
         //spawn characters at their spawn points
         for (int i = 1; i <= playerCount; i++)
