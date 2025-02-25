@@ -21,6 +21,8 @@ public class HillObjective : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (KOTHManager.hasGameFinished) { return; }
+        if (this.gameObject != KOTHManager.activeHill) { return; }
         if (other.tag == "Player")
         {
             numOfPlayersInHill++;
@@ -30,15 +32,26 @@ public class HillObjective : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (KOTHManager.hasGameFinished) { return; }
-        if (numOfPlayersInHill == 1 && other.tag == "Player") { KOTHManager.AddScoreToPlayer(other.gameObject); }
-        else if (numOfPlayersInHill > 1 && other.tag == "Player") { other.GetComponent<PlayerHUD>().UpdateObjectivePrompt("The Hill is contested!"); }
+        if (this.gameObject != KOTHManager.activeHill) { return; }
+        if (numOfPlayersInHill == 1 && other.tag == "Player")
+        {
+            KOTHManager.AddScoreToPlayer(other.gameObject);
+            other.GetComponent<PlayerHUD>().UpdateObjectivePrompt("");
+        }
+        else if (numOfPlayersInHill > 1 && other.tag == "Player")
+        {
+            other.GetComponent<PlayerHUD>().UpdateObjectivePrompt("The Hill is contested!");
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (KOTHManager.hasGameFinished) { return; }
+        if (this.gameObject != KOTHManager.activeHill) { return; }
         if (other.tag == "Player")
         {
             numOfPlayersInHill--;
+            other.GetComponent<PlayerHUD>().UpdateObjectivePrompt("");
         }
     }
 }

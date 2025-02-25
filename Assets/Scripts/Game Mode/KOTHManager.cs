@@ -9,7 +9,7 @@ public class KOTHManager : MonoBehaviour
     [SerializeField] private float remainingHillTime;
     [SerializeField] private int scoreToWin;
     [SerializeField] private List<GameObject> hills;
-    [SerializeField] private GameObject activeHill;
+    public GameObject activeHill;
     private int hillIndex = -1;
 
     private List<GameObject> playerList;
@@ -32,7 +32,7 @@ public class KOTHManager : MonoBehaviour
         SwitchToNextHill();
 
         InvokeRepeating("CheckIfPlayerHasWon", 1.0f, 1.0f);
-        InvokeRepeating("UpdateAllPlayerHUDs", 0.0f, 1.0f);
+        InvokeRepeating("UpdateAllPlayerTimerHUDs", 0.0f, 1.0f);
     }
 
     // Update is called once per frame
@@ -64,7 +64,7 @@ public class KOTHManager : MonoBehaviour
         // Assign and show new hill
         activeHill = hills[hillIndex];
         activeHill.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
-
+        if (remainingGameTime != 360) { TellPlayersNewHill(); } // ignore at game start
     }
 
     private void UpdateGameTimer()
@@ -87,7 +87,7 @@ public class KOTHManager : MonoBehaviour
     }
 
     // Updates the game timer on the players HUDs
-    private void UpdateAllPlayerHUDs()
+    private void UpdateAllPlayerTimerHUDs()
     {
         foreach (GameObject player in playerList)
         {
@@ -102,6 +102,16 @@ public class KOTHManager : MonoBehaviour
         }
     }
 
+    // Add text to HUD for all players telling them that the hill has moved.
+    private void TellPlayersNewHill()
+    {
+        Debug.Log("Telling players the Hill has moved.");
+        foreach (GameObject player in playerList)
+        {
+            PlayerHUD hud = player.GetComponent<PlayerHUD>();
+            hud.UpdateObjectivePrompt("The Hill has moved!", 5.0f);
+        }
+    }
 
     public void AddScoreToPlayer(GameObject player)
     {

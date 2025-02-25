@@ -60,4 +60,16 @@ public class PlayerHUD : MonoBehaviour
         ObjectivePrompt.text = "" + currentObjective;
     }
 
+    // Add a duration for how long to show the prompt
+    public void UpdateObjectivePrompt(string currentObjective, float duration)
+    {
+        ObjectivePrompt.text = "" + currentObjective;
+        Invoke("ClearObjectivePrompt", duration);
+    }
+
+    public void ClearObjectivePrompt()
+    {
+        ObjectivePrompt.text = "";
+    }
+
 }
