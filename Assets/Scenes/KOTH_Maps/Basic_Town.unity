@@ -6875,6 +6875,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Outlaw Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 3661997528233400993, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3661997528233401021, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -10154,8 +10158,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6660858813532343492, guid: 55b112336fa8a8649a6b5d2aaf937fb8, type: 3}
+      propertyPath: scoreToWin
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660858813532343492, guid: 55b112336fa8a8649a6b5d2aaf937fb8, type: 3}
       propertyPath: hills.Array.size
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660858813532343492, guid: 55b112336fa8a8649a6b5d2aaf937fb8, type: 3}
+      propertyPath: remainingGameTime
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 6660858813532343492, guid: 55b112336fa8a8649a6b5d2aaf937fb8, type: 3}
       propertyPath: hills.Array.data[0]

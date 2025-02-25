@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Test Scenes/TestScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Test Scenes/DylansTestScene.unity
-    guid: 2bbfe15d08cd8d44aabe950e29fb2a1a
+    path: Assets/Scenes/KOTH_Maps/Basic_Town.unity
+    guid: 137226dffc4fb36408c86eb9ae3428f8
   m_configObjects: {}
