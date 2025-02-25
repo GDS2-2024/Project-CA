@@ -6,17 +6,14 @@ using UnityEngine.InputSystem;
 public class PlayerSpawner : MonoBehaviour
 {
     public List<GameObject> spawnPoints = new List<GameObject>();
-    public GameObject playerPrefab;
+    public List<GameObject> characterPrefabs;
+
     public GameObject blankCameraPrefab; // Used to render black pixels if there are only 3 players
 
     private GameObject playerManager;
     private PlayerManager playerManagerScript;
     public int playerCount = 0;
-    private List<GameObject> players = new List<GameObject>();
-    private GameObject newPlayer;
-    private Camera thisCam;
-    private PlayerController controllerScript;
-    private InputDevice thisController;
+    [SerializeField] private List<GameObject> players = new List<GameObject>();
 
     public List<GameObject> GetPlayersInGame() { return players; }
 
@@ -27,56 +24,91 @@ public class PlayerSpawner : MonoBehaviour
         playerManagerScript = playerManager.GetComponent<PlayerManager>();
 
         playerCount = playerManagerScript.playerCount;
-        if (playerCount == 3) { GameObject blankCam = Instantiate(blankCameraPrefab); }
 
-        //spawn characters at their spawn points
-        for (int i = 1; i <= playerCount; i++)
+        SpawnPlayers();
+    }
+
+    // Instantiate players and position them at a spawn point
+    private void SpawnPlayers()
+    {
+        for (int playerNumber = 1; playerNumber <= playerCount; playerNumber++)
         {
-            newPlayer = Instantiate(playerPrefab, spawnPoints[i - 1].transform);
+            // Instantiate player & add to player list
+            GameObject newPlayer = Instantiate(characterPrefabs[0], spawnPoints[playerNumber - 1].transform);
             players.Add(newPlayer);
 
-            //Handle Split Screen
-            thisCam = newPlayer.GetComponentInChildren<Camera>();
-            controllerScript = newPlayer.GetComponent<PlayerController>();
-            thisController = playerManagerScript.inputDevices[i - 1];
+            // Setup Camera & Controller
+            Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
+            InputDevice thisController = playerManagerScript.inputDevices[playerNumber - 1];
+            PlayerController controllerScript = newPlayer.GetComponent<PlayerController>();
             controllerScript.SetController(thisController);
 
-            if (playerCount == 1)
+            SetupSplitScreen(thisCam, playerNumber);
+        }
+    }
+
+    // Setup the positioning of the cameras based on the number of players
+    private void SetupSplitScreen(Camera thisCam, int playerNumber)
+    {
+        if (playerCount == 3) { GameObject blankCam = Instantiate(blankCameraPrefab); }
+        if (playerCount == 1)
+        {
+            //Handle 1 player mode
+            thisCam.rect = new Rect(0f, 0f, 1f, 1f);
+        }
+        else if (playerCount == 2)
+        {
+            //Handle 2 player mode
+            switch (playerNumber)
             {
-                //Handle 1 player mode
-                thisCam.rect = new Rect(0f, 0f, 1f, 1f);
+                case 1:
+                    thisCam.rect = new Rect(0f, 0f, 0.5f, 1f);
+                    break;
+                case 2:
+                    thisCam.rect = new Rect(0.5f, 0f, 0.5f, 1f);
+                    break;
             }
-            else if (playerCount == 2)
+        }
+        else
+        {
+            //Handle 3 or 4 player mode
+            switch (playerNumber)
             {
-                //Handle 2 player mode
-                switch (i)
-                {
-                    case 1:
-                        thisCam.rect = new Rect(0f, 0f, 0.5f, 1f);
-                        break;
-                    case 2:
-                        thisCam.rect = new Rect(0.5f, 0f, 0.5f, 1f);
-                        break;
-                }
-            } else
-            {
-                //Handle 3 or 4 player mode
-                switch (i)
-                {
-                    case 1:
-                        thisCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
-                        break;
-                    case 2:
-                        thisCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
-                        break;
-                    case 3:
-                        thisCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
-                        break;
-                    case 4:
-                        thisCam.rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
-                        break;
-                }
+                case 1:
+                    thisCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
+                    break;
+                case 2:
+                    thisCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+                    break;
+                case 3:
+                    thisCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
+                    break;
+                case 4:
+                    thisCam.rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
+                    break;
             }
         }
     }
+
+    // Respawn a specified player given their InputDevice and Player Object 
+    public void RespawnPlayer(InputDevice playerController, GameObject playerObject)
+    {
+        // Remove and destroy current player object
+        int playerNumber = players.IndexOf(playerObject);
+        players.Remove(playerObject);
+        Destroy(playerObject);
+
+        // Instantiate new player object and insert at the same position in list
+        GameObject newPlayer = Instantiate(characterPrefabs[0], spawnPoints[playerNumber].transform);
+        players.Insert(playerNumber, newPlayer);
+
+        // Setup Camera & Controller
+        Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
+        InputDevice thisController = playerManagerScript.inputDevices[playerNumber];
+        PlayerController controllerScript = newPlayer.GetComponent<PlayerController>();
+        controllerScript.SetController(thisController);
+
+        SetupSplitScreen(thisCam, playerNumber+1);
+    }
+
 }

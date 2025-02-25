@@ -177,6 +177,7 @@ MonoBehaviour:
   - {fileID: 1586573208320730544}
   - {fileID: 1586573207213281494}
   - {fileID: 1586573207330135170}
-  playerPrefab: {fileID: 3661997528233400993, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
+  characterPrefabs:
+  - {fileID: 3661997528233400993, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
   blankCameraPrefab: {fileID: 6977938446653619670, guid: 7c9928bacb2fa174fad514b2efa1be33, type: 3}
   playerCount: 0

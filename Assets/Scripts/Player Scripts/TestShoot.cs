@@ -37,14 +37,14 @@ public class TestShoot : MonoBehaviour
         if (thisController is Keyboard)
         {
             Mouse mouse = Mouse.current;
-            if (mouse.leftButton.isPressed && statScript.currentClip > 0 && !shotDelay)
+            if (mouse.leftButton.isPressed && statScript.currentAmmo > 0 && !shotDelay)
             {
                 ShootBullet();
             }
         }
         else if (thisController is Gamepad controller)
         {
-            if (controller.rightTrigger.isPressed && statScript.currentClip > 0 && !shotDelay)
+            if (controller.rightTrigger.isPressed && statScript.currentAmmo > 0 && !shotDelay)
             {
                 ShootBullet();
             }

@@ -25,7 +25,7 @@ public class AbilityFMJ : Ability
     void Update()
     {
         // If player has used all their FMJ bullets
-        if (bulletsLoaded && statScript.currentClip == 0)
+        if (bulletsLoaded && statScript.currentAmmo == 0)
         {
             Debug.Log("Out of FMJ bullets");
             LoadNormalBullets();

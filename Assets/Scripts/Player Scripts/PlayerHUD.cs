@@ -12,6 +12,7 @@ public class PlayerHUD : MonoBehaviour
     public TMP_Text GameTimerText;
     public TMP_Text ObjectiveScore;
     public TMP_Text ObjectivePrompt;
+    public TMP_Text RespawnTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class PlayerHUD : MonoBehaviour
         if (!GameTimerText) { Debug.Log("PlayerHUD: There is no Game Timer text component assigned."); }
         if (!ObjectiveScore) { Debug.Log("PlayerHUD: There is no Objective Score text component assigned."); }
         if (!ObjectivePrompt) { Debug.Log("PlayerHUD: There is no Objective Prompt text component assigned."); }
+        if (!RespawnTimer) { Debug.Log("PlayerHUD: There is no Respawn Timer text component assigned."); }
     }
 
     // Update is called once per frame
@@ -70,6 +72,23 @@ public class PlayerHUD : MonoBehaviour
     public void ClearObjectivePrompt()
     {
         ObjectivePrompt.text = "";
+    }
+
+    public void StartRespawnTimer()
+    {
+        StartCoroutine(RespawnCountdownRoutine(3));
+    }
+
+    private IEnumerator RespawnCountdownRoutine(int countdownTime)
+    {
+        while (countdownTime > 0)
+        {
+            RespawnTimer.text = countdownTime.ToString();
+            yield return new WaitForSeconds(1f);
+            countdownTime--;
+        }
+
+        RespawnTimer.text = "";
     }
 
 }
