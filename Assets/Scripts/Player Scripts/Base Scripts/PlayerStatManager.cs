@@ -67,7 +67,7 @@ public class PlayerStatManager : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
-        playerHUD.UpdateHealthBar(health);
+        if (playerHUD) playerHUD.UpdateHealthBar(health);
 
         if (health > 0)
         {

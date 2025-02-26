@@ -1401,7 +1401,9 @@ MonoBehaviour:
   moveSpeed: 8
   jumpHeight: 2
   playerCam: {fileID: 5903094051481199568}
-  cameraSens: 0.1
+  mouseSens: 0.1
+  controlXSens: 0.2
+  controlYSens: 0.1
   cameraOffset: {x: 0, y: 3, z: 0}
   rightOffset: 1
   heightOffset: 1

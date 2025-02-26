@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerMoveBase : MonoBehaviour
 {
-
     private playerState currentState;
 
     //Controller
@@ -29,9 +28,11 @@ public class PlayerMoveBase : MonoBehaviour
     private float minClamp = 30f;
     private float maxClamp = 120f;
 
-
     public Camera playerCam;
-    public float cameraSens;
+    public float mouseSens;
+    public float controlXSens;
+    public float controlYSens;
+
     public Vector3 cameraOffset;
     public float rightOffset;
     public float heightOffset;
@@ -103,7 +104,6 @@ public class PlayerMoveBase : MonoBehaviour
             moveX = controller.leftStick.right.isPressed ? 1 : controller.leftStick.left.isPressed ? -1 : 0;
         }
 
-
         //move direction is based on the direction the camera is facing
         moveDir = playerCam.transform.TransformDirection(new Vector3(moveX, 0f, moveZ).normalized);
         //Stops players from running into the air
@@ -131,18 +131,19 @@ public class PlayerMoveBase : MonoBehaviour
         if (thisController is Keyboard)
         {
             Mouse mouse = Mouse.current;
-            mouseX = mouse.delta.x.ReadValue() * cameraSens;
-            mouseY = mouse.delta.y.ReadValue() * cameraSens;
+            mouseX = mouse.delta.x.ReadValue() * mouseSens;
+            mouseY = mouse.delta.y.ReadValue() * mouseSens;
         }
         else if (thisController is Gamepad controller)
         {
-            mouseX = controller.rightStick.right.isPressed ? 1 * cameraSens : controller.rightStick.left.isPressed ? -1 * cameraSens : 0;
-            mouseY = controller.rightStick.up.isPressed ? 1 * cameraSens : controller.rightStick.down.isPressed ? -1 * cameraSens : 0;
+            mouseX = controller.rightStick.ReadValue().x * controlXSens;
+            mouseY = controller.rightStick.ReadValue().y * controlYSens;
+
         }
 
         cameraYaw += mouseX;
-
         cameraPitch += mouseY;
+
         //stops the player from looking too high or too low
         cameraPitch = Mathf.Clamp(cameraPitch, minClamp, maxClamp);
 
