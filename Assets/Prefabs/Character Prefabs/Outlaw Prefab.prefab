@@ -282,10 +282,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de3f036816bb28047bf3fadb8c6aa2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 5
+  cooldown: 30
   currentCooldownTime: 0
   normalBullet: {fileID: 3502144147338531713, guid: 98a33118016ed4446b9dcc4e205dd830, type: 3}
   FMJBullet: {fileID: 3502144147338531713, guid: 85a7208a8e3c35e4382816b8135ecf49, type: 3}
+  fmjDuration: 5
 --- !u!1001 &7151161618206565580
 PrefabInstance:
   m_ObjectHideFlags: 0

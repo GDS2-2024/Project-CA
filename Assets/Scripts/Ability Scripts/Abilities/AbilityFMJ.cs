@@ -4,41 +4,33 @@ using UnityEngine;
 
 public class AbilityFMJ : Ability
 {
+    // Player Components
     private TestShoot gunHandler;
-    private PlayerStatManager statScript;
-    private bool bulletsLoaded = false;
+    private PlayerStatManager playerStatManager;
+    private PlayerHUD playerHUD;
 
+    // FMJ Variables
     public GameObject normalBullet;
     public GameObject FMJBullet;
+    public float fmjDuration;
 
     // Start is called before the first frame update
     void Start()
     {
         gunHandler = GetComponentInParent<TestShoot>();
-        statScript = GetComponentInParent<PlayerStatManager>();
+        playerStatManager = GetComponentInParent<PlayerStatManager>();
+        playerHUD = GetComponentInParent<PlayerHUD>();
 
         isOnCooldown = true;
         StartCoroutine(Cooldown());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // If player has used all their FMJ bullets
-        if (bulletsLoaded && statScript.currentAmmo == 0)
-        {
-            Debug.Log("Out of FMJ bullets");
-            LoadNormalBullets();
-        }
     }
 
     public override void OnPressAbility()
     {
         if (!isOnCooldown)
         {
-            Debug.Log("Loading FMJ Bullet into Rifle...");
-            LoadFMJBullets();
-            StartCoroutine(Cooldown());
+            Debug.Log("Activating FMJ...");
+            StartCoroutine(ActivateFMJ());
         }
         else
         {
@@ -46,17 +38,20 @@ public class AbilityFMJ : Ability
         }
     }
 
-    private void LoadFMJBullets()
+    private IEnumerator ActivateFMJ()
     {
-        bulletsLoaded = true;
-        StartCoroutine(statScript.Reload());      ;
         gunHandler.bullet = FMJBullet;
+        playerStatManager.currentAmmo = playerStatManager.maxAmmoInClip;
+        playerHUD.UpateAmmoUI(playerStatManager.currentAmmo);
+        yield return new WaitForSeconds(fmjDuration);
+        Debug.Log("FMJ ended, reverting to normal bullets");
+        DeactivateFMJ();
     }
 
-    private void LoadNormalBullets()
+    private void DeactivateFMJ()
     {
-        bulletsLoaded = false;
         gunHandler.bullet = normalBullet;
+        StartCoroutine(Cooldown());
     }
 
     public override void OnHoldingAbility()

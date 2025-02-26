@@ -92,6 +92,12 @@ public class PlayerStatManager : MonoBehaviour
         if (playerHUD) playerHUD.UpateAmmoUI(currentAmmo);
     }
 
+    public void CancelReload()
+    {
+        // Stop reload animation here
+        StopCoroutine(Reload());
+    }
+
     private void OnDeath()
     {       
         // Hide all MeshRenderers in this object and its children
