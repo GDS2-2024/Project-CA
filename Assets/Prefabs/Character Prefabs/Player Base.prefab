@@ -1364,6 +1364,7 @@ MonoBehaviour:
   health: 100
   maxAmmoInClip: 5
   currentAmmo: 0
+  reloadTime: 1.5
 --- !u!114 &6797758679327343705
 MonoBehaviour:
   m_ObjectHideFlags: 0

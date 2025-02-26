@@ -650,9 +650,8 @@ GameObject:
   - component: {fileID: 543154901}
   - component: {fileID: 543154900}
   - component: {fileID: 543154899}
-  - component: {fileID: 543154904}
   m_Layer: 0
-  m_Name: Dummy (1)
+  m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -688,8 +687,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  clipSize: 0
-  currentClip: 0
+  maxAmmoInClip: 0
+  currentAmmo: 0
+  reloadTime: 0
 --- !u!54 &543154900
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -770,18 +770,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543154897}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &543154904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543154897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c19598276465524181a2671a432671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1084,9 +1072,8 @@ GameObject:
   - component: {fileID: 762379621}
   - component: {fileID: 762379620}
   - component: {fileID: 762379619}
-  - component: {fileID: 762379624}
   m_Layer: 0
-  m_Name: Dummy (2)
+  m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1122,8 +1109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  clipSize: 0
-  currentClip: 0
+  maxAmmoInClip: 0
+  currentAmmo: 0
+  reloadTime: 0
 --- !u!54 &762379620
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1204,18 +1192,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 762379617}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &762379624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 762379617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c19598276465524181a2671a432671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &845386719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,9 +1625,8 @@ GameObject:
   - component: {fileID: 1294498533}
   - component: {fileID: 1294498532}
   - component: {fileID: 1294498531}
-  - component: {fileID: 1294498536}
   m_Layer: 0
-  m_Name: Dummy (3)
+  m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1687,8 +1662,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  clipSize: 0
-  currentClip: 0
+  maxAmmoInClip: 0
+  currentAmmo: 0
+  reloadTime: 0
 --- !u!54 &1294498532
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1769,18 +1745,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294498529}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1294498536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294498529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c19598276465524181a2671a432671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1324638067
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1854,7 +1818,6 @@ GameObject:
   - component: {fileID: 1343085309}
   - component: {fileID: 1343085308}
   - component: {fileID: 1343085305}
-  - component: {fileID: 1343085312}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Player
@@ -1892,8 +1855,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  clipSize: 0
-  currentClip: 0
+  maxAmmoInClip: 0
+  currentAmmo: 0
+  reloadTime: 0
 --- !u!54 &1343085308
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1974,18 +1938,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343085303}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1343085312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1343085303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c19598276465524181a2671a432671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1471889297
 GameObject:
   m_ObjectHideFlags: 0
@@ -2362,9 +2314,8 @@ GameObject:
   - component: {fileID: 1832204841}
   - component: {fileID: 1832204840}
   - component: {fileID: 1832204839}
-  - component: {fileID: 1832204844}
   m_Layer: 0
-  m_Name: Dummy (4)
+  m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2400,8 +2351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  clipSize: 0
-  currentClip: 0
+  maxAmmoInClip: 0
+  currentAmmo: 0
+  reloadTime: 0
 --- !u!54 &1832204840
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2482,18 +2434,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832204837}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1832204844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832204837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c19598276465524181a2671a432671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2092905906
 GameObject:
   m_ObjectHideFlags: 0

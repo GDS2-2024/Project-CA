@@ -5,17 +5,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerStatManager : MonoBehaviour
 {
-    // Player Controller
-    private PlayerController controllerScript;
-    private InputDevice thisController;
-
     // Player Stat Variables
     public float health;
     public int maxAmmoInClip;
     public int currentAmmo;
+    public float reloadTime;
 
-    // Player HUD
+    // Player Components
     private PlayerHUD playerHUD;
+    private PlayerMoveBase playerMovement;
+    private Rigidbody playerRigidbody;
+
+    // Player Controller
+    private PlayerController controllerScript;
+    private InputDevice thisController;
 
     // Player Spawner used to Respawn
     private GameObject playerSpawner;
@@ -31,11 +34,15 @@ public class PlayerStatManager : MonoBehaviour
 
         // Setup Controller
         controllerScript = gameObject.GetComponent<PlayerController>();
-        thisController = controllerScript.GetController();
+        if (controllerScript) thisController = controllerScript.GetController();
 
         // Setup Player Spawner
         playerSpawner = GameObject.Find("Player Spawner");
-        playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>();
+        if (playerSpawner) playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>();
+
+        // Get Player Components
+        playerMovement = gameObject.GetComponent<PlayerMoveBase>();
+        playerRigidbody = gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -45,14 +52,14 @@ public class PlayerStatManager : MonoBehaviour
         {
             if (keyboard.rKey.wasPressedThisFrame)
             {
-                Reload();
+                StartCoroutine(Reload());
             }
         }
         else if (thisController is Gamepad controller)
         {
             if (controller.buttonWest.wasPressedThisFrame)
             {
-                Reload();
+                StartCoroutine(Reload());
             }
         }
     }
@@ -77,14 +84,16 @@ public class PlayerStatManager : MonoBehaviour
         if (playerHUD) playerHUD.UpateAmmoUI(currentAmmo);
     }
 
-    public void Reload()
+    public IEnumerator Reload()
     {
+        // Start reload animation here
+        yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmoInClip;
         if (playerHUD) playerHUD.UpateAmmoUI(currentAmmo);
     }
 
     private void OnDeath()
-    {
+    {       
         // Hide all MeshRenderers in this object and its children
         foreach (MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>())
         {
@@ -92,8 +101,8 @@ public class PlayerStatManager : MonoBehaviour
         }
 
         // Disable movement
-        gameObject.GetComponent<PlayerMoveBase>().enabled = false;
-        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        if (playerMovement) playerMovement.enabled = false;
+        if (playerRigidbody) playerRigidbody.velocity = Vector3.zero;
 
         // Show 3-second UI countdown for respawning
         StartRespawnCountdown();
@@ -108,7 +117,8 @@ public class PlayerStatManager : MonoBehaviour
     }
 
     private void Respawn()
-    {       
-        playerSpawnerScript.RespawnPlayer(thisController, gameObject);
+    {
+        if (playerSpawnerScript) { playerSpawnerScript.RespawnPlayer(thisController, gameObject); }
+        else { Debug.Log("RESPAWN FAILED: No Player Spawner object"); }
     }
 }

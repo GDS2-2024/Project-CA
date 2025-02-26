@@ -49,7 +49,7 @@ public class AbilityFMJ : Ability
     private void LoadFMJBullets()
     {
         bulletsLoaded = true;
-        statScript.Reload();
+        StartCoroutine(statScript.Reload());      ;
         gunHandler.bullet = FMJBullet;
     }
 
