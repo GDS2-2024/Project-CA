@@ -17,7 +17,7 @@ public class PlayerMoveBase : MonoBehaviour
     private Vector3 moveDir;
     private float moveX;
     private float moveZ;
-    private float moveY;
+    private bool canJump = true;
 
     public float moveSpeed;
     public float jumpForce;
@@ -63,6 +63,7 @@ public class PlayerMoveBase : MonoBehaviour
         MoveDirection();
 
         HandleCamera();
+
     }
 
     private void FixedUpdate()
@@ -97,7 +98,7 @@ public class PlayerMoveBase : MonoBehaviour
         {
             moveZ = keyboard.wKey.isPressed ? 1 : keyboard.sKey.isPressed ? -1 : 0;
             moveX = keyboard.dKey.isPressed ? 1 : keyboard.aKey.isPressed ? -1 : 0;
-            if (keyboard.spaceKey.wasPressedThisFrame)
+            if (keyboard.spaceKey.wasPressedThisFrame && canJump)
             {
                 Jump();
             }
@@ -168,5 +169,21 @@ public class PlayerMoveBase : MonoBehaviour
     void Jump()
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            canJump = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            canJump = false;
+        }
     }
 }
