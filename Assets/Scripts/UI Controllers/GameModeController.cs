@@ -47,73 +47,54 @@ public class GameModeController : MonoBehaviour
     void Update()
     {
         CheckNewPlayerAdded();
-
         CheckAllPlayersSelected();
+        ProcessPlayerInputs();
+        HandleGameStart();
+    }
 
-        if (playerManagerScript.inputDevices.Count > 0)
+    void ProcessPlayerInputs()
+    {
+        for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
         {
-            for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
-            {
-                if (playerManagerScript.inputDevices[i] is Keyboard keyboard)
-                {
-                    if (keyboard.sKey.wasPressedThisFrame && !playersSelected[i])
-                    {
-                        ScrollDown(i);
-                    }
-                    else if (keyboard.wKey.wasPressedThisFrame && !playersSelected[i])
-                    {
-                        ScrollUp(i);
-                    }
-                    else if (keyboard.enterKey.wasPressedThisFrame)
-                    {
-                        ToggleSelectGameMode(i);
-                    }
-                    else if (keyboard.qKey.wasPressedThisFrame && allSelected && !validDraw)
-                    {
-                        drawBtn.onClick.Invoke();
-                    }
-                }
-                else if (playerManagerScript.inputDevices[i] is Gamepad gamepad)
-                {
-                    if (gamepad.leftStick.down.wasPressedThisFrame && !playersSelected[i])
-                    {
-                        ScrollDown(i);
-                    }
-                    else if (gamepad.leftStick.up.wasPressedThisFrame && !playersSelected[i])
-                    {
-                        ScrollUp(i);
-                    }
-                    else if (gamepad.buttonSouth.wasPressedThisFrame)
-                    {
-                        ToggleSelectGameMode(i);
-                    }
-                    else if (gamepad.buttonNorth.wasPressedThisFrame && allSelected && !validDraw)
-                    {
-                        drawBtn.onClick.Invoke();
-                    }
-                }
-            }
+            var device = playerManagerScript.inputDevices[i];
+            if (device is Keyboard keyboard) { HandleKeyboardInput(keyboard, i); }
+            else if (device is Gamepad gamepad) { HandleGamepadInput(gamepad, i); }
         }
+    }
 
-        if (validDraw)
+    void HandleKeyboardInput(Keyboard keyboard, int playerIndex)
+    {
+        if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) { ScrollDown(playerIndex); }
+        else if (keyboard.wKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame) { ScrollUp(playerIndex); }
+        else if (keyboard.enterKey.wasPressedThisFrame) { ToggleSelectGameMode(playerIndex); }
+        else if (keyboard.qKey.wasPressedThisFrame && allSelected && !validDraw) { drawBtn.onClick.Invoke(); }
+    }
+
+    void HandleGamepadInput(Gamepad gamepad, int playerIndex)
+    {
+        if (gamepad.leftStick.down.wasPressedThisFrame || gamepad.dpad.down.wasPressedThisFrame) { ScrollDown(playerIndex); }
+        else if (gamepad.leftStick.up.wasPressedThisFrame || gamepad.dpad.up.wasPressedThisFrame) { ScrollUp(playerIndex); }
+        else if (gamepad.buttonSouth.wasPressedThisFrame) { ToggleSelectGameMode(playerIndex); }
+        else if (gamepad.buttonNorth.wasPressedThisFrame && allSelected && !validDraw) { drawBtn.onClick.Invoke(); }
+    }
+
+    void HandleGameStart()
+    {
+        if (!validDraw) return;
+
+        startGameTimer -= Time.deltaTime;
+        timerTxt.text = Mathf.Round(startGameTimer).ToString();
+
+        if (startGameTimer > 0) return;
+
+        switch (chosenMode)
         {
-            startGameTimer -= Time.deltaTime;
-            timerTxt.text = Mathf.Round(startGameTimer).ToString();
-            if (startGameTimer <= 0)
-            {
-                switch (chosenMode)
-                {
-                    case "Death Match":
-                        sceneManagement.LoadDeathMatch();
-                        break;
-                    case "King of the Hill":
-                        sceneManagement.LoadKingOfTheHill();
-                        break;
-                    default:
-                        // code block
-                        break;
-                }
-            }
+            case "Death Match":
+                sceneManagement.LoadDeathMatch();
+                break;
+            case "King of the Hill":
+                sceneManagement.LoadKingOfTheHill();
+                break;
         }
     }
 
