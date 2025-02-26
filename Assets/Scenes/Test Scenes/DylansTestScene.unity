@@ -1757,6 +1757,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Outlaw Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 3661997528233400993, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3661997528233401021, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
       propertyPath: m_RootOrder
       value: 4

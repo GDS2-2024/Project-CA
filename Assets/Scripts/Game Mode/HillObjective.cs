@@ -36,7 +36,7 @@ public class HillObjective : MonoBehaviour
         if (numOfPlayersInHill == 1 && other.tag == "Player")
         {
             KOTHManager.AddScoreToPlayer(other.gameObject);
-            other.GetComponent<PlayerHUD>().UpdateObjectivePrompt("");
+            other.GetComponent<PlayerHUD>().ClearObjectivePrompt();
         }
         else if (numOfPlayersInHill > 1 && other.tag == "Player")
         {
@@ -51,7 +51,7 @@ public class HillObjective : MonoBehaviour
         if (other.tag == "Player")
         {
             numOfPlayersInHill--;
-            other.GetComponent<PlayerHUD>().UpdateObjectivePrompt("");
+            other.GetComponent<PlayerHUD>().ClearObjectivePrompt();
         }
     }
 }
