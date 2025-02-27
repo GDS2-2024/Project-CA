@@ -77,7 +77,7 @@ public class TestShoot : MonoBehaviour
         newBullet = Instantiate(bullet, spawnPos, transform.rotation);
         //Gets the projectile script of the just created bullet
         projectileScript = newBullet.GetComponent<TestProjectile>();
-        projectileScript.Shoot(direction);
+        projectileScript.Shoot(direction, gameObject);
 
         //Stops all bullets from firing at once, gives a variable fire rate
         StartCoroutine(ShotTimer());

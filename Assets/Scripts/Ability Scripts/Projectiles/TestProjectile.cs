@@ -9,6 +9,7 @@ public class TestProjectile : MonoBehaviour
 
     public float bulletSpeed;
     public float damage;
+    private GameObject shooter; // Which player shot this bullet
 
     // Start is called before the first frame update
     void Awake()
@@ -18,22 +19,25 @@ public class TestProjectile : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         
     }
 
-    public void Shoot(Vector3 moveDir)
+    public void Shoot(Vector3 moveDir, GameObject whoShot)
     {
         rb.velocity = moveDir * bulletSpeed;
+        shooter = whoShot;
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        //Deal damage if hit a player
         if (collision.gameObject.tag == "Player")
         {
-            PlayerStatManager statScript = collision.gameObject.GetComponent<PlayerStatManager>();
-            statScript.TakeDamage(damage);
+            if (collision.gameObject != shooter) // Ignores if the player shoots themselves
+            {
+                PlayerStatManager statScript = collision.gameObject.GetComponent<PlayerStatManager>();
+                statScript.TakeDamage(damage, shooter);
+            }
         }
 
         Destroy(gameObject);

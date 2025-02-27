@@ -66,7 +66,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject attacker)
     {
         health -= damage;
         if (playerHUD) playerHUD.UpdateHealthBar(health);
@@ -77,6 +77,7 @@ public class PlayerStatManager : MonoBehaviour
         }
         else
         {
+            GiveKillScoreToAttacker(attacker);
             OnDeath();
         }
     }
@@ -101,9 +102,14 @@ public class PlayerStatManager : MonoBehaviour
         StopCoroutine(Reload());
     }
 
+    private void GiveKillScoreToAttacker(GameObject attacker)
+    {
+        attacker.GetComponent<PlayerScore>().AddPlayerKill();
+    }
+
     private void OnDeath()
     {
-        playerScore.AddPlayerDeath();
+        if (playerScore) playerScore.AddPlayerDeath();
         // Hide all MeshRenderers in this object and its children
         foreach (MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>())
         {
