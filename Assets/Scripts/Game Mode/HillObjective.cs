@@ -24,14 +24,12 @@ public class HillObjective : MonoBehaviour
         while (!KOTHManager.hasGameFinished)
         {
             yield return new WaitForSeconds(0.25f);
-            Debug.Log("Finished waiting");
             if (this.gameObject == KOTHManager.activeHill) { UpdatePlayersInHill(); }
         }
     }
 
     private void UpdatePlayersInHill()
     {
-        Debug.Log("Updating players in hill");
         Collider[] colliders = Physics.OverlapBox(hillCollider.bounds.center, hillCollider.bounds.extents, Quaternion.identity);
         numOfPlayersInHill = colliders.Count(collider => collider.CompareTag("Player"));
     }

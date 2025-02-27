@@ -10,9 +10,9 @@ public class PlayerScore : MonoBehaviour
 
     public struct MatchScore
     {
-        [SerializeField] public float objectiveScore;
-        [SerializeField] public int playerKills;
-        [SerializeField] public int playerDeaths;
+        public float objectiveScore;
+        public int playerKills;
+        public int playerDeaths;
     }
 
     // Used to pass score to new player obj after respawning
