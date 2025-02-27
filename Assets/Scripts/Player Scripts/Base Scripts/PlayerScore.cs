@@ -6,23 +6,38 @@ using UnityEngine;
 public class PlayerScore : MonoBehaviour
 {
     private PlayerHUD playerHUD;
-    [SerializeField] private float objectiveScore;
-    [SerializeField] private int playerKills;
-    [SerializeField] private int playerDeaths;
+    private MatchScore matchScore;
+
+    public struct MatchScore
+    {
+        [SerializeField] public float objectiveScore;
+        [SerializeField] public int playerKills;
+        [SerializeField] public int playerDeaths;
+    }
+
+    // Used to pass score to new player obj after respawning
+    public void PassPlayerScore(MatchScore newMatchScore)
+    {
+        matchScore = newMatchScore;
+    }
+    public MatchScore GetPlayerScore()
+    {
+        return matchScore;
+    }
 
     public void AddObjectiveScore(float score)
     {
-        objectiveScore += score;
-        int intScore = Convert.ToInt32(objectiveScore);
+        matchScore.objectiveScore += score;
+        int intScore = Convert.ToInt32(matchScore.objectiveScore);
         playerHUD.UpdateObjectiveScore(intScore);
     }
-    public float GetObjectiveScore() { return objectiveScore; }
+    public float GetObjectiveScore() { return matchScore.objectiveScore; }
 
-    public void AddPlayerKill() { playerKills++; }
-    public int GetPlayerKills() { return playerKills; }
+    public void AddPlayerKill() { matchScore.playerKills++; }
+    public int GetPlayerKills() { return matchScore.playerKills; }
 
-    public void AddPlayerDeath() { playerDeaths++; }
-    public int GetPlayerDeaths() { return playerDeaths; }
+    public void AddPlayerDeath() { matchScore.playerDeaths++; }
+    public int GetPlayerDeaths() { return matchScore.playerDeaths; }
 
     private void Start()
     {

@@ -15,6 +15,7 @@ public class PlayerStatManager : MonoBehaviour
     private PlayerHUD playerHUD;
     private PlayerMoveBase playerMovement;
     private Rigidbody playerRigidbody;
+    private PlayerScore playerScore;
 
     // Player Controller
     private PlayerController controllerScript;
@@ -43,6 +44,7 @@ public class PlayerStatManager : MonoBehaviour
         // Get Player Components
         playerMovement = gameObject.GetComponent<PlayerMoveBase>();
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
+        playerScore = gameObject.GetComponent<PlayerScore>();
     }
 
     // Update is called once per frame
@@ -100,7 +102,8 @@ public class PlayerStatManager : MonoBehaviour
     }
 
     private void OnDeath()
-    {       
+    {
+        playerScore.AddPlayerDeath();
         // Hide all MeshRenderers in this object and its children
         foreach (MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>())
         {
@@ -110,6 +113,9 @@ public class PlayerStatManager : MonoBehaviour
         // Disable movement
         if (playerMovement) playerMovement.enabled = false;
         if (playerRigidbody) playerRigidbody.velocity = Vector3.zero;
+
+        // Disable score component (so they cant get score when dead)
+        if (playerScore) playerScore.enabled = false;
 
         // Show 3-second UI countdown for respawning
         StartRespawnCountdown();

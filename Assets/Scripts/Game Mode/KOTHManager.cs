@@ -115,7 +115,8 @@ public class KOTHManager : MonoBehaviour
 
     public void AddScoreToPlayer(GameObject player)
     {
-        player.GetComponent<PlayerScore>().AddObjectiveScore(Time.deltaTime);
+        PlayerScore playerScore = player.GetComponent<PlayerScore>();
+        if (playerScore.enabled == true) { playerScore.AddObjectiveScore(Time.deltaTime); }
     }
 
     private void TimerEnd()

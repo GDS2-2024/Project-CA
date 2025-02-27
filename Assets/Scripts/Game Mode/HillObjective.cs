@@ -1,32 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HillObjective : MonoBehaviour
 {
     [SerializeField] private int numOfPlayersInHill = 0;
     [SerializeField] private KOTHManager KOTHManager;
+    //private int playerLayerMask;
+    private Collider hillCollider;
 
     // Start is called before the first frame update
     void Start()
     {
         if (KOTHManager == null) { Debug.Log("ERROR: Hill has no KOTHManager"); }
+        hillCollider = GetComponent<Collider>();
+        //playerLayerMask = LayerMask.GetMask("Player");
+        StartCoroutine(CheckPlayersInHill());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator CheckPlayersInHill()
     {
-        
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (KOTHManager.hasGameFinished) { return; }
-        if (this.gameObject != KOTHManager.activeHill) { return; }
-        if (other.tag == "Player")
+        while (!KOTHManager.hasGameFinished)
         {
-            numOfPlayersInHill++;
+            yield return new WaitForSeconds(0.25f);
+            Debug.Log("Finished waiting");
+            if (this.gameObject == KOTHManager.activeHill) { UpdatePlayersInHill(); }
         }
+    }
+
+    private void UpdatePlayersInHill()
+    {
+        Debug.Log("Updating players in hill");
+        Collider[] colliders = Physics.OverlapBox(hillCollider.bounds.center, hillCollider.bounds.extents, Quaternion.identity);
+        numOfPlayersInHill = colliders.Count(collider => collider.CompareTag("Player"));
     }
 
     private void OnTriggerStay(Collider other)
@@ -50,7 +57,6 @@ public class HillObjective : MonoBehaviour
         if (this.gameObject != KOTHManager.activeHill) { return; }
         if (other.tag == "Player")
         {
-            numOfPlayersInHill--;
             other.GetComponent<PlayerHUD>().ClearObjectivePrompt();
         }
     }

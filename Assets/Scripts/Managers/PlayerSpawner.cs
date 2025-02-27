@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static PlayerScore;
 
 public class PlayerSpawner : MonoBehaviour
 {
@@ -93,21 +95,30 @@ public class PlayerSpawner : MonoBehaviour
     // Respawn a specified player given their InputDevice and Player Object 
     public void RespawnPlayer(InputDevice playerController, GameObject playerObject)
     {
-        // Remove and destroy current player object
+        // Remove current player object from list
         int playerNumber = players.IndexOf(playerObject);
         players.Remove(playerObject);
-        Destroy(playerObject);
 
         // Instantiate new player object and insert at the same position in list
         GameObject newPlayer = Instantiate(characterPrefabs[0], spawnPoints[playerNumber].transform);
         players.Insert(playerNumber, newPlayer);
 
-        // Setup Camera & Controller
-        Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
-        InputDevice thisController = playerManagerScript.inputDevices[playerNumber];
-        PlayerController controllerScript = newPlayer.GetComponent<PlayerController>();
-        controllerScript.SetController(thisController);
+        // Pass player score to new player object & update UI
+        MatchScore oldMatchScore = playerObject.GetComponent<PlayerScore>().GetPlayerScore();
+        PlayerScore newPlayerScore = newPlayer.GetComponent<PlayerScore>();
+        newPlayerScore.PassPlayerScore(oldMatchScore);
+        int intScore = Convert.ToInt32(newPlayerScore.GetObjectiveScore());
+        newPlayer.GetComponent<PlayerHUD>().UpdateObjectiveScore(intScore);
 
+        // Detroy old player object
+        Destroy(playerObject);
+
+        // Setup Controller
+        PlayerController controllerScript = newPlayer.GetComponent<PlayerController>();
+        controllerScript.SetController(playerController);
+
+        // Setup Camera
+        Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
         SetupSplitScreen(thisCam, playerNumber+1);
     }
 
