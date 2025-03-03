@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.Controls;
 public class PlayerManager : MonoBehaviour
 {
     private int maxPlayerCount = 4;
+    public bool canPlayersJoin = false;
 
     public int playerCount = 0;
     public InputDevice p1Controller = null;
@@ -40,6 +41,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!canPlayersJoin) { return; }
         //Press any button on keyboard or controller to join assign a player number to your device
         if (playerCount <= maxPlayerCount)
         {
@@ -68,19 +70,19 @@ public class PlayerManager : MonoBehaviour
         //assigns player number to your device
         switch (playerNo)
         {
-            case 1:
+            case 0:
                 p1Controller = current;
                 print("Player 1 Controller: " + current);
                 break;
-            case 2:
+            case 1:
                 p2Controller = current;
                 print("Player 2 Controller: " + current);
                 break;
-            case 3:
+            case 2:
                 p3Controller = current;
                 print("Player 3 Controller: " + current);
                 break;
-            case 4:
+            case 3:
                 p4Controller = current;
                 print("Player 4 Controller: " + current);
                 break;

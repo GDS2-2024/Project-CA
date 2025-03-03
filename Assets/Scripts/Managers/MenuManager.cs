@@ -18,6 +18,8 @@ public class MenuManager : MonoBehaviour
     private SceneManagement sceneManagement;
     private GameObject playerManager;
     private PlayerManager playerManagerScript;
+    private GameObject gameModeController;
+    private GameModeController gameModeControllerScript;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,11 @@ public class MenuManager : MonoBehaviour
         playerManagerScript.p3Controller = null;
         playerManagerScript.p4Controller = null;
         playerManagerScript.playerCount = 0;
+        playerManagerScript.canPlayersJoin = false;
+
+        gameModeController = GameObject.Find("Gamemode Controller");
+        gameModeControllerScript = gameModeController.GetComponent<GameModeController>();
+        gameModeControllerScript.enabled = false;
     }
 
     // Update is called once per frame
@@ -53,7 +60,7 @@ public class MenuManager : MonoBehaviour
         if ((Keyboard.current != null && Keyboard.current.enterKey.wasPressedThisFrame) ||
             (Gamepad.current != null && Gamepad.current.aButton.wasPressedThisFrame))
         {
-            LoadCharacterSelectionScreen();
+            LoadCharacterSelectionScreen();           
         }
 
     }
@@ -69,7 +76,7 @@ public class MenuManager : MonoBehaviour
 
     private void HandleGamemodeMenu()
     {
-
+        // Handled in GameModeController.cs
     }
 
     public void LoadMainMenuScreen()
@@ -85,6 +92,8 @@ public class MenuManager : MonoBehaviour
     public void LoadCharacterSelectionScreen()
     {
         currentMenu = characterMenu;
+        playerManagerScript.canPlayersJoin = true;
+        gameModeControllerScript.enabled = false;
 
         mainMenu.SetActive(false);
         characterMenu.SetActive(true);
@@ -94,6 +103,8 @@ public class MenuManager : MonoBehaviour
     public void LoadGamemodeMenuScreen()
     {
         currentMenu = gamemodeMenu;
+        playerManagerScript.canPlayersJoin = false;
+        gameModeControllerScript.enabled = true;
 
         mainMenu.SetActive(false);
         characterMenu.SetActive(false);

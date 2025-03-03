@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -8,9 +9,8 @@ public class GameModeController : MonoBehaviour
 {
     private GameObject playerManager;
     private PlayerManager playerManagerScript;
-    private int[] playerHovers = { 1, 1, 1, 1 };
-    private int playerCountCurrent = 0;
-    private Button selectedBtn;
+    private int[] playerHovers = { 0, 0, 0, 0 };
+    private GameObject selectedBtn;
     private string[] gameModes = { "Death Match", "King of the Hill", "Life Steal" };
     private bool[] playersSelected = { false, false, false, false };
     private bool allSelected = false;
@@ -18,14 +18,17 @@ public class GameModeController : MonoBehaviour
     private GameObject sceneManager;
     private SceneManagement sceneManagement;
 
-    public List<Button> buttons = new List<Button>();
-    public List<Text> playersJoined = new List<Text>();
-    public List<Text> votes = new List<Text>();
-    public Button drawBtn;
+    public List<GameObject> gameModeButtons;
+    public List<string> votes;
+    public GameObject PlayerVotesObj;
+    public List<TMP_Text> playerVotesText;
     public string chosenMode;
-    public Text chosenModeTxt;
+    public TMP_Text chosenModeTxt;
     public float startGameTimer;
-    public Text timerTxt;
+    public TMP_Text timerTxt;
+
+    private List<float> holdTime = new List<float>();
+    const float requiredHoldDuration = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -34,19 +37,18 @@ public class GameModeController : MonoBehaviour
         sceneManager = GameObject.Find("SceneManager");
         sceneManagement = sceneManager.GetComponent<SceneManagement>();
         playerManagerScript = playerManager.GetComponent<PlayerManager>();
-        playerManagerScript.inputDevices.Clear();
-        playerManagerScript.p1Controller = null;
-        playerManagerScript.p2Controller = null;
-        playerManagerScript.p3Controller = null;
-        playerManagerScript.p4Controller = null;
-        playerManagerScript.playerCount = 0;
-        drawBtn.interactable = false;
+        SetupPlayerIcons();
+
+        // Initialise hold times
+        for (int i = 0; i < 4; i++)
+        {
+            holdTime.Add(0f);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckNewPlayerAdded();
         CheckAllPlayersSelected();
         ProcessPlayerInputs();
         HandleGameStart();
@@ -67,7 +69,20 @@ public class GameModeController : MonoBehaviour
         if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) { ScrollDown(playerIndex); }
         else if (keyboard.wKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame) { ScrollUp(playerIndex); }
         else if (keyboard.enterKey.wasPressedThisFrame) { ToggleSelectGameMode(playerIndex); }
-        else if (keyboard.qKey.wasPressedThisFrame && allSelected && !validDraw) { drawBtn.onClick.Invoke(); }
+        if (!allSelected) { return; }
+        else if (keyboard.qKey.isPressed)
+        {
+            holdTime[playerIndex] += Time.deltaTime;
+            if (holdTime[playerIndex] >= requiredHoldDuration)
+            {
+                Draw();
+                holdTime[playerIndex] = 0;
+            }
+        }
+        else
+        {
+            holdTime[playerIndex] = 0;  // Reset if released
+        }
     }
 
     void HandleGamepadInput(Gamepad gamepad, int playerIndex)
@@ -75,7 +90,20 @@ public class GameModeController : MonoBehaviour
         if (gamepad.leftStick.down.wasPressedThisFrame || gamepad.dpad.down.wasPressedThisFrame) { ScrollDown(playerIndex); }
         else if (gamepad.leftStick.up.wasPressedThisFrame || gamepad.dpad.up.wasPressedThisFrame) { ScrollUp(playerIndex); }
         else if (gamepad.buttonSouth.wasPressedThisFrame) { ToggleSelectGameMode(playerIndex); }
-        else if (gamepad.buttonNorth.wasPressedThisFrame && allSelected && !validDraw) { drawBtn.onClick.Invoke(); }
+        if (!allSelected) { return; }
+        else if (gamepad.buttonNorth.isPressed)
+        {
+            holdTime[playerIndex] += Time.deltaTime;
+            if (holdTime[playerIndex] >= requiredHoldDuration)
+            {
+                Draw();
+                holdTime[playerIndex] = 0;
+            }
+        }
+        else
+        {
+            holdTime[playerIndex] = 0;
+        }
     }
 
     void HandleGameStart()
@@ -98,35 +126,27 @@ public class GameModeController : MonoBehaviour
         }
     }
 
-    void CheckNewPlayerAdded()
+    void SetupPlayerIcons()
     {
-        if (playerManagerScript.playerCount > playerCountCurrent)
+        for (int i = 1; i <= playerManagerScript.playerCount; i++)
         {
-            switch (playerCountCurrent)
+            switch (i)
             {
-                case 0:
-                    GameObject newP1Icon = buttons[playerHovers[0]].transform.Find("P1 Txt")?.gameObject;
-                    newP1Icon.SetActive(true);
-                    DisplayControls(0);
-                    playerCountCurrent++;
-                    break;
                 case 1:
-                    GameObject newP2Icon = buttons[playerHovers[1]].transform.Find("P2 Txt")?.gameObject;
-                    newP2Icon.SetActive(true);
-                    DisplayControls(1);
-                    playerCountCurrent++;
+                    GameObject newP1Icon = gameModeButtons[playerHovers[0]].transform.Find("P1 Txt")?.gameObject;
+                    newP1Icon.SetActive(true);
                     break;
                 case 2:
-                    GameObject newP3Icon = buttons[playerHovers[2]].transform.Find("P3 Txt")?.gameObject;
-                    newP3Icon.SetActive(true);
-                    DisplayControls(2);
-                    playerCountCurrent++;
+                    GameObject newP2Icon = gameModeButtons[playerHovers[1]].transform.Find("P2 Txt")?.gameObject;
+                    newP2Icon.SetActive(true);
                     break;
                 case 3:
-                    GameObject newP4Icon = buttons[playerHovers[3]].transform.Find("P4 Txt")?.gameObject;
+                    GameObject newP3Icon = gameModeButtons[playerHovers[2]].transform.Find("P3 Txt")?.gameObject;
+                    newP3Icon.SetActive(true);
+                    break;
+                case 4:
+                    GameObject newP4Icon = gameModeButtons[playerHovers[3]].transform.Find("P4 Txt")?.gameObject;
                     newP4Icon.SetActive(true);
-                    DisplayControls(3);
-                    playerCountCurrent++;
                     break;
             }
         }
@@ -134,31 +154,17 @@ public class GameModeController : MonoBehaviour
 
     void CheckAllPlayersSelected()
     {
-        for (int i = 0; i < playerCountCurrent; i++)
+        for (int i = 0; i < playerManagerScript.playerCount; i++)
         {
             if (!playersSelected[i])
             {
                 allSelected = false;
-                drawBtn.interactable = false;
                 return;
             }
         }
-        if (playerCountCurrent > 0)
+        if (playerManagerScript.playerCount > 0)
         {
             allSelected = true;
-            drawBtn.interactable = true;
-        }
-    }
-
-    void DisplayControls(int playerNo)
-    {
-        if (playerManagerScript.inputDevices[playerNo] is Keyboard)
-        {
-            playersJoined[playerNo].text = "Select with Enter";
-        }
-        else if (playerManagerScript.inputDevices[playerNo] is Gamepad)
-        {
-            playersJoined[playerNo].text = "Select with Button South";
         }
     }
 
@@ -167,43 +173,43 @@ public class GameModeController : MonoBehaviour
         switch (playerNo)
         {
             case 0:
-                GameObject oldP1Icon = buttons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
+                GameObject oldP1Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
                 oldP1Icon.SetActive(false);
-                if (playerHovers[playerNo] + 1 < buttons.Count)
+                if (playerHovers[playerNo] + 1 < gameModeButtons.Count)
                 {
                     playerHovers[playerNo]++;
                 }
-                GameObject newP1Icon = buttons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
+                GameObject newP1Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
                 newP1Icon.SetActive(true);
                 break;
             case 1:
-                GameObject oldP2Icon = buttons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
+                GameObject oldP2Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
                 oldP2Icon.SetActive(false);
-                if (playerHovers[playerNo] + 1 < buttons.Count)
+                if (playerHovers[playerNo] + 1 < gameModeButtons.Count)
                 {
                     playerHovers[playerNo]++;
                 }
-                GameObject newP2Icon = buttons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
+                GameObject newP2Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
                 newP2Icon.SetActive(true);
                 break;
             case 2:
-                GameObject oldP3Icon = buttons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
+                GameObject oldP3Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
                 oldP3Icon.SetActive(false);
-                if (playerHovers[playerNo] + 1 < buttons.Count)
+                if (playerHovers[playerNo] + 1 < gameModeButtons.Count)
                 {
                     playerHovers[playerNo]++;
                 }
-                GameObject newP3Icon = buttons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
+                GameObject newP3Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
                 newP3Icon.SetActive(true);
                 break;
             case 3:
-                GameObject oldP4Icon = buttons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
+                GameObject oldP4Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
                 oldP4Icon.SetActive(false);
-                if (playerHovers[playerNo] + 1 < buttons.Count)
+                if (playerHovers[playerNo] + 1 < gameModeButtons.Count)
                 {
                     playerHovers[playerNo]++;
                 }
-                GameObject newP4Icon = buttons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
+                GameObject newP4Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
                 newP4Icon.SetActive(true);
                 break;
         }
@@ -214,43 +220,43 @@ public class GameModeController : MonoBehaviour
         switch (playerNo)
         {
             case 0:
-                GameObject oldP1Icon = buttons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
+                GameObject oldP1Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
                 oldP1Icon.SetActive(false);
                 if (playerHovers[playerNo] - 1 >= 0)
                 {
                     playerHovers[playerNo]--;
                 }
-                GameObject newP1Icon = buttons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
+                GameObject newP1Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
                 newP1Icon.SetActive(true);
                 break;
             case 1:
-                GameObject oldP2Icon = buttons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
+                GameObject oldP2Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
                 oldP2Icon.SetActive(false);
                 if (playerHovers[playerNo] - 1 >= 0)
                 {
                     playerHovers[playerNo]--;
                 }
-                GameObject newP2Icon = buttons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
+                GameObject newP2Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
                 newP2Icon.SetActive(true);
                 break;
             case 2:
-                GameObject oldP3Icon = buttons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
+                GameObject oldP3Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
                 oldP3Icon.SetActive(false);
                 if (playerHovers[playerNo] - 1 >= 0)
                 {
                     playerHovers[playerNo]--;
                 }
-                GameObject newP3Icon = buttons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
+                GameObject newP3Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
                 newP3Icon.SetActive(true);
                 break;
             case 3:
-                GameObject oldP4Icon = buttons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
+                GameObject oldP4Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
                 oldP4Icon.SetActive(false);
                 if (playerHovers[playerNo] - 1 >= 0)
                 {
                     playerHovers[playerNo]--;
                 }
-                GameObject newP4Icon = buttons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
+                GameObject newP4Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
                 newP4Icon.SetActive(true);
                 break;
         }
@@ -258,67 +264,79 @@ public class GameModeController : MonoBehaviour
     
     void ToggleSelectGameMode(int playerNo)
     {
-        //If the player hasn't already selected or if they are trying to click the back button then Invoke the buttons actions
-        if (!playersSelected[playerNo] || playerHovers[playerNo] == 0)
+        selectedBtn = gameModeButtons[playerHovers[playerNo]];
+        int buttonIndex = gameModeButtons.IndexOf(selectedBtn);
+
+        switch (buttonIndex)
         {
-            selectedBtn = buttons[playerHovers[playerNo]].GetComponent<Button>();
-            selectedBtn.onClick.Invoke();
+            case 0:
+                ToggleDeathMatch(playerNo);
+                break;
+            case 1:
+                ToggleKingOfTheHill(playerNo);
+                break;
+            case 2:
+                ToggleLifeSteal(playerNo);
+                break;
+            case 3:
+                // Toggle another mode
+                break;
+            default:
+                Debug.LogWarning("Invalid game mode selection");
+                break;
+        }
+    }
+
+    public void ToggleDeathMatch(int playerNo)
+    {
+        int textPlayerNo = playerNo + 1;
+        if (votes[playerNo] == "-")
+        {
+            votes[playerNo] = gameModes[0];
             playersSelected[playerNo] = true;
+            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - " + votes[playerNo];
         }
-        else if (playersSelected[playerNo])
+        else if (votes[playerNo] == gameModes[0])
         {
-            for (int i = votes.Count - 1; i >= 0; i--)
-            {
-                Text vote = votes[i];
-                if (vote.text == gameModes[playerHovers[playerNo] - 1])
-                {
-                    for (int j = i; j < votes.Count - 1; j++)
-                    {
-                        votes[j].text = votes[j + 1].text;
-                    }
-
-                    votes[votes.Count - 1].text = "-";
-
-                    playersSelected[playerNo] = false;
-                    return;
-                }
-            }
+            votes[playerNo] = "-";
+            playersSelected[playerNo] = false;
+            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - ";
         }
     }
 
-    public void AddDeathMatch(int playerNo)
+    public void ToggleKingOfTheHill(int playerNo)
     {
-        for (int i = 0; i < votes.Count; i++)
+        int textPlayerNo = playerNo + 1;
+        if (votes[playerNo] == "-")
         {
-            if (votes[i].text == "-")
-            {
-                votes[i].text = gameModes[0];
-                return;
-            }
+            votes[playerNo] = gameModes[1];
+            playersSelected[playerNo] = true;
+            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - " + votes[playerNo];
+
+        }
+        else if (votes[playerNo] == gameModes[1])
+        {
+            votes[playerNo] = "-";
+            playersSelected[playerNo] = false;
+            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - ";
         }
     }
 
-    public void AddKingOfTheHill()
+    public void ToggleLifeSteal(int playerNo)
     {
-        for (int i = 0; i < votes.Count; i++)
+        int textPlayerNo = playerNo + 1;
+        if (votes[playerNo] == "-")
         {
-            if (votes[i].text == "-")
-            {
-                votes[i].text = gameModes[1];
-                return;
-            }
-        }
-    }
+            votes[playerNo] = gameModes[2];
+            playersSelected[playerNo] = true;
+            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - " + votes[playerNo];
 
-    public void AddLifeSteal()
-    {
-        for (int i = 0; i < votes.Count; i++)
+        }
+        else if (votes[playerNo] == gameModes[2])
         {
-            if (votes[i].text == "-")
-            {
-                votes[i].text = gameModes[2];
-                return;
-            }
+            votes[playerNo] = "-";
+            playersSelected[playerNo] = false;
+            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - ";
         }
     }
 
@@ -328,7 +346,7 @@ public class GameModeController : MonoBehaviour
 
         while (validDraw == false)
         {
-            if (votes[randomDraw].text == "-")
+            if (votes[randomDraw] == "-")
             {
                 randomDraw = Random.Range(0, votes.Count);
             }
@@ -337,8 +355,8 @@ public class GameModeController : MonoBehaviour
                 validDraw = true;
             }
         }
-        chosenMode = votes[randomDraw].text;
-
-        chosenModeTxt.text = chosenMode;
+        chosenMode = votes[randomDraw];
+        chosenModeTxt.text = "Loading " + chosenMode + "...";
+        PlayerVotesObj.SetActive(false);
     }
 }
