@@ -14,7 +14,7 @@ public class GameModeController : MonoBehaviour
     private GameObject selectedBtn;
     private string[] gameModes = { "Death Match", "King of the Hill", "Life Steal" };
     private bool[] playersSelected = { false, false, false, false };
-    private bool allSelected = false;
+    public bool allSelected = false;
     private bool validDraw = false;
     private GameObject sceneManager;
     private SceneManagement sceneManagement;
@@ -95,20 +95,6 @@ public class GameModeController : MonoBehaviour
         if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) { ScrollDown(playerIndex); }
         else if (keyboard.wKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame) { ScrollUp(playerIndex); }
         else if (keyboard.enterKey.wasPressedThisFrame) { ToggleSelectGameMode(playerIndex); }
-        if (!allSelected) { return; }
-        else if (keyboard.qKey.isPressed)
-        {
-            holdTime[playerIndex] += Time.deltaTime;
-            if (holdTime[playerIndex] >= requiredHoldDuration)
-            {
-                Draw();
-                holdTime[playerIndex] = 0;
-            }
-        }
-        else
-        {
-            holdTime[playerIndex] = 0;
-        }
     }
 
     void HandleGamepadInput(Gamepad gamepad, int playerIndex)
@@ -116,20 +102,6 @@ public class GameModeController : MonoBehaviour
         if (gamepad.leftStick.down.wasPressedThisFrame || gamepad.dpad.down.wasPressedThisFrame) { ScrollDown(playerIndex); }
         else if (gamepad.leftStick.up.wasPressedThisFrame || gamepad.dpad.up.wasPressedThisFrame) { ScrollUp(playerIndex); }
         else if (gamepad.buttonSouth.wasPressedThisFrame) { ToggleSelectGameMode(playerIndex); }
-        if (!allSelected) { return; }
-        else if (gamepad.buttonNorth.isPressed)
-        {
-            holdTime[playerIndex] += Time.deltaTime;
-            if (holdTime[playerIndex] >= requiredHoldDuration)
-            {
-                Draw();
-                holdTime[playerIndex] = 0;
-            }
-        }
-        else
-        {
-            holdTime[playerIndex] = 0;
-        }
     }
 
     void HandleGameStart()

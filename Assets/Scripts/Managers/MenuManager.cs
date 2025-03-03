@@ -26,6 +26,9 @@ public class MenuManager : MonoBehaviour
     private List<float> backHoldTime = new List<float>();
     private List<float> forwardHoldTime = new List<float>();
 
+    public List<RectTransform> RedHoldBars;
+    public List<RectTransform> GreenHoldBars;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -85,7 +88,7 @@ public class MenuManager : MonoBehaviour
 
     private void HandleGamemodeMenu()
     {
-        
+        HandleReadyUp();
     }
 
     public void LoadMainMenuScreen()
@@ -129,6 +132,15 @@ public class MenuManager : MonoBehaviour
         else if (currentMenu == mainMenu) { sceneManagement.QuitGame(); }
     }
 
+    public void GoNextMenu()
+    {
+        if (currentMenu == characterMenu) { LoadGamemodeMenuScreen(); }
+        else if (currentMenu == gamemodeMenu && gameModeControllerScript.allSelected)
+        {
+            gameModeControllerScript.Draw();
+        }
+    }
+
     void HandleBackButton()
     {
         for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
@@ -154,6 +166,7 @@ public class MenuManager : MonoBehaviour
         {
             backHoldTime[playerIndex] = 0;
         }
+        HandleRedHoldBar(backHoldTime[playerIndex]);
     }
 
     void HandleBackGamepad(Gamepad gamepad, int playerIndex)
@@ -171,6 +184,7 @@ public class MenuManager : MonoBehaviour
         {
             backHoldTime[playerIndex] = 0;
         }
+        HandleRedHoldBar(backHoldTime[playerIndex]);
     }
 
     void HandleReadyUp()
@@ -185,12 +199,13 @@ public class MenuManager : MonoBehaviour
 
     void HandleReadyKeyboard(Keyboard keyboard, int playerIndex)
     {
+        if (currentMenu == gamemodeMenu && !gameModeControllerScript.allSelected) { return; }
         if (keyboard.qKey.isPressed)
         {
             forwardHoldTime[playerIndex] += Time.deltaTime;
             if (forwardHoldTime[playerIndex] >= holdDuration)
             {
-                LoadGamemodeMenuScreen();
+                GoNextMenu();
                 forwardHoldTime[playerIndex] = 0;
             }
         }
@@ -198,22 +213,56 @@ public class MenuManager : MonoBehaviour
         {
             forwardHoldTime[playerIndex] = 0;
         }
+        HandleGreenHoldBar(forwardHoldTime[playerIndex]);
     }
 
     void HandleReadyGamepad(Gamepad gamepad, int playerIndex)
     {
+        if (currentMenu == gamemodeMenu && !gameModeControllerScript.allSelected) { return; }
         if (gamepad.buttonNorth.isPressed)
         {
             forwardHoldTime[playerIndex] += Time.deltaTime;
             if (forwardHoldTime[playerIndex] >= holdDuration)
             {
-                LoadGamemodeMenuScreen();
+                GoNextMenu();
                 forwardHoldTime[playerIndex] = 0;
             }
         }
         else
         {
             forwardHoldTime[playerIndex] = 0;
+        }
+        HandleGreenHoldBar(forwardHoldTime[playerIndex]);
+    }
+
+    void HandleRedHoldBar(float holdTime)
+    {
+        float t = holdTime / holdDuration;
+        if (currentMenu == mainMenu)
+        {
+            RedHoldBars[0].anchoredPosition = new Vector2(-420 + (t * 420), 0);
+
+        }      
+        else if (currentMenu == characterMenu)
+        {
+            RedHoldBars[1].anchoredPosition = new Vector2(-300 + (t * 300), 0);
+        }       
+        else if (currentMenu == gamemodeMenu)
+        {
+            RedHoldBars[2].anchoredPosition = new Vector2(-300 + (t * 300), 0);
+        }
+    }
+
+    void HandleGreenHoldBar(float holdTime)
+    {
+        float t = holdTime / holdDuration;
+        if (currentMenu == characterMenu)
+        {
+            GreenHoldBars[0].anchoredPosition = new Vector2(350 - (t * 350), 0);
+        }
+        else if (currentMenu == gamemodeMenu)
+        {
+            GreenHoldBars[1].anchoredPosition = new Vector2(450 - (t * 450), 0);
         }
     }
 
