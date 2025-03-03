@@ -10,6 +10,7 @@ public class GameModeController : MonoBehaviour
     private GameObject playerManager;
     private PlayerManager playerManagerScript;
     private int[] playerHovers = { 0, 0, 0, 0 };
+    public List<GameObject> allPlayerHoverObjs;
     private GameObject selectedBtn;
     private string[] gameModes = { "Death Match", "King of the Hill", "Life Steal" };
     private bool[] playersSelected = { false, false, false, false };
@@ -37,12 +38,37 @@ public class GameModeController : MonoBehaviour
         sceneManager = GameObject.Find("SceneManager");
         sceneManagement = sceneManager.GetComponent<SceneManagement>();
         playerManagerScript = playerManager.GetComponent<PlayerManager>();
-        SetupPlayerIcons();
+        SetupPlayerIcons(); 
 
         // Initialise hold times
         for (int i = 0; i < 4; i++)
         {
             holdTime.Add(0f);
+        }
+    }
+
+    public void ResetGameModeMenu()
+    {
+        playersSelected = new bool[] { false, false, false, false };
+        playerHovers = new int[] { 0, 0, 0, 0 };
+        allSelected = false;
+        validDraw = false;
+        startGameTimer = 3;
+        timerTxt.text = "";
+        chosenModeTxt.text = "A random gamemode will be chosen based on votes";
+        PlayerVotesObj.SetActive(true);
+        for (int i = 0; i < votes.Count; i++)
+        {
+            votes[i] = "-";
+        }
+        for (int i = 0; i < playerVotesText.Count; i++)
+        {
+            int playerNum = i + 1;
+            playerVotesText[i].text = "Player " + playerNum + " - ";
+        }
+        foreach (GameObject obj in allPlayerHoverObjs)
+        {
+            obj.SetActive(false);
         }
     }
 
@@ -81,7 +107,7 @@ public class GameModeController : MonoBehaviour
         }
         else
         {
-            holdTime[playerIndex] = 0;  // Reset if released
+            holdTime[playerIndex] = 0;
         }
     }
 
@@ -126,8 +152,9 @@ public class GameModeController : MonoBehaviour
         }
     }
 
-    void SetupPlayerIcons()
+    public void SetupPlayerIcons()
     {
+        if (!playerManagerScript) { return; }
         for (int i = 1; i <= playerManagerScript.playerCount; i++)
         {
             switch (i)
