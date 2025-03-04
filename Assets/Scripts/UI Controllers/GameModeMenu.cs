@@ -39,8 +39,10 @@ public class GameModeMenu : MonoBehaviour
 
     public void ResetGameModeMenu()
     {
+        HidePlayerHovers();
         playersSelected = new bool[4];
         playerHoverIndices = new int[4];
+        ShowPlayerHovers();
         allSelected = false;
         validDraw = false;
         startGameTimer = 3;
@@ -77,6 +79,16 @@ public class GameModeMenu : MonoBehaviour
         }
     }
 
+    void ShowPlayerHovers()
+    {
+        if (!playerManagerScript) { return; }
+        for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
+        {
+            GameObject newIcon = gameModeButtons[playerHoverIndices[i]].transform.Find($"P{i + 1} Txt")?.gameObject;
+            newIcon?.SetActive(true);
+        }
+    }
+
     void Scroll(int playerIndex, int direction)
     {
         GameObject oldIcon = gameModeButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
@@ -102,11 +114,10 @@ public class GameModeMenu : MonoBehaviour
         allSelected = playerManagerScript.playerCount > 0 && playersSelected.Take(playerManagerScript.playerCount).All(selected => selected);
     }
 
-    public void SetupPlayerIcons()
+    public void HidePlayerHovers()
     {
         if (playerManagerScript == null) return;
 
-        // Disable all player indicators first
         foreach (GameObject button in gameModeButtons)
         {
             for (int p = 1; p <= 4; p++)
@@ -115,17 +126,6 @@ public class GameModeMenu : MonoBehaviour
                 if (playerText != null)
                     playerText.SetActive(false);
             }
-        }
-
-        // Enable only the relevant player indicators
-        for (int i = 0; i < playerManagerScript.playerCount; i++)
-        {
-            int hoverIndex = playerHoverIndices[i];
-            GameObject selectedButton = gameModeButtons[hoverIndex];
-
-            GameObject playerText = selectedButton.transform.Find($"P{i + 1} Txt")?.gameObject;
-            if (playerText != null)
-                playerText.SetActive(true);
         }
     }
 

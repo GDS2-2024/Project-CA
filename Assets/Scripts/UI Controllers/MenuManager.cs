@@ -108,7 +108,6 @@ public class MenuManager : MonoBehaviour
         characterMenuManager.enabled = false;
         gameModeMenuManager.enabled = true;
         gameModeMenuManager.ResetGameModeMenu();
-        gameModeMenuManager.SetupPlayerIcons();
     }
 
     private void SwitchMenu(GameObject newMenu)
