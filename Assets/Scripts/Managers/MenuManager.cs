@@ -1,269 +1,216 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Linq;
-using UnityEngine.InputSystem.Controls;
-using System.Security.Cryptography;
-
 
 public class MenuManager : MonoBehaviour
 {
     private GameObject currentMenu;
 
+    // Menus
     public GameObject mainMenu;
     public GameObject characterMenu;
     public GameObject gamemodeMenu;
 
-    private GameObject sceneManager;
-    private SceneManagement sceneManagement;
-    private GameObject playerManager;
-    private PlayerManager playerManagerScript;
-    private GameObject gameModeController;
-    private GameModeController gameModeControllerScript;
+    // Hold Timers
+    private const float holdDuration = 1.0f;
+    private List<float> backHoldTime = new List<float>(new float[4]);
+    private List<float> forwardHoldTime = new List<float>(new float[4]);
 
-    const float holdDuration = 1.0f;
-    private List<float> backHoldTime = new List<float>();
-    private List<float> forwardHoldTime = new List<float>();
-
+    // Hold Bar References
     public List<RectTransform> RedHoldBars;
     public List<RectTransform> GreenHoldBars;
 
-    // Start is called before the first frame update
+    // Scripts
+    private SceneManagement sceneManagement;
+    private PlayerManager playerManager;
+    private GameModeController gameModeController;
+
     void Start()
+    {
+        InitializeMenus();
+        InitializeManagers();
+        ResetPlayerManager();
+    }
+
+    void Update()
+    {
+        HandleBackButton();
+        HandleCurrentMenu();
+    }
+
+    private void InitializeMenus()
     {
         currentMenu = mainMenu;
         mainMenu.SetActive(true);
         characterMenu.SetActive(false);
         gamemodeMenu.SetActive(false);
-
-        sceneManager = GameObject.Find("SceneManager");
-        sceneManagement = sceneManager.GetComponent<SceneManagement>();
-
-        playerManager = GameObject.Find("Player Manager");
-        playerManagerScript = playerManager.GetComponent<PlayerManager>();
-        playerManagerScript.inputDevices.Clear();
-        playerManagerScript.p1Controller = null;
-        playerManagerScript.p2Controller = null;
-        playerManagerScript.p3Controller = null;
-        playerManagerScript.p4Controller = null;
-        playerManagerScript.playerCount = 0;
-        playerManagerScript.canPlayersJoin = false;
-
-        gameModeController = GameObject.Find("Gamemode Controller");
-        gameModeControllerScript = gameModeController.GetComponent<GameModeController>();
-        gameModeControllerScript.enabled = false;
-
-        // Initialise hold times
-        for (int i = 0; i < 4; i++)
-        {
-            backHoldTime.Add(0f);
-            forwardHoldTime.Add(0f);
-        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void InitializeManagers()
     {
-        HandleBackButton();
+        sceneManagement = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
+        playerManager = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
+        gameModeController = GameObject.Find("Gamemode Controller").GetComponent<GameModeController>();
+        gameModeController.enabled = false;
+    }
+
+    private void ResetPlayerManager()
+    {
+        playerManager.inputDevices.Clear();
+        playerManager.p1Controller = null;
+        playerManager.p2Controller = null;
+        playerManager.p3Controller = null;
+        playerManager.p4Controller = null;
+        playerManager.playerCount = 0;
+        playerManager.canPlayersJoin = false;
+    }
+
+    private void HandleCurrentMenu()
+    {
         if (currentMenu == mainMenu) { HandleMainMenu(); }
-        else if (currentMenu == characterMenu) { HandleCharacterMenu(); }
-        else if (currentMenu == gamemodeMenu) { HandleGamemodeMenu(); }
+        else { HandleReadyUp(); }
     }
 
     private void HandleMainMenu()
     {
-        if ((Keyboard.current != null && Keyboard.current.enterKey.wasPressedThisFrame) ||
-            (Gamepad.current != null && Gamepad.current.aButton.wasPressedThisFrame))
-        {
-            LoadCharacterSelectionScreen();           
-        }
-
+        if (IsStartPressed()) { LoadCharacterSelectionScreen(); }
     }
 
-    private void HandleCharacterMenu()
+    private bool IsStartPressed()
     {
-        HandleReadyUp();
-    }
-
-    private void HandleGamemodeMenu()
-    {
-        HandleReadyUp();
+        return (Keyboard.current?.enterKey.wasPressedThisFrame ?? false) || (Gamepad.current?.aButton.wasPressedThisFrame ?? false);
     }
 
     public void LoadMainMenuScreen()
     {
-        // Need to reset joined players & other menus
-        currentMenu = mainMenu;
-        
-        mainMenu.SetActive(true);
-        characterMenu.SetActive(false);
-        gamemodeMenu.SetActive(false);
+        SwitchMenu(mainMenu);
     }
 
     public void LoadCharacterSelectionScreen()
     {
-        currentMenu = characterMenu;
-        playerManagerScript.canPlayersJoin = true;
-        gameModeControllerScript.enabled = false;
-
-        mainMenu.SetActive(false);
-        characterMenu.SetActive(true);
-        gamemodeMenu.SetActive(false);
+        SwitchMenu(characterMenu);
+        playerManager.canPlayersJoin = true;
+        gameModeController.enabled = false;
     }
 
     public void LoadGamemodeMenuScreen()
     {
-        currentMenu = gamemodeMenu;
-        playerManagerScript.canPlayersJoin = false;
-        gameModeControllerScript.enabled = true;
-        gameModeControllerScript.ResetGameModeMenu();
-        gameModeControllerScript.SetupPlayerIcons();
+        SwitchMenu(gamemodeMenu);
+        playerManager.canPlayersJoin = false;
+        gameModeController.enabled = true;
+        gameModeController.ResetGameModeMenu();
+        gameModeController.SetupPlayerIcons();
+    }
 
-        mainMenu.SetActive(false);
-        characterMenu.SetActive(false);
-        gamemodeMenu.SetActive(true);
+    private void SwitchMenu(GameObject newMenu)
+    {
+        currentMenu.SetActive(false);
+        currentMenu = newMenu;
+        currentMenu.SetActive(true);
     }
 
     public void GoBackMenu()
     {
-        if (currentMenu == gamemodeMenu) { LoadCharacterSelectionScreen(); }
-        else if (currentMenu == characterMenu) { LoadMainMenuScreen(); }
-        else if (currentMenu == mainMenu) { sceneManagement.QuitGame(); }
+        if (currentMenu == gamemodeMenu) LoadCharacterSelectionScreen();
+        else if (currentMenu == characterMenu) LoadMainMenuScreen();
+        else sceneManagement.QuitGame();
     }
 
     public void GoNextMenu()
     {
-        if (currentMenu == characterMenu) { LoadGamemodeMenuScreen(); }
-        else if (currentMenu == gamemodeMenu && gameModeControllerScript.allSelected)
+        if (currentMenu == characterMenu) LoadGamemodeMenuScreen();
+        else if (currentMenu == gamemodeMenu && gameModeController.allSelected) gameModeController.Draw();
+    }
+
+    private void HandleBackButton()
+    {
+        for (int i = 0; i < playerManager.inputDevices.Count; i++)
         {
-            gameModeControllerScript.Draw();
+            HandleBackInput(playerManager.inputDevices[i], i);
         }
     }
 
-    void HandleBackButton()
+    private void HandleBackInput(InputDevice device, int index)
     {
-        for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
+        if (IsBackPressed(device))
         {
-            var device = playerManagerScript.inputDevices[i];
-            if (device is Keyboard keyboard) { HandleBackKeyboard(keyboard, i); }
-            else if (device is Gamepad gamepad) { HandleBackGamepad(gamepad, i); }
-        }
-    }
-
-    void HandleBackKeyboard(Keyboard keyboard, int playerIndex)
-    {
-        if (keyboard.escapeKey.isPressed)
-        {
-            backHoldTime[playerIndex] += Time.deltaTime;
-            if (backHoldTime[playerIndex] >= holdDuration)
+            backHoldTime[index] += Time.deltaTime;
+            UpdateHoldBar(RedHoldBars, backHoldTime[index], 400, true);
+            if (backHoldTime[index] >= holdDuration)
             {
+                backHoldTime[index] = 0;
+                UpdateHoldBar(RedHoldBars, backHoldTime[index], 400, true);
                 GoBackMenu();
-                backHoldTime[playerIndex] = 0;
             }
         }
-        else
+        else if (IsBackReleased(device))
         {
-            backHoldTime[playerIndex] = 0;
+            backHoldTime[index] = 0;
+            UpdateHoldBar(RedHoldBars, backHoldTime[index], 400, true);
         }
-        HandleRedHoldBar(backHoldTime[playerIndex]);
+
     }
 
-    void HandleBackGamepad(Gamepad gamepad, int playerIndex)
-    {       
-        if (gamepad.buttonEast.isPressed)
-        {
-            backHoldTime[playerIndex] += Time.deltaTime;
-            if (backHoldTime[playerIndex] >= holdDuration)
-            {
-                GoBackMenu();
-                backHoldTime[playerIndex] = 0;
-            }
-        }
-        else
-        {
-            backHoldTime[playerIndex] = 0;
-        }
-        HandleRedHoldBar(backHoldTime[playerIndex]);
-    }
-
-    void HandleReadyUp()
+    private bool IsBackPressed(InputDevice device)
     {
-        for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
+        return (device is Keyboard keyboard && keyboard.escapeKey.isPressed) ||
+               (device is Gamepad gamepad && gamepad.buttonEast.isPressed);
+    }
+
+    private bool IsBackReleased(InputDevice device)
+    {
+        return (device is Keyboard keyboard && keyboard.escapeKey.wasReleasedThisFrame) ||
+               (device is Gamepad gamepad && gamepad.buttonEast.wasReleasedThisFrame);
+    }
+
+    private void HandleReadyUp()
+    {
+        for (int i = 0; i < playerManager.inputDevices.Count; i++)
         {
-            var device = playerManagerScript.inputDevices[i];
-            if (device is Keyboard keyboard) { HandleReadyKeyboard(keyboard, i); }
-            else if (device is Gamepad gamepad) { HandleReadyGamepad(gamepad, i); }
+            HandleReadyInput(playerManager.inputDevices[i], i);
         }
     }
 
-    void HandleReadyKeyboard(Keyboard keyboard, int playerIndex)
+    private void HandleReadyInput(InputDevice device, int index)
     {
-        if (currentMenu == gamemodeMenu && !gameModeControllerScript.allSelected) { return; }
-        if (keyboard.qKey.isPressed)
+        if (currentMenu == gamemodeMenu && !gameModeController.allSelected) return;
+
+        if (IsReadyPressed(device))
         {
-            forwardHoldTime[playerIndex] += Time.deltaTime;
-            if (forwardHoldTime[playerIndex] >= holdDuration)
+            forwardHoldTime[index] += Time.deltaTime;
+            UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 350, false);
+            if (forwardHoldTime[index] >= holdDuration)
             {
+                forwardHoldTime[index] = 0;
+                UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 350, false);
                 GoNextMenu();
-                forwardHoldTime[playerIndex] = 0;
             }
         }
-        else
+        else if (IsReadyReleased(device))
         {
-            forwardHoldTime[playerIndex] = 0;
-        }
-        HandleGreenHoldBar(forwardHoldTime[playerIndex]);
-    }
-
-    void HandleReadyGamepad(Gamepad gamepad, int playerIndex)
-    {
-        if (currentMenu == gamemodeMenu && !gameModeControllerScript.allSelected) { return; }
-        if (gamepad.buttonNorth.isPressed)
-        {
-            forwardHoldTime[playerIndex] += Time.deltaTime;
-            if (forwardHoldTime[playerIndex] >= holdDuration)
-            {
-                GoNextMenu();
-                forwardHoldTime[playerIndex] = 0;
-            }
-        }
-        else
-        {
-            forwardHoldTime[playerIndex] = 0;
-        }
-        HandleGreenHoldBar(forwardHoldTime[playerIndex]);
-    }
-
-    void HandleRedHoldBar(float holdTime)
-    {
-        float t = holdTime / holdDuration;
-        if (currentMenu == mainMenu)
-        {
-            RedHoldBars[0].anchoredPosition = new Vector2(-420 + (t * 420), 0);
-
-        }      
-        else if (currentMenu == characterMenu)
-        {
-            RedHoldBars[1].anchoredPosition = new Vector2(-300 + (t * 300), 0);
+            forwardHoldTime[index] = 0;
+            UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 350, false);
         }       
-        else if (currentMenu == gamemodeMenu)
-        {
-            RedHoldBars[2].anchoredPosition = new Vector2(-300 + (t * 300), 0);
-        }
     }
 
-    void HandleGreenHoldBar(float holdTime)
+    private bool IsReadyPressed(InputDevice device)
     {
-        float t = holdTime / holdDuration;
-        if (currentMenu == characterMenu)
-        {
-            GreenHoldBars[0].anchoredPosition = new Vector2(350 - (t * 350), 0);
-        }
-        else if (currentMenu == gamemodeMenu)
-        {
-            GreenHoldBars[1].anchoredPosition = new Vector2(450 - (t * 450), 0);
-        }
+        return (device is Keyboard keyboard && keyboard.qKey.isPressed) ||
+               (device is Gamepad gamepad && gamepad.buttonNorth.isPressed);
+    }
+
+    private bool IsReadyReleased(InputDevice device)
+    {
+        return (device is Keyboard keyboard && keyboard.qKey.wasReleasedThisFrame) ||
+               (device is Gamepad gamepad && gamepad.buttonNorth.wasReleasedThisFrame);
+    }
+
+    private void UpdateHoldBar(List<RectTransform> holdBars, float holdTime, float maxPosition, bool MoveRight)
+    {
+        float progress = holdTime / holdDuration;
+        int menuIndex = currentMenu == mainMenu ? 0 : currentMenu == characterMenu ? 1 : currentMenu == gamemodeMenu ? 2 : -1;
+        float xPosition = MoveRight ? -maxPosition + (progress * maxPosition) : maxPosition - (progress * maxPosition);
+        holdBars[menuIndex].anchoredPosition = new Vector2(xPosition, 0);
     }
 
 }
