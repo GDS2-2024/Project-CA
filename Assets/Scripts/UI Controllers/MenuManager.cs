@@ -23,7 +23,7 @@ public class MenuManager : MonoBehaviour
     // Scripts
     private SceneManagement sceneManagement;
     private PlayerManager playerManager;
-    private GameModeController gameModeController;
+    private GameModeMenu gameModeMenuManager;
 
     void Start()
     {
@@ -50,8 +50,8 @@ public class MenuManager : MonoBehaviour
     {
         sceneManagement = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
         playerManager = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
-        gameModeController = GameObject.Find("Gamemode Controller").GetComponent<GameModeController>();
-        gameModeController.enabled = false;
+        gameModeMenuManager = GameObject.Find("Gamemode Controller").GetComponent<GameModeMenu>();
+        gameModeMenuManager.enabled = false;
     }
 
     private void ResetPlayerManager()
@@ -91,16 +91,16 @@ public class MenuManager : MonoBehaviour
     {
         SwitchMenu(characterMenu);
         playerManager.canPlayersJoin = true;
-        gameModeController.enabled = false;
+        gameModeMenuManager.enabled = false;
     }
 
     public void LoadGamemodeMenuScreen()
     {
         SwitchMenu(gamemodeMenu);
         playerManager.canPlayersJoin = false;
-        gameModeController.enabled = true;
-        gameModeController.ResetGameModeMenu();
-        gameModeController.SetupPlayerIcons();
+        gameModeMenuManager.enabled = true;
+        gameModeMenuManager.ResetGameModeMenu();
+        gameModeMenuManager.SetupPlayerIcons();
     }
 
     private void SwitchMenu(GameObject newMenu)
@@ -120,7 +120,7 @@ public class MenuManager : MonoBehaviour
     public void GoNextMenu()
     {
         if (currentMenu == characterMenu) LoadGamemodeMenuScreen();
-        else if (currentMenu == gamemodeMenu && gameModeController.allSelected) gameModeController.Draw();
+        else if (currentMenu == gamemodeMenu && gameModeMenuManager.allSelected) gameModeMenuManager.Draw();
     }
 
     private void HandleBackButton()
@@ -174,7 +174,7 @@ public class MenuManager : MonoBehaviour
 
     private void HandleReadyInput(InputDevice device, int index)
     {
-        if (currentMenu == gamemodeMenu && !gameModeController.allSelected) return;
+        if (currentMenu == gamemodeMenu && !gameModeMenuManager.allSelected) return;
 
         if (IsReadyPressed(device))
         {

@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GameModeController : MonoBehaviour
+public class GameModeMenu : MonoBehaviour
 {
     private PlayerManager playerManagerScript;
     private SceneManagement sceneManagement;
