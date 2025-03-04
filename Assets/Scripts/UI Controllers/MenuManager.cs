@@ -187,18 +187,18 @@ public class MenuManager : MonoBehaviour
         if (IsReadyPressed(device))
         {
             forwardHoldTime[index] += Time.deltaTime;
-            UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 350, false);
+            UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 400, false);
             if (forwardHoldTime[index] >= holdDuration)
             {
                 forwardHoldTime[index] = 0;
-                UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 350, false);
+                UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 400, false);
                 GoNextMenu();
             }
         }
         else if (IsReadyReleased(device))
         {
             forwardHoldTime[index] = 0;
-            UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 350, false);
+            UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 400, false);
         }       
     }
 
