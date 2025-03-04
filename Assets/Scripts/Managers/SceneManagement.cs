@@ -26,11 +26,6 @@ public class SceneManagement : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void LoadGameModeSettings()
-    {
-        SceneManager.LoadScene(1);
-    }
-
     public void QuitGame()
     {
         print("quitting application");
@@ -39,10 +34,10 @@ public class SceneManagement : MonoBehaviour
 
     public void LoadDeathMatch()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
     }
     public void LoadKingOfTheHill()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(2);
     }
 }

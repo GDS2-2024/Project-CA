@@ -8,7 +8,6 @@ using static PlayerScore;
 public class PlayerSpawner : MonoBehaviour
 {
     public List<GameObject> spawnPoints = new List<GameObject>();
-    public List<GameObject> characterPrefabs;
 
     public GameObject blankCameraPrefab; // Used to render black pixels if there are only 3 players
 
@@ -36,7 +35,7 @@ public class PlayerSpawner : MonoBehaviour
         for (int playerNumber = 1; playerNumber <= playerCount; playerNumber++)
         {
             // Instantiate player & add to player list
-            GameObject newPlayer = Instantiate(characterPrefabs[0], spawnPoints[playerNumber - 1].transform);
+            GameObject newPlayer = Instantiate(playerManagerScript.GetSelectedCharacter(playerNumber - 1), spawnPoints[playerNumber - 1].transform);
             players.Add(newPlayer);
 
             // Setup Camera & Controller
@@ -100,7 +99,7 @@ public class PlayerSpawner : MonoBehaviour
         players.Remove(playerObject);
 
         // Instantiate new player object and insert at the same position in list
-        GameObject newPlayer = Instantiate(characterPrefabs[0], spawnPoints[playerNumber].transform);
+        GameObject newPlayer = Instantiate(playerManagerScript.GetSelectedCharacter(playerNumber - 1), spawnPoints[playerNumber].transform);
         players.Insert(playerNumber, newPlayer);
 
         // Pass player score to new player object & update UI
