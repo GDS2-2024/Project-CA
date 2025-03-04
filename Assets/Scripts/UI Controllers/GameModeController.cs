@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,9 +10,8 @@ public class GameModeController : MonoBehaviour
     private PlayerManager playerManagerScript;
     private SceneManagement sceneManagement;
     private int[] playerHoverIndices = new int[4];
-    private bool[] playersSelected = new bool[4];
+    [SerializeField] private bool[] playersSelected = new bool[4];
     private bool validDraw = false;
-    private List<float> holdTime = new List<float>(new float[4]);
 
     public List<GameObject> gameModeButtons;
     public List<string> votes;
@@ -22,7 +22,6 @@ public class GameModeController : MonoBehaviour
     public string chosenMode;
     public bool allSelected;
     private readonly string[] gameModes = { "Death Match", "King of the Hill", "Life Steal", "Payload" };
-    private const float requiredHoldDuration = 1.0f;
 
     void Start()
     {
@@ -100,7 +99,7 @@ public class GameModeController : MonoBehaviour
 
     void CheckAllPlayersSelected()
     {
-        allSelected = playerManagerScript.playerCount > 0 && Array.TrueForAll(playersSelected, selected => selected);
+        allSelected = playerManagerScript.playerCount > 0 && playersSelected.Take(playerManagerScript.playerCount).All(selected => selected);
     }
 
     public void SetupPlayerIcons()
