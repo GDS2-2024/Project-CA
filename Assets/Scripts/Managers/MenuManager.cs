@@ -62,7 +62,7 @@ public class MenuManager : MonoBehaviour
         playerManager.p3Controller = null;
         playerManager.p4Controller = null;
         playerManager.playerCount = 0;
-        playerManager.canPlayersJoin = false;
+        playerManager.canPlayersJoin = true;
     }
 
     private void HandleCurrentMenu()
@@ -84,6 +84,7 @@ public class MenuManager : MonoBehaviour
     public void LoadMainMenuScreen()
     {
         SwitchMenu(mainMenu);
+        playerManager.canPlayersJoin = true;
     }
 
     public void LoadCharacterSelectionScreen()

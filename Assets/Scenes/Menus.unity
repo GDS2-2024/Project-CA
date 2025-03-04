@@ -7696,24 +7696,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ce27ab41e23444391d4113f154ba9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allPlayerHoverObjs:
-  - {fileID: 393625107}
-  - {fileID: 1097459013}
-  - {fileID: 1019899713}
-  - {fileID: 200983101}
-  - {fileID: 1125091062}
-  - {fileID: 637490794}
-  - {fileID: 1635558009}
-  - {fileID: 1278706507}
-  - {fileID: 753785066}
-  - {fileID: 1849566252}
-  - {fileID: 295782109}
-  - {fileID: 441907841}
-  - {fileID: 1868165982}
-  - {fileID: 1868165982}
-  - {fileID: 1007558959}
-  - {fileID: 2034880860}
-  allSelected: 0
   gameModeButtons:
   - {fileID: 2128305216}
   - {fileID: 396894558}
@@ -7724,16 +7706,17 @@ MonoBehaviour:
   - '-'
   - '-'
   - '-'
-  PlayerVotesObj: {fileID: 51495896}
   playerVotesText:
   - {fileID: 769137155}
   - {fileID: 831376053}
   - {fileID: 1515499592}
   - {fileID: 1967102223}
-  chosenMode: 
+  PlayerVotesObj: {fileID: 51495896}
   chosenModeTxt: {fileID: 2022793722}
-  startGameTimer: 3
   timerTxt: {fileID: 1567518505}
+  startGameTimer: 3
+  chosenMode: 
+  allSelected: 0
 --- !u!4 &1177471792
 Transform:
   m_ObjectHideFlags: 0

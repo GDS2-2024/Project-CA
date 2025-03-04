@@ -1,78 +1,36 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class GameModeController : MonoBehaviour
 {
-    private GameObject playerManager;
     private PlayerManager playerManagerScript;
-    private int[] playerHovers = { 0, 0, 0, 0 };
-    public List<GameObject> allPlayerHoverObjs;
-    private GameObject selectedBtn;
-    private string[] gameModes = { "Death Match", "King of the Hill", "Life Steal" };
-    private bool[] playersSelected = { false, false, false, false };
-    public bool allSelected = false;
-    private bool validDraw = false;
-    private GameObject sceneManager;
     private SceneManagement sceneManagement;
+    private int[] playerHoverIndices = new int[4];
+    private bool[] playersSelected = new bool[4];
+    private bool validDraw = false;
+    private List<float> holdTime = new List<float>(new float[4]);
 
     public List<GameObject> gameModeButtons;
     public List<string> votes;
-    public GameObject PlayerVotesObj;
     public List<TMP_Text> playerVotesText;
+    public GameObject PlayerVotesObj;
+    public TMP_Text chosenModeTxt, timerTxt;
+    public float startGameTimer = 3f;
     public string chosenMode;
-    public TMP_Text chosenModeTxt;
-    public float startGameTimer;
-    public TMP_Text timerTxt;
+    public bool allSelected;
+    private readonly string[] gameModes = { "Death Match", "King of the Hill", "Life Steal", "Payload" };
+    private const float requiredHoldDuration = 1.0f;
 
-    private List<float> holdTime = new List<float>();
-    const float requiredHoldDuration = 1.0f;
-
-    // Start is called before the first frame update
     void Start()
     {
-        playerManager = GameObject.Find("Player Manager");
-        sceneManager = GameObject.Find("SceneManager");
-        sceneManagement = sceneManager.GetComponent<SceneManagement>();
-        playerManagerScript = playerManager.GetComponent<PlayerManager>();
-        SetupPlayerIcons(); 
-
-        // Initialise hold times
-        for (int i = 0; i < 4; i++)
-        {
-            holdTime.Add(0f);
-        }
+        playerManagerScript = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
+        sceneManagement = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
+        ResetGameModeMenu();
     }
 
-    public void ResetGameModeMenu()
-    {
-        playersSelected = new bool[] { false, false, false, false };
-        playerHovers = new int[] { 0, 0, 0, 0 };
-        allSelected = false;
-        validDraw = false;
-        startGameTimer = 3;
-        timerTxt.text = "";
-        chosenModeTxt.text = "A random gamemode will be chosen based on votes";
-        PlayerVotesObj.SetActive(true);
-        for (int i = 0; i < votes.Count; i++)
-        {
-            votes[i] = "-";
-        }
-        for (int i = 0; i < playerVotesText.Count; i++)
-        {
-            int playerNum = i + 1;
-            playerVotesText[i].text = "Player " + playerNum + " - ";
-        }
-        foreach (GameObject obj in allPlayerHoverObjs)
-        {
-            obj.SetActive(false);
-        }
-    }
-
-    // Update is called once per frame
     void Update()
     {
         CheckAllPlayersSelected();
@@ -80,28 +38,96 @@ public class GameModeController : MonoBehaviour
         HandleGameStart();
     }
 
+    public void ResetGameModeMenu()
+    {
+        playersSelected = new bool[4];
+        playerHoverIndices = new int[4];
+        allSelected = false;
+        validDraw = false;
+        startGameTimer = 3;
+        timerTxt.text = "";
+        chosenModeTxt.text = "A random gamemode will be chosen based on votes";
+        PlayerVotesObj.SetActive(true);
+        votes.ForEach(v => v = "-");
+        for (int i = 0; i < playerVotesText.Count; i++)
+            playerVotesText[i].text = $"Player {i + 1} - ";
+    }
+
     void ProcessPlayerInputs()
     {
         for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
         {
             var device = playerManagerScript.inputDevices[i];
-            if (device is Keyboard keyboard) { HandleKeyboardInput(keyboard, i); }
-            else if (device is Gamepad gamepad) { HandleGamepadInput(gamepad, i); }
+            HandleInput(device, i);
         }
     }
 
-    void HandleKeyboardInput(Keyboard keyboard, int playerIndex)
+    void HandleInput(InputDevice device, int playerIndex)
     {
-        if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) { ScrollDown(playerIndex); }
-        else if (keyboard.wKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame) { ScrollUp(playerIndex); }
-        else if (keyboard.enterKey.wasPressedThisFrame) { ToggleSelectGameMode(playerIndex); }
+        if (device is Keyboard keyboard)
+        {
+            if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) Scroll(playerIndex, 1);
+            if (keyboard.wKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame) Scroll(playerIndex, -1);
+            if (keyboard.enterKey.wasPressedThisFrame) ToggleSelectGameMode(playerIndex);
+        }
+        else if (device is Gamepad gamepad)
+        {
+            if (gamepad.leftStick.down.wasPressedThisFrame || gamepad.dpad.down.wasPressedThisFrame) Scroll(playerIndex, 1);
+            if (gamepad.leftStick.up.wasPressedThisFrame || gamepad.dpad.up.wasPressedThisFrame) Scroll(playerIndex, -1);
+            if (gamepad.buttonSouth.wasPressedThisFrame) ToggleSelectGameMode(playerIndex);
+        }
     }
 
-    void HandleGamepadInput(Gamepad gamepad, int playerIndex)
+    void Scroll(int playerIndex, int direction)
     {
-        if (gamepad.leftStick.down.wasPressedThisFrame || gamepad.dpad.down.wasPressedThisFrame) { ScrollDown(playerIndex); }
-        else if (gamepad.leftStick.up.wasPressedThisFrame || gamepad.dpad.up.wasPressedThisFrame) { ScrollUp(playerIndex); }
-        else if (gamepad.buttonSouth.wasPressedThisFrame) { ToggleSelectGameMode(playerIndex); }
+        var oldIcon = gameModeButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
+        oldIcon?.SetActive(false);
+        playerHoverIndices[playerIndex] = Mathf.Clamp(playerHoverIndices[playerIndex] + direction, 0, gameModeButtons.Count - 1);
+        var newIcon = gameModeButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
+        newIcon?.SetActive(true);
+    }
+
+    void ToggleSelectGameMode(int playerIndex)
+    {
+        int buttonIndex = playerHoverIndices[playerIndex];
+        if (buttonIndex >= gameModes.Length) return;
+
+        votes[playerIndex] = votes[playerIndex] == gameModes[buttonIndex] ? "-" : gameModes[buttonIndex];
+        playersSelected[playerIndex] = votes[playerIndex] != "-";
+        if (playersSelected[playerIndex]) { playerVotesText[playerIndex].text = $"Player {playerIndex + 1} - {votes[playerIndex]}"; }
+        else { playerVotesText[playerIndex].text = $"Player {playerIndex + 1} - "; }
+    }
+
+    void CheckAllPlayersSelected()
+    {
+        allSelected = playerManagerScript.playerCount > 0 && Array.TrueForAll(playersSelected, selected => selected);
+    }
+
+    public void SetupPlayerIcons()
+    {
+        if (playerManagerScript == null) return;
+
+        // Disable all player indicators first
+        foreach (var button in gameModeButtons)
+        {
+            for (int p = 1; p <= 4; p++)
+            {
+                var playerText = button.transform.Find($"P{p} Txt")?.gameObject;
+                if (playerText != null)
+                    playerText.SetActive(false);
+            }
+        }
+
+        // Enable only the relevant player indicators
+        for (int i = 0; i < playerManagerScript.playerCount; i++)
+        {
+            int hoverIndex = playerHoverIndices[i];
+            GameObject selectedButton = gameModeButtons[hoverIndex];
+
+            var playerText = selectedButton.transform.Find($"P{i + 1} Txt")?.gameObject;
+            if (playerText != null)
+                playerText.SetActive(true);
+        }
     }
 
     void HandleGameStart()
@@ -113,249 +139,17 @@ public class GameModeController : MonoBehaviour
 
         if (startGameTimer > 0) return;
 
-        switch (chosenMode)
-        {
-            case "Death Match":
-                sceneManagement.LoadDeathMatch();
-                break;
-            case "King of the Hill":
-                sceneManagement.LoadKingOfTheHill();
-                break;
-        }
-    }
-
-    public void SetupPlayerIcons()
-    {
-        if (!playerManagerScript) { return; }
-        for (int i = 1; i <= playerManagerScript.playerCount; i++)
-        {
-            switch (i)
-            {
-                case 1:
-                    GameObject newP1Icon = gameModeButtons[playerHovers[0]].transform.Find("P1 Txt")?.gameObject;
-                    newP1Icon.SetActive(true);
-                    break;
-                case 2:
-                    GameObject newP2Icon = gameModeButtons[playerHovers[1]].transform.Find("P2 Txt")?.gameObject;
-                    newP2Icon.SetActive(true);
-                    break;
-                case 3:
-                    GameObject newP3Icon = gameModeButtons[playerHovers[2]].transform.Find("P3 Txt")?.gameObject;
-                    newP3Icon.SetActive(true);
-                    break;
-                case 4:
-                    GameObject newP4Icon = gameModeButtons[playerHovers[3]].transform.Find("P4 Txt")?.gameObject;
-                    newP4Icon.SetActive(true);
-                    break;
-            }
-        }
-    }
-
-    void CheckAllPlayersSelected()
-    {
-        for (int i = 0; i < playerManagerScript.playerCount; i++)
-        {
-            if (!playersSelected[i])
-            {
-                allSelected = false;
-                return;
-            }
-        }
-        if (playerManagerScript.playerCount > 0)
-        {
-            allSelected = true;
-        }
-    }
-
-    void ScrollDown(int playerNo)
-    {
-        switch (playerNo)
-        {
-            case 0:
-                GameObject oldP1Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
-                oldP1Icon.SetActive(false);
-                if (playerHovers[playerNo] + 1 < gameModeButtons.Count)
-                {
-                    playerHovers[playerNo]++;
-                }
-                GameObject newP1Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
-                newP1Icon.SetActive(true);
-                break;
-            case 1:
-                GameObject oldP2Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
-                oldP2Icon.SetActive(false);
-                if (playerHovers[playerNo] + 1 < gameModeButtons.Count)
-                {
-                    playerHovers[playerNo]++;
-                }
-                GameObject newP2Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
-                newP2Icon.SetActive(true);
-                break;
-            case 2:
-                GameObject oldP3Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
-                oldP3Icon.SetActive(false);
-                if (playerHovers[playerNo] + 1 < gameModeButtons.Count)
-                {
-                    playerHovers[playerNo]++;
-                }
-                GameObject newP3Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
-                newP3Icon.SetActive(true);
-                break;
-            case 3:
-                GameObject oldP4Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
-                oldP4Icon.SetActive(false);
-                if (playerHovers[playerNo] + 1 < gameModeButtons.Count)
-                {
-                    playerHovers[playerNo]++;
-                }
-                GameObject newP4Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
-                newP4Icon.SetActive(true);
-                break;
-        }
-    }
-
-    void ScrollUp(int playerNo)
-    {
-        switch (playerNo)
-        {
-            case 0:
-                GameObject oldP1Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
-                oldP1Icon.SetActive(false);
-                if (playerHovers[playerNo] - 1 >= 0)
-                {
-                    playerHovers[playerNo]--;
-                }
-                GameObject newP1Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P1 Txt")?.gameObject;
-                newP1Icon.SetActive(true);
-                break;
-            case 1:
-                GameObject oldP2Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
-                oldP2Icon.SetActive(false);
-                if (playerHovers[playerNo] - 1 >= 0)
-                {
-                    playerHovers[playerNo]--;
-                }
-                GameObject newP2Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P2 Txt")?.gameObject;
-                newP2Icon.SetActive(true);
-                break;
-            case 2:
-                GameObject oldP3Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
-                oldP3Icon.SetActive(false);
-                if (playerHovers[playerNo] - 1 >= 0)
-                {
-                    playerHovers[playerNo]--;
-                }
-                GameObject newP3Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P3 Txt")?.gameObject;
-                newP3Icon.SetActive(true);
-                break;
-            case 3:
-                GameObject oldP4Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
-                oldP4Icon.SetActive(false);
-                if (playerHovers[playerNo] - 1 >= 0)
-                {
-                    playerHovers[playerNo]--;
-                }
-                GameObject newP4Icon = gameModeButtons[playerHovers[playerNo]].transform.Find("P4 Txt")?.gameObject;
-                newP4Icon.SetActive(true);
-                break;
-        }
-    }
-    
-    void ToggleSelectGameMode(int playerNo)
-    {
-        selectedBtn = gameModeButtons[playerHovers[playerNo]];
-        int buttonIndex = gameModeButtons.IndexOf(selectedBtn);
-
-        switch (buttonIndex)
-        {
-            case 0:
-                ToggleDeathMatch(playerNo);
-                break;
-            case 1:
-                ToggleKingOfTheHill(playerNo);
-                break;
-            case 2:
-                ToggleLifeSteal(playerNo);
-                break;
-            case 3:
-                // Toggle another mode
-                break;
-            default:
-                Debug.LogWarning("Invalid game mode selection");
-                break;
-        }
-    }
-
-    public void ToggleDeathMatch(int playerNo)
-    {
-        int textPlayerNo = playerNo + 1;
-        if (votes[playerNo] == "-")
-        {
-            votes[playerNo] = gameModes[0];
-            playersSelected[playerNo] = true;
-            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - " + votes[playerNo];
-        }
-        else if (votes[playerNo] == gameModes[0])
-        {
-            votes[playerNo] = "-";
-            playersSelected[playerNo] = false;
-            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - ";
-        }
-    }
-
-    public void ToggleKingOfTheHill(int playerNo)
-    {
-        int textPlayerNo = playerNo + 1;
-        if (votes[playerNo] == "-")
-        {
-            votes[playerNo] = gameModes[1];
-            playersSelected[playerNo] = true;
-            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - " + votes[playerNo];
-
-        }
-        else if (votes[playerNo] == gameModes[1])
-        {
-            votes[playerNo] = "-";
-            playersSelected[playerNo] = false;
-            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - ";
-        }
-    }
-
-    public void ToggleLifeSteal(int playerNo)
-    {
-        int textPlayerNo = playerNo + 1;
-        if (votes[playerNo] == "-")
-        {
-            votes[playerNo] = gameModes[2];
-            playersSelected[playerNo] = true;
-            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - " + votes[playerNo];
-
-        }
-        else if (votes[playerNo] == gameModes[2])
-        {
-            votes[playerNo] = "-";
-            playersSelected[playerNo] = false;
-            playerVotesText[playerNo].text = "Player " + textPlayerNo + " - ";
-        }
+        if (chosenMode == "Death Match") sceneManagement.LoadDeathMatch();
+        else if (chosenMode == "King of the Hill") sceneManagement.LoadKingOfTheHill();
     }
 
     public void Draw()
     {
-        int randomDraw = Random.Range(0, votes.Count);
+        do { chosenMode = votes[UnityEngine.Random.Range(0, votes.Count)]; }
+        while (chosenMode == "-");
 
-        while (validDraw == false)
-        {
-            if (votes[randomDraw] == "-")
-            {
-                randomDraw = Random.Range(0, votes.Count);
-            }
-            else
-            {
-                validDraw = true;
-            }
-        }
-        chosenMode = votes[randomDraw];
-        chosenModeTxt.text = "Loading " + chosenMode + "...";
+        validDraw = true;
+        chosenModeTxt.text = $"Loading {chosenMode}...";
         PlayerVotesObj.SetActive(false);
     }
 }

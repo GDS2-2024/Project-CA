@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.Controls;
 public class PlayerManager : MonoBehaviour
 {
     private int maxPlayerCount = 4;
-    public bool canPlayersJoin = false;
+    public bool canPlayersJoin = true;
 
     public int playerCount = 0;
     public InputDevice p1Controller = null;
