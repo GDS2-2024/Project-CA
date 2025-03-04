@@ -56,7 +56,7 @@ public class GameModeMenu : MonoBehaviour
     {
         for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
         {
-            var device = playerManagerScript.inputDevices[i];
+            InputDevice device = playerManagerScript.inputDevices[i];
             HandleInput(device, i);
         }
     }
@@ -79,10 +79,10 @@ public class GameModeMenu : MonoBehaviour
 
     void Scroll(int playerIndex, int direction)
     {
-        var oldIcon = gameModeButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
+        GameObject oldIcon = gameModeButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
         oldIcon?.SetActive(false);
         playerHoverIndices[playerIndex] = Mathf.Clamp(playerHoverIndices[playerIndex] + direction, 0, gameModeButtons.Count - 1);
-        var newIcon = gameModeButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
+        GameObject newIcon = gameModeButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
         newIcon?.SetActive(true);
     }
 
@@ -107,11 +107,11 @@ public class GameModeMenu : MonoBehaviour
         if (playerManagerScript == null) return;
 
         // Disable all player indicators first
-        foreach (var button in gameModeButtons)
+        foreach (GameObject button in gameModeButtons)
         {
             for (int p = 1; p <= 4; p++)
             {
-                var playerText = button.transform.Find($"P{p} Txt")?.gameObject;
+                GameObject playerText = button.transform.Find($"P{p} Txt")?.gameObject;
                 if (playerText != null)
                     playerText.SetActive(false);
             }
@@ -123,7 +123,7 @@ public class GameModeMenu : MonoBehaviour
             int hoverIndex = playerHoverIndices[i];
             GameObject selectedButton = gameModeButtons[hoverIndex];
 
-            var playerText = selectedButton.transform.Find($"P{i + 1} Txt")?.gameObject;
+            GameObject playerText = selectedButton.transform.Find($"P{i + 1} Txt")?.gameObject;
             if (playerText != null)
                 playerText.SetActive(true);
         }

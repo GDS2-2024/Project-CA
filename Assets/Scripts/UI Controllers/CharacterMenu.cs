@@ -1,29 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CharacterMenu : MonoBehaviour
 {
     private PlayerManager playerManagerScript;
-    
+
+    public List<TMP_Text> playerJoinLabels;
     public List<GameObject> characterButtons;
+    public List<TMP_Text> chosenCharacterTexts;
     public List<GameObject> characterPrefabs;
-    private int[] playerHovers = { 0, 0, 0, 0 };
+    private int[] playerHoverIndices = { 0, 0, 0, 0 };
     private const int gridWidth = 2;
     private const int gridHeight = 2;
-    private int totalCharacters = 4;
 
     // Start is called before the first frame update
     void Start()
     {
         playerManagerScript = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         ProcessPlayerInputs();
+        CheckPlayerJoined();
     }
 
     void ProcessPlayerInputs()
@@ -58,46 +62,48 @@ public class CharacterMenu : MonoBehaviour
 
     void MovePlayerCursor(int playerIndex, Vector2 direction)
     {
-        int currentPos = playerHovers[playerIndex];
+        int currentPos = playerHoverIndices[playerIndex];
+        HidePlayerHoverVisual(playerIndex);
 
         if (direction.x > 0 && (currentPos % gridWidth) < gridWidth - 1)        // Move Right
-            playerHovers[playerIndex]++;
+            playerHoverIndices[playerIndex]++;
         else if (direction.x < 0 && (currentPos % gridWidth) > 0)               // Move Left
-            playerHovers[playerIndex]--;
+            playerHoverIndices[playerIndex]--;
         else if (direction.y > 0 && currentPos - gridWidth >= 0)                // Move Up
-            playerHovers[playerIndex] -= gridWidth;
-        else if (direction.y < 0 && currentPos + gridWidth < totalCharacters)   // Move Down
-            playerHovers[playerIndex] += gridWidth;
+            playerHoverIndices[playerIndex] -= gridWidth;
+        else if (direction.y < 0 && currentPos + gridWidth < characterPrefabs.Count)   // Move Down
+            playerHoverIndices[playerIndex] += gridWidth;
 
-        UpdatePlayerHoverVisual(playerIndex);
+        ShowPlayerHoverVisual(playerIndex);
     }
 
-    void UpdatePlayerHoverVisual(int playerIndex)
+    void HidePlayerHoverVisual(int playerIndex)
     {
-        foreach (GameObject character in characterButtons)
-        {
-            for (int p = 1; p <= 4; p++)
-            {
-                GameObject oldPlayerText = character.transform.Find($"P{p} Txt")?.gameObject;
-                if (oldPlayerText != null)
-                    oldPlayerText.SetActive(false);
-            }
-        }
+        GameObject oldIcon = characterButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
+        oldIcon?.SetActive(false);
+    }
 
-        int hoveredIndex = playerHovers[playerIndex];
-        GameObject selectedCharacter = characterButtons[hoveredIndex];
-
-        var newPlayerText = selectedCharacter.transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
-        if (newPlayerText != null)
-            newPlayerText.SetActive(true);
+    void ShowPlayerHoverVisual(int playerIndex)
+    {
+        GameObject newIcon = characterButtons[playerHoverIndices[playerIndex]].transform.Find($"P{playerIndex + 1} Txt")?.gameObject;
+        newIcon?.SetActive(true);
     }
 
     private void SelectCharacter(int playerIndex)
     {
-        playerManagerScript.SetSelectedCharacter(characterPrefabs[playerHovers[playerIndex]], playerIndex);
-        // TO DO:
-        // Set text in player corner to Prefab name
+        playerManagerScript.SetSelectedCharacter(characterPrefabs[playerHoverIndices[playerIndex]], playerIndex);
+        chosenCharacterTexts[playerIndex].text = characterButtons[playerHoverIndices[playerIndex]]
+            .transform.Find("Character Name")?.GetComponent<TMP_Text>()?.text ?? "Not Found";
         // Add the 3D model / image to player corner
+    }
+
+    private void CheckPlayerJoined()
+    {       
+        for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
+        {
+            playerJoinLabels[i].text = $"Player {i+1}";
+            ShowPlayerHoverVisual(i);
+        }
     }
 
 }

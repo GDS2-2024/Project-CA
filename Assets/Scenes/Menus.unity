@@ -2306,7 +2306,7 @@ GameObject:
   - component: {fileID: 277310657}
   - component: {fileID: 277310656}
   m_Layer: 5
-  m_Name: Character Name
+  m_Name: Character 1 Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3658,7 +3658,7 @@ GameObject:
   - component: {fileID: 490812297}
   - component: {fileID: 490812296}
   m_Layer: 5
-  m_Name: Character Name
+  m_Name: Character 4 Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3793,7 +3793,7 @@ GameObject:
   - component: {fileID: 496909843}
   - component: {fileID: 496909842}
   m_Layer: 5
-  m_Name: Character Name
+  m_Name: Character 2 Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5830,11 +5830,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03bf802bc292e184d912504af403c5b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerJoinLabels:
+  - {fileID: 1252588945}
+  - {fileID: 1165145990}
+  - {fileID: 976609734}
+  - {fileID: 2094128796}
   characterButtons:
   - {fileID: 1290206740}
   - {fileID: 2058161610}
   - {fileID: 1048573536}
   - {fileID: 378273297}
+  chosenCharacterTexts:
+  - {fileID: 277310656}
+  - {fileID: 496909842}
+  - {fileID: 1121218651}
+  - {fileID: 490812296}
   characterPrefabs:
   - {fileID: 3661997528233400993, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
   - {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
@@ -6507,7 +6517,7 @@ GameObject:
   - component: {fileID: 976609735}
   - component: {fileID: 976609734}
   m_Layer: 5
-  m_Name: Join Text
+  m_Name: Join Text 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7915,7 +7925,7 @@ GameObject:
   - component: {fileID: 1121218652}
   - component: {fileID: 1121218651}
   m_Layer: 5
-  m_Name: Character Name
+  m_Name: Character 3 Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8686,7 +8696,7 @@ GameObject:
   - component: {fileID: 1165145991}
   - component: {fileID: 1165145990}
   m_Layer: 5
-  m_Name: Join Text
+  m_Name: Join Text 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9110,7 +9120,7 @@ GameObject:
   - component: {fileID: 1252588946}
   - component: {fileID: 1252588945}
   m_Layer: 5
-  m_Name: Join Text
+  m_Name: Join Text 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13871,7 +13881,7 @@ GameObject:
   - component: {fileID: 2094128797}
   - component: {fileID: 2094128796}
   m_Layer: 5
-  m_Name: Join Text
+  m_Name: Join Text 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
