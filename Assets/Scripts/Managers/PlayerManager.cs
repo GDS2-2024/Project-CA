@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public InputDevice p3Controller = null;
     public InputDevice p4Controller = null;
     public List<InputDevice> inputDevices = new List<InputDevice>();
+    public List<GameObject> characterSelections = new List<GameObject>(new GameObject[4]);
 
     public static PlayerManager instance;
     void Awake()
@@ -90,5 +91,15 @@ public class PlayerManager : MonoBehaviour
 
         inputDevices.Add(current);
         playerCount++;
+    }
+
+    public void SetSelectedCharacter(GameObject character, int playerIndex)
+    {
+        characterSelections[playerIndex] = character;
+    }
+
+    public GameObject GetSelectedCharacter(int playerIndex)
+    {
+        return characterSelections[playerIndex];
     }
 }

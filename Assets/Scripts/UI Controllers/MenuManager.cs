@@ -24,6 +24,7 @@ public class MenuManager : MonoBehaviour
     private SceneManagement sceneManagement;
     private PlayerManager playerManager;
     private GameModeMenu gameModeMenuManager;
+    private CharacterMenu characterMenuManager;
 
     void Start()
     {
@@ -50,8 +51,11 @@ public class MenuManager : MonoBehaviour
     {
         sceneManagement = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
         playerManager = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
-        gameModeMenuManager = GameObject.Find("Gamemode Controller").GetComponent<GameModeMenu>();
+        gameModeMenuManager = GameObject.Find("Gamemode Menu").GetComponent<GameModeMenu>();
         gameModeMenuManager.enabled = false;
+        characterMenuManager = GameObject.Find("Character Menu").GetComponent<CharacterMenu>();
+        characterMenuManager.enabled = false;
+        
     }
 
     private void ResetPlayerManager()
@@ -85,12 +89,15 @@ public class MenuManager : MonoBehaviour
     {
         SwitchMenu(mainMenu);
         playerManager.canPlayersJoin = true;
+        characterMenuManager.enabled = false;
+        gameModeMenuManager.enabled = false;
     }
 
     public void LoadCharacterSelectionScreen()
     {
         SwitchMenu(characterMenu);
         playerManager.canPlayersJoin = true;
+        characterMenuManager.enabled = true;
         gameModeMenuManager.enabled = false;
     }
 
@@ -98,6 +105,7 @@ public class MenuManager : MonoBehaviour
     {
         SwitchMenu(gamemodeMenu);
         playerManager.canPlayersJoin = false;
+        characterMenuManager.enabled = false;
         gameModeMenuManager.enabled = true;
         gameModeMenuManager.ResetGameModeMenu();
         gameModeMenuManager.SetupPlayerIcons();
