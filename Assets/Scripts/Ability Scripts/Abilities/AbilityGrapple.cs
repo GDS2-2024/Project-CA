@@ -36,7 +36,7 @@ public class AbilityGrapple : Ability
         if (!isOnCooldown)
         {
             StopGrapple();
-            StartCoroutine(Cooldown());
+            StartCooldown();
         }
     }
 
@@ -85,7 +85,7 @@ public class AbilityGrapple : Ability
         if (distance < stopDistance)
         {
             StopGrapple();
-            StartCoroutine(Cooldown());
+            StartCooldown();
             return;
         }
 
