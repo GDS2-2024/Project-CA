@@ -66,7 +66,7 @@ public class AbilityJetpack : Ability
         fuelRemaining = 0;
         isUsingJetpack = false;
         rb.useGravity = true;
-        StartCoroutine(Cooldown());
+        StartCooldown();
     }
 
 }

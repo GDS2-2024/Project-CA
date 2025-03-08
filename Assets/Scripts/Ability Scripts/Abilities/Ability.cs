@@ -4,29 +4,35 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
-
     public float cooldown;
-    public int currentCooldownTime;
+    public float currentCooldownTime;
     protected bool isOnCooldown = false;
 
     public abstract void OnPressAbility();
     public abstract void OnHoldingAbility();
     public abstract void OnReleaseAbility();
 
-    public virtual IEnumerator Cooldown() // use as: StartCoroutine(Cooldown());
+    public virtual void StartCooldown()
     {
         isOnCooldown = true;
         currentCooldownTime = (int)cooldown;
-
-        while (currentCooldownTime > 0)
-        {
-            yield return new WaitForSeconds(1f);
-            currentCooldownTime--;
-        }
-
-        isOnCooldown = false;
     }
 
+    private void Update()
+    {
+        if (!isOnCooldown) { return; }
+
+        if (currentCooldownTime > 0)
+        {
+            currentCooldownTime -= Time.deltaTime;
+        }
+        else
+        {
+            isOnCooldown = false;
+            currentCooldownTime = 0;
+        }
+
+    }
 
 }
 

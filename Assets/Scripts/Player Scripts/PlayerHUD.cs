@@ -9,15 +9,15 @@ public class PlayerHUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!ammoTextComponent) { Debug.Log("PlayerHUD: There is no Ammo text component assigned."); }
-        if (!healthBarTransform) { Debug.Log("PlayerHUD: There is no Health Bar Transform component assigned."); }
-        if (!healthBarImage) { Debug.Log("PlayerHUD: There is no Health Bar Image component assigned."); }
-        if (!UtilCooldownText) { Debug.Log("PlayerHUD: There is no Utility Cooldown text component assigned."); }
-        if (!DamageCooldownText) { Debug.Log("PlayerHUD: There is no Damage Cooldown text component assigned."); }
-        if (!GameTimerText) { Debug.Log("PlayerHUD: There is no Game Timer text component assigned."); }
-        if (!RespawnTimer) { Debug.Log("PlayerHUD: There is no Respawn Timer text component assigned."); }
-        if (!ObjectiveScore) { Debug.Log("PlayerHUD: There is no Objective Score text component assigned."); }
-        if (!ObjectivePrompt) { Debug.Log("PlayerHUD: There is no Objective Prompt text component assigned."); }
+        if (!ammoTextComponent) { Debug.LogWarning("PlayerHUD: There is no Ammo text component assigned."); }
+        if (!healthBarTransform) { Debug.LogWarning("PlayerHUD: There is no Health Bar Transform component assigned."); }
+        if (!healthBarImage) { Debug.LogWarning("PlayerHUD: There is no Health Bar Image component assigned."); }
+        if (!UtilCoolDownImage) { Debug.LogWarning("PlayerHUD: There is no Utility Cooldown Image component assigned."); }
+        if (!DamageCoolDownImage) { Debug.LogWarning("PlayerHUD: There is no Damage Cooldown Image component assigned."); }
+        if (!GameTimerText) { Debug.LogWarning("PlayerHUD: There is no Game Timer text component assigned."); }
+        if (!RespawnTimer) { Debug.LogWarning("PlayerHUD: There is no Respawn Timer text component assigned."); }
+        if (!ObjectiveScore) { Debug.LogWarning("PlayerHUD: There is no Objective Score text component assigned."); }
+        if (!ObjectivePrompt) { Debug.LogWarning("PlayerHUD: There is no Objective Prompt text component assigned."); }
     }
 
     // Update is called once per frame
@@ -46,15 +46,15 @@ public class PlayerHUD : MonoBehaviour
     }
 
     // Utilities
-    public TMP_Text UtilCooldownText;
-    public TMP_Text DamageCooldownText;
-    public void UpdateUtilityCooldown(int newAmount)
+    public Image UtilCoolDownImage;
+    public Image DamageCoolDownImage;
+    public void UpdateUtilityCooldown(float currentPercentage)
     {
-        UtilCooldownText.text = "" + newAmount;
+        UtilCoolDownImage.fillAmount = currentPercentage;
     }
-    public void UpdateDamageCooldown(int newAmount)
+    public void UpdateDamageCooldown(float currentPercentage)
     {
-        DamageCooldownText.text = "" + newAmount;
+        DamageCoolDownImage.fillAmount = currentPercentage;
     }
 
     // Timers

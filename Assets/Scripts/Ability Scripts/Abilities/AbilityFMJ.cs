@@ -22,7 +22,7 @@ public class AbilityFMJ : Ability
         playerHUD = GetComponentInParent<PlayerHUD>();
 
         isOnCooldown = true;
-        StartCoroutine(Cooldown());
+        StartCooldown();
     }
 
     public override void OnPressAbility()
@@ -51,7 +51,7 @@ public class AbilityFMJ : Ability
     private void DeactivateFMJ()
     {
         gunHandler.bullet = normalBullet;
-        StartCoroutine(Cooldown());
+        StartCooldown();
     }
 
     public override void OnHoldingAbility()
