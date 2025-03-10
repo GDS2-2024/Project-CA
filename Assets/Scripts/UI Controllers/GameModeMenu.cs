@@ -65,6 +65,8 @@ public class GameModeMenu : MonoBehaviour
 
     void HandleInput(InputDevice device, int playerIndex)
     {
+        if (IsGameStarting()) { return; }
+
         if (device is Keyboard keyboard)
         {
             if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) Scroll(playerIndex, 1);

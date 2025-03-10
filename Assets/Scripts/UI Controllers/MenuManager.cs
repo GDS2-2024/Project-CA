@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -12,14 +13,14 @@ public class MenuManager : MonoBehaviour
     public GameObject gamemodeMenu;
 
     // Hold Timers
-    private const float holdDuration = 1.0f;
+    private const float holdDuration = 0.8f;
     private List<float> backHoldTime = new List<float>(new float[4]);
     private List<float> forwardHoldTime = new List<float>(new float[4]);
     private List<bool> startedHoldingBack = new List<bool>(new bool[4]);
 
     // Hold Bar References
-    public List<RectTransform> RedHoldBars;
-    public List<RectTransform> GreenHoldBars;
+    public List<Image> RedHoldBars;
+    public List<Image> GreenHoldBars;
 
     // Scripts
     private SceneManagement sceneManagement;
@@ -237,12 +238,11 @@ public class MenuManager : MonoBehaviour
                (device is Gamepad gamepad && gamepad.buttonNorth.wasReleasedThisFrame);
     }
 
-    private void UpdateHoldBar(List<RectTransform> holdBars, float holdTime, float maxPosition, bool MoveRight)
+    private void UpdateHoldBar(List<Image> holdBars, float holdTime, float maxPosition, bool MoveRight)
     {
         float progress = holdTime / holdDuration;
         int menuIndex = currentMenu == mainMenu ? 0 : currentMenu == characterMenu ? 1 : currentMenu == gamemodeMenu ? 2 : -1;
-        float xPosition = MoveRight ? -maxPosition + (progress * maxPosition) : maxPosition - (progress * maxPosition);
-        holdBars[menuIndex].anchoredPosition = new Vector2(xPosition, 0);
+        holdBars[menuIndex].fillAmount = progress;
     }
 
 }
