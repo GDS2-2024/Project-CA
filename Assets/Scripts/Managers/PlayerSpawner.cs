@@ -9,6 +9,8 @@ using static PlayerScore;
 public class PlayerSpawner : MonoBehaviour
 {
     public List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
+    public List<bool> spawnPointAvailable;
+    private float spawnTimer = 5.0f; // how long until a spawnpoint can be used again by another player
 
     public GameObject blankCameraPrefab; // Used to render black pixels if there are only 3 players
 
@@ -28,6 +30,7 @@ public class PlayerSpawner : MonoBehaviour
         playerCount = playerManagerScript.playerCount;
 
         spawnPoints = gameObject.GetComponentsInChildren<SpawnPoint>().ToList<SpawnPoint>();
+        foreach (SpawnPoint spawn in spawnPoints) spawnPointAvailable.Add(true);
         SpawnPlayers();
     }
 
@@ -124,13 +127,24 @@ public class PlayerSpawner : MonoBehaviour
 
         // Setup Camera
         Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
-        SetupSplitScreen(thisCam, playerNumber+1);
+        SetupSplitScreen(thisCam, playerNumber);
     }
 
     private SpawnPoint GetRandomSpawnpoint()
     {
         int randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count-1);
+
+        // Prevent another player from using this spawnpoint for (spawnTimer) seconds
+        spawnPointAvailable[randomIndex] = false;
+        StartCoroutine(MakeSpawnpointAvailable(randomIndex));
+
         return spawnPoints[randomIndex];
+    }
+
+    private IEnumerator MakeSpawnpointAvailable(int spawnPointIndex) 
+    {
+        yield return new WaitForSeconds(spawnTimer);
+        spawnPointAvailable[spawnPointIndex] = true;
     }
 
 }
