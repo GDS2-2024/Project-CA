@@ -13,6 +13,7 @@ public class CharacterMenu : MonoBehaviour
     public List<TMP_Text> chosenCharacterTexts;
     public List<GameObject> characterPrefabs;
     private int[] playerHoverIndices = { 0, 0, 0, 0 };
+    private bool[] firstInput = new bool[4];
     private const int gridWidth = 2;
     private const int gridHeight = 2;
 
@@ -34,9 +35,9 @@ public class CharacterMenu : MonoBehaviour
     {
         for (int i = 0; i < playerManagerScript.inputDevices.Count; i++)
         {
+            if (!firstInput[i]) { return; } // Don't move in grid until after first input used to join
             InputDevice device = playerManagerScript.inputDevices[i];
-
-            Vector2 moveDir = Vector2.zero;
+            Vector2 moveDir = Vector2.zero; // Represents direction to move in grid as a 2D vector
 
             if (device is Keyboard keyboard)
             {
@@ -103,7 +104,17 @@ public class CharacterMenu : MonoBehaviour
         {
             playerJoinLabels[i].text = $"Player {i+1}";
             ShowPlayerHoverVisual(i);
+            firstInput[i] = true;
         }
+    }
+    
+    public bool CheckIfAllSelected()
+    {
+        for (int i = 0; i < playerManagerScript.playerCount; i++)
+        {
+            if (!playerManagerScript.characterSelections[i]) { return false; }
+        }
+        return true;
     }
 
 }

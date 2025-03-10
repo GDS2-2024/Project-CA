@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
     private const float holdDuration = 1.0f;
     private List<float> backHoldTime = new List<float>(new float[4]);
     private List<float> forwardHoldTime = new List<float>(new float[4]);
+    private List<bool> startedHoldingBack = new List<bool>(new bool[4]);
 
     // Hold Bar References
     public List<RectTransform> RedHoldBars;
@@ -115,6 +116,12 @@ public class MenuManager : MonoBehaviour
         currentMenu.SetActive(false);
         currentMenu = newMenu;
         currentMenu.SetActive(true);
+
+        // Reset any hold bars
+        for (int i = 0; i < startedHoldingBack.Count; i++)
+        {
+            startedHoldingBack[i] = false;
+        }
     }
 
     public void GoBackMenu()
@@ -140,7 +147,8 @@ public class MenuManager : MonoBehaviour
 
     private void HandleBackInput(InputDevice device, int index)
     {
-        if (IsBackPressed(device))
+        if (StartedPressingBack(device)) { startedHoldingBack[index] = true; }
+        if (IsPressingBack(device) && startedHoldingBack[index] == true)
         {
             backHoldTime[index] += Time.deltaTime;
             UpdateHoldBar(RedHoldBars, backHoldTime[index], 400, true);
@@ -151,21 +159,28 @@ public class MenuManager : MonoBehaviour
                 GoBackMenu();
             }
         }
-        else if (IsBackReleased(device))
+        else if (ReleasedBack(device))
         {
             backHoldTime[index] = 0;
+            startedHoldingBack[index] = false;
             UpdateHoldBar(RedHoldBars, backHoldTime[index], 400, true);
         }
 
     }
 
-    private bool IsBackPressed(InputDevice device)
+    private bool StartedPressingBack(InputDevice device)
+    {
+        return (device is Keyboard keyboard && keyboard.escapeKey.wasPressedThisFrame) ||
+               (device is Gamepad gamepad && gamepad.buttonEast.wasPressedThisFrame);
+    }
+
+    private bool IsPressingBack(InputDevice device)
     {
         return (device is Keyboard keyboard && keyboard.escapeKey.isPressed) ||
                (device is Gamepad gamepad && gamepad.buttonEast.isPressed);
     }
 
-    private bool IsBackReleased(InputDevice device)
+    private bool ReleasedBack(InputDevice device)
     {
         return (device is Keyboard keyboard && keyboard.escapeKey.wasReleasedThisFrame) ||
                (device is Gamepad gamepad && gamepad.buttonEast.wasReleasedThisFrame);
@@ -173,6 +188,9 @@ public class MenuManager : MonoBehaviour
 
     private void HandleReadyUp()
     {
+        if (currentMenu == characterMenu && !characterMenuManager.CheckIfAllSelected()) { return; }
+        if (currentMenu == gamemodeMenu && gameModeMenuManager.IsGameStarting()) { return; }
+        
         for (int i = 0; i < playerManager.inputDevices.Count; i++)
         {
             HandleReadyInput(playerManager.inputDevices[i], i);
@@ -183,7 +201,7 @@ public class MenuManager : MonoBehaviour
     {
         if (currentMenu == gamemodeMenu && !gameModeMenuManager.allSelected) return;
 
-        if (IsReadyPressed(device))
+        if (IsPressingReady(device))
         {
             forwardHoldTime[index] += Time.deltaTime;
             UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 400, false);
@@ -194,20 +212,26 @@ public class MenuManager : MonoBehaviour
                 GoNextMenu();
             }
         }
-        else if (IsReadyReleased(device))
+        else if (ReleasedReady(device))
         {
             forwardHoldTime[index] = 0;
             UpdateHoldBar(GreenHoldBars, forwardHoldTime[index], 400, false);
         }       
     }
 
-    private bool IsReadyPressed(InputDevice device)
+    private bool StartedPressingReady(InputDevice device)
+    {
+        return (device is Keyboard keyboard && keyboard.qKey.wasPressedThisFrame) ||
+               (device is Gamepad gamepad && gamepad.buttonNorth.wasPressedThisFrame);
+    }
+
+    private bool IsPressingReady(InputDevice device)
     {
         return (device is Keyboard keyboard && keyboard.qKey.isPressed) ||
                (device is Gamepad gamepad && gamepad.buttonNorth.isPressed);
     }
 
-    private bool IsReadyReleased(InputDevice device)
+    private bool ReleasedReady(InputDevice device)
     {
         return (device is Keyboard keyboard && keyboard.qKey.wasReleasedThisFrame) ||
                (device is Gamepad gamepad && gamepad.buttonNorth.wasReleasedThisFrame);

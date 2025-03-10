@@ -69,7 +69,7 @@ public class GameModeMenu : MonoBehaviour
         {
             if (keyboard.sKey.wasPressedThisFrame || keyboard.downArrowKey.wasPressedThisFrame) Scroll(playerIndex, 1);
             if (keyboard.wKey.wasPressedThisFrame || keyboard.upArrowKey.wasPressedThisFrame) Scroll(playerIndex, -1);
-            if (keyboard.enterKey.wasPressedThisFrame) ToggleSelectGameMode(playerIndex);
+            if (keyboard.spaceKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame) ToggleSelectGameMode(playerIndex);
         }
         else if (device is Gamepad gamepad)
         {
@@ -151,4 +151,6 @@ public class GameModeMenu : MonoBehaviour
         chosenModeTxt.text = $"Loading {chosenMode}...";
         PlayerVotesObj.SetActive(false);
     }
+
+    public bool IsGameStarting() { return validDraw; }
 }
