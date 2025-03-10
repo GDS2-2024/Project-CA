@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static PlayerScore;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    public List<GameObject> spawnPoints = new List<GameObject>();
+    public List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
 
     public GameObject blankCameraPrefab; // Used to render black pixels if there are only 3 players
 
@@ -26,21 +27,24 @@ public class PlayerSpawner : MonoBehaviour
 
         playerCount = playerManagerScript.playerCount;
 
+        spawnPoints = gameObject.GetComponentsInChildren<SpawnPoint>().ToList<SpawnPoint>();
         SpawnPlayers();
     }
 
     // Instantiate players and position them at a spawn point
     private void SpawnPlayers()
     {
-        for (int playerNumber = 1; playerNumber <= playerCount; playerNumber++)
+        for (int playerNumber = 0; playerNumber < playerCount; playerNumber++)
         {
-            // Instantiate player & add to player list
-            GameObject newPlayer = Instantiate(playerManagerScript.GetSelectedCharacter(playerNumber - 1), spawnPoints[playerNumber - 1].transform);
-            players.Add(newPlayer);
+            // Instantiate new player object and insert at the same position in list
+            Transform randomSpawn = GetRandomSpawnpoint().transform;
+            GameObject newPlayer = Instantiate(playerManagerScript.GetSelectedCharacter(playerNumber),
+                    randomSpawn.position, randomSpawn.rotation);
+            players.Insert(playerNumber, newPlayer);
 
             // Setup Camera & Controller
             Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
-            InputDevice thisController = playerManagerScript.inputDevices[playerNumber - 1];
+            InputDevice thisController = playerManagerScript.inputDevices[playerNumber];
             PlayerController controllerScript = newPlayer.GetComponent<PlayerController>();
             controllerScript.SetController(thisController);
 
@@ -62,10 +66,10 @@ public class PlayerSpawner : MonoBehaviour
             //Handle 2 player mode
             switch (playerNumber)
             {
-                case 1:
+                case 0:
                     thisCam.rect = new Rect(0f, 0f, 0.5f, 1f);
                     break;
-                case 2:
+                case 1:
                     thisCam.rect = new Rect(0.5f, 0f, 0.5f, 1f);
                     break;
             }
@@ -75,16 +79,16 @@ public class PlayerSpawner : MonoBehaviour
             //Handle 3 or 4 player mode
             switch (playerNumber)
             {
-                case 1:
+                case 0:
                     thisCam.rect = new Rect(0f, 0.5f, 0.5f, 0.5f);
                     break;
-                case 2:
+                case 1:
                     thisCam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
                     break;
-                case 3:
+                case 2:
                     thisCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
                     break;
-                case 4:
+                case 3:
                     thisCam.rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
                     break;
             }
@@ -99,7 +103,9 @@ public class PlayerSpawner : MonoBehaviour
         players.Remove(playerObject);
 
         // Instantiate new player object and insert at the same position in list
-        GameObject newPlayer = Instantiate(playerManagerScript.GetSelectedCharacter(playerNumber - 1), spawnPoints[playerNumber].transform);
+        Transform randomSpawn = GetRandomSpawnpoint().transform;
+        GameObject newPlayer = Instantiate(playerManagerScript.GetSelectedCharacter(playerNumber),
+                randomSpawn.position, randomSpawn.rotation);
         players.Insert(playerNumber, newPlayer);
 
         // Pass player score to new player object & update UI
@@ -119,6 +125,12 @@ public class PlayerSpawner : MonoBehaviour
         // Setup Camera
         Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
         SetupSplitScreen(thisCam, playerNumber+1);
+    }
+
+    private SpawnPoint GetRandomSpawnpoint()
+    {
+        int randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count-1);
+        return spawnPoints[randomIndex];
     }
 
 }

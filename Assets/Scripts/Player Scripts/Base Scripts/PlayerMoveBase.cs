@@ -31,6 +31,7 @@ public class PlayerMoveBase : MonoBehaviour
     private float cameraYaw;
     private float minClamp = -89.0f;
     private float maxClamp = 89.0f;
+    public bool isCameraLocked = false; //Prevents HandleCamera() from overriding spawn point rotation
 
     //Camera offsests
     public float distance;
@@ -60,7 +61,7 @@ public class PlayerMoveBase : MonoBehaviour
     void Update()
     {
         MoveDirection();
-        HandleCamera();
+        if (!isCameraLocked) HandleCamera();
     }
 
     private void FixedUpdate()
