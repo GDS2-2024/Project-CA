@@ -29,12 +29,7 @@ public class AbilityFMJ : Ability
     {
         if (!isOnCooldown)
         {
-            Debug.Log("Activating FMJ...");
             StartCoroutine(ActivateFMJ());
-        }
-        else
-        {
-            Debug.Log("FMJ Ability on cooldown, wait to use again!");
         }
     }
 
@@ -44,7 +39,6 @@ public class AbilityFMJ : Ability
         playerStatManager.currentAmmo = playerStatManager.maxAmmoInClip;
         playerHUD.UpateAmmoUI(playerStatManager.currentAmmo);
         yield return new WaitForSeconds(fmjDuration);
-        Debug.Log("FMJ ended, reverting to normal bullets");
         DeactivateFMJ();
     }
 
