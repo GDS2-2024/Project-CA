@@ -307,10 +307,38 @@ PrefabInstance:
       propertyPath: UtilityAbility
       value: 
       objectReference: {fileID: 657641787}
+    - target: {fileID: 4613914936141617935, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: Reticle
+      value: 
+      objectReference: {fileID: 3661997529425380925}
     - target: {fileID: 5507541783009307284, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 8bead7f8f6ed97b4b9786c885186896a, type: 3}
+    - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4dd6d9a57c62d884eba2cf519209e5ca, type: 3}
+    - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094051868910322, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094051868910322, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5903094052215905936, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.25
@@ -339,13 +367,17 @@ PrefabInstance:
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665324, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 24719fe153dd3c4448e15aa5f854fbf7, type: 2}
     - target: {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Name
       value: Outlaw Prefab
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_LocalPosition.x
@@ -397,7 +429,7 @@ PrefabInstance:
       objectReference: {fileID: 3502144147338531713, guid: 98a33118016ed4446b9dcc4e205dd830, type: 3}
     - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: aimedFOV
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: shotSpeed
@@ -406,6 +438,14 @@ PrefabInstance:
     - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: aimedSensRedution
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: normalReticleSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: zoomedReticleSize
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
@@ -476,6 +516,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3661997529425380925 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+  m_PrefabInstance: {fileID: 7151161618206565580}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3661997530115082011 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5903094051481199575, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}

@@ -103,4 +103,11 @@ public class PlayerHUD : MonoBehaviour
         ObjectivePrompt.text = "";
     }
 
+    //Reticle
+    public Image Reticle;
+    public void SetReticleSize(float reticleSize)
+    {
+        Reticle.rectTransform.sizeDelta = new Vector2(reticleSize, reticleSize);
+    }
+
 }

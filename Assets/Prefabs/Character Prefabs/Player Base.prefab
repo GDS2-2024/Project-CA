@@ -1465,6 +1465,8 @@ MonoBehaviour:
   shotSpeed: 0.5
   aimedFOV: 60
   aimedSensRedution: 2
+  normalReticleSize: 10
+  zoomedReticleSize: 10
 --- !u!114 &5903094053358665333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1514,6 +1516,7 @@ MonoBehaviour:
   RespawnTimer: {fileID: 6714475047796678096}
   ObjectiveScore: {fileID: 222834303965891947}
   ObjectivePrompt: {fileID: 4646857224971308060}
+  Reticle: {fileID: 5903094051868910321}
 --- !u!114 &4371058044870796072
 MonoBehaviour:
   m_ObjectHideFlags: 0

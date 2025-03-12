@@ -15,6 +15,7 @@ public class TestShoot : MonoBehaviour
     private bool shotDelay;
     private InputDevice thisController;
     private PlayerController controllerScript;
+    private PlayerHUD playerHUD;
 
     public GameObject bullet;
     public Vector3 spawnPos;
@@ -28,6 +29,10 @@ public class TestShoot : MonoBehaviour
     private float zoomSpeed = 10f;
     private float targetFOV = 60;
 
+    public float normalReticleSize;
+    public float zoomedReticleSize;
+    private float targetReticleSize;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +41,8 @@ public class TestShoot : MonoBehaviour
         shotDelay = false;
         controllerScript = gameObject.GetComponent<PlayerController>();
         thisController = controllerScript.GetController();
+        playerHUD = GetComponent<PlayerHUD>();
+        targetReticleSize = normalReticleSize;
     }
 
     // Update is called once per frame
@@ -55,17 +62,24 @@ public class TestShoot : MonoBehaviour
             if (controller.leftTrigger.wasReleasedThisFrame) SetZoom(false);
         }
 
+        // ADS / ZOOM
         playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
+        float newReticleSize = Mathf.Lerp(playerHUD.Reticle.rectTransform.sizeDelta.x, targetReticleSize, Time.deltaTime * zoomSpeed);
+        playerHUD.SetReticleSize(newReticleSize);
     }
 
     void SetZoom(bool isAimed)
     {
         targetFOV = isAimed ? aimedFOV : normalFOV;
-        //Reduce aiming sensitivity when zoomed, return to normal when not
+
+        //Reduce aiming sensitivity when zoomed
         float sensMultiplier = isAimed ? 1f / aimedSensRedution : aimedSensRedution;
         playerMovement.controlXSens *= sensMultiplier;
         playerMovement.controlYSens *= sensMultiplier;
         playerMovement.mouseSens *= sensMultiplier;
+
+        //Shrink reticle when zoomed
+        targetReticleSize = isAimed ? zoomedReticleSize : normalReticleSize;
     }
 
     void ShootBullet()
