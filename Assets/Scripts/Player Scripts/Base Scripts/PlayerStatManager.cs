@@ -138,6 +138,6 @@ public class PlayerStatManager : MonoBehaviour
     private void Respawn()
     {
         if (playerSpawnerScript) { playerSpawnerScript.RespawnPlayer(thisController, gameObject); }
-        else { Debug.Log("RESPAWN FAILED: No Player Spawner object"); }
+        else { Debug.LogWarning("RESPAWN FAILED: No Player Spawner object"); }
     }
 }

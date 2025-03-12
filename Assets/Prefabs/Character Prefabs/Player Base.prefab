@@ -1463,6 +1463,8 @@ MonoBehaviour:
   playerCam: {fileID: 5903094051481199568}
   gun: {fileID: 5903094052215905937}
   shotSpeed: 0.5
+  aimedFOV: 60
+  aimedSensRedution: 2
 --- !u!114 &5903094053358665333
 MonoBehaviour:
   m_ObjectHideFlags: 0

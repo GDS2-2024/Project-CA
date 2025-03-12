@@ -6,12 +6,12 @@ using UnityEngine.InputSystem;
 
 public class TestShoot : MonoBehaviour
 {
-
     private GameObject newBullet;
     private TestProjectile projectileScript;
     private RaycastHit hit;
     private Vector3 target;
     private PlayerStatManager statScript;
+    private PlayerMoveBase playerMovement;
     private bool shotDelay;
     private InputDevice thisController;
     private PlayerController controllerScript;
@@ -22,10 +22,17 @@ public class TestShoot : MonoBehaviour
     public GameObject gun;
     public float shotSpeed;
 
+    private int normalFOV = 60;
+    public int aimedFOV;
+    public float aimedSensRedution; // Higher numbers = lower sensitivity
+    private float zoomSpeed = 10f;
+    private float targetFOV = 60;
+
     // Start is called before the first frame update
     void Start()
     {
         statScript = gameObject.GetComponent<PlayerStatManager>();
+        playerMovement = gameObject.GetComponent<PlayerMoveBase>();
         shotDelay = false;
         controllerScript = gameObject.GetComponent<PlayerController>();
         thisController = controllerScript.GetController();
@@ -37,18 +44,28 @@ public class TestShoot : MonoBehaviour
         if (thisController is Keyboard)
         {
             Mouse mouse = Mouse.current;
-            if (mouse.leftButton.isPressed && statScript.currentAmmo > 0 && !shotDelay)
-            {
-                ShootBullet();
-            }
+            if (mouse.leftButton.isPressed && statScript.currentAmmo > 0 && !shotDelay) ShootBullet();
+            if (mouse.rightButton.wasPressedThisFrame) SetZoom(true);
+            if (mouse.rightButton.wasReleasedThisFrame) SetZoom(false);
         }
         else if (thisController is Gamepad controller)
         {
-            if (controller.rightTrigger.isPressed && statScript.currentAmmo > 0 && !shotDelay)
-            {
-                ShootBullet();
-            }
+            if (controller.rightTrigger.isPressed && statScript.currentAmmo > 0 && !shotDelay) ShootBullet();
+            if (controller.leftTrigger.wasPressedThisFrame) SetZoom(true);
+            if (controller.leftTrigger.wasReleasedThisFrame) SetZoom(false);
         }
+
+        playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
+    }
+
+    void SetZoom(bool isAimed)
+    {
+        targetFOV = isAimed ? aimedFOV : normalFOV;
+        //Reduce aiming sensitivity when zoomed, return to normal when not
+        float sensMultiplier = isAimed ? 1f / aimedSensRedution : aimedSensRedution;
+        playerMovement.controlXSens *= sensMultiplier;
+        playerMovement.controlYSens *= sensMultiplier;
+        playerMovement.mouseSens *= sensMultiplier;
     }
 
     void ShootBullet()
