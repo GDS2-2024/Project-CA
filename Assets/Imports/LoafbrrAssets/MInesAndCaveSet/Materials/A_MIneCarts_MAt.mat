@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: A_MIneCarts_MAt
-  m_Shader: {fileID: -6465566751694194690, guid: 37d7c7729bec1db4db31a1dfb5acefa8,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 37d7c7729bec1db4db31a1dfb5acefa8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -76,7 +75,7 @@ Material:
     - _QueueOffset: 0
     - _Roughness: 1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 0, g: 0, b: 0, a: 0}
     - _Color_1: {r: 1, g: 1, b: 1, a: 0}
     - _UV_Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
