@@ -221,6 +221,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1, z: 1}
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &-9014623638068243485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5433640485118383529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d4f83d1f15b96459cd4d4c72ca03fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  bombCart: {fileID: 5433640485118383529}
+  healthCart: {fileID: 2055615329128313753, guid: b6d016bcbdbf2d0478fa3c027a8df02e, type: 3}
 --- !u!114 &6275478181296531066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,9 +249,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 5353346129622681603}
-  speed: 5
+  speed: 10
   rails: []
   lastRail: {fileID: 0}
+  cornerPrefab: {fileID: 3936971544718355688, guid: 1ec60b274a418a842b2aa058649ab0f2, type: 3}
 --- !u!4 &7293764909562098586 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8256647226682324722, guid: 256d7b4cfa6694c4d9a56d2f8ef1d201, type: 3}
