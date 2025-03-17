@@ -8,7 +8,7 @@ public class KOTHManager : MonoBehaviour
     [SerializeField] private float remainingGameTime;
     [SerializeField] private float remainingHillTime;
     [SerializeField] private int scoreToWin;
-    [SerializeField] private List<GameObject> hills;
+    public List<GameObject> hills;
     public GameObject activeHill;
     private int hillIndex = -1;
 
@@ -19,6 +19,11 @@ public class KOTHManager : MonoBehaviour
 
     private GameObject scoreBoardObject;
     private ScoreBoardManager scoreBoardManager;
+
+    private void Awake()
+    {
+        activeHill = hills[0];
+    }
 
     // Start is called before the first frame update
     void Start()

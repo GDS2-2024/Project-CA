@@ -8,30 +8,31 @@ using static PlayerScore;
 
 public class PlayerSpawner : MonoBehaviour
 {
-    public List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
-    public List<bool> spawnPointAvailable;
-    private float spawnTimer = 5.0f; // how long until a spawnpoint can be used again by another player
+    // Spawning
+    [SerializeField] private List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
+    private float spawnTimer = 5.0f;
+    public SpawnLogic gameModeSpawnLogic;
 
-    public GameObject blankCameraPrefab; // Used to render black pixels if there are only 3 players
-
-    private GameObject playerManager;
-    private PlayerManager playerManagerScript;
-    public int playerCount = 0;
+    // Players
+    private PlayerManager playerManager;
     [SerializeField] private List<GameObject> players = new List<GameObject>();
-
+    public GameObject blankCameraPrefab;
+    public int playerCount = 0;
     public List<GameObject> GetPlayersInGame() { return players; }
 
     // Awake is called when the script instance is being loaded
     void Awake()
     {
-        playerManager = GameObject.Find("Player Manager");
-        playerManagerScript = playerManager.GetComponent<PlayerManager>();
-
-        playerCount = playerManagerScript.playerCount;
-
+        playerManager = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
+        playerCount = playerManager.playerCount;
         spawnPoints = gameObject.GetComponentsInChildren<SpawnPoint>().ToList<SpawnPoint>();
-        foreach (SpawnPoint spawn in spawnPoints) spawnPointAvailable.Add(true);
-        SpawnPlayers();
+        if (gameModeSpawnLogic == null)
+        {
+            Debug.LogError("Please assign a gamemode specific spawn logic!");
+            return;
+        }
+        if (spawnPoints.Count < 4) { Debug.LogError("There is not enough unique spawn points for 4 players."); }
+        else SpawnPlayers();
     }
 
     // Instantiate players and position them at a spawn point
@@ -40,14 +41,14 @@ public class PlayerSpawner : MonoBehaviour
         for (int playerNumber = 0; playerNumber < playerCount; playerNumber++)
         {
             // Instantiate new player object and insert at the same position in list
-            Transform randomSpawn = GetRandomSpawnpoint().transform;
-            GameObject newPlayer = Instantiate(playerManagerScript.GetSelectedCharacter(playerNumber),
+            Transform randomSpawn = GetSpawnpoint().transform;
+            GameObject newPlayer = Instantiate(playerManager.GetSelectedCharacter(playerNumber),
                     randomSpawn.position, randomSpawn.rotation);
             players.Insert(playerNumber, newPlayer);
 
             // Setup Camera & Controller
             Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
-            InputDevice thisController = playerManagerScript.inputDevices[playerNumber];
+            InputDevice thisController = playerManager.inputDevices[playerNumber];
             PlayerController controllerScript = newPlayer.GetComponent<PlayerController>();
             controllerScript.SetController(thisController);
 
@@ -58,7 +59,6 @@ public class PlayerSpawner : MonoBehaviour
     // Setup the positioning of the cameras based on the number of players
     private void SetupSplitScreen(Camera thisCam, int playerNumber)
     {
-        if (playerCount == 3) { GameObject blankCam = Instantiate(blankCameraPrefab); }
         if (playerCount == 1)
         {
             //Handle 1 player mode
@@ -90,6 +90,7 @@ public class PlayerSpawner : MonoBehaviour
                     break;
                 case 2:
                     thisCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
+                    if (playerCount == 3) { GameObject blankCam = Instantiate(blankCameraPrefab); }
                     break;
                 case 3:
                     thisCam.rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
@@ -106,8 +107,8 @@ public class PlayerSpawner : MonoBehaviour
         players.Remove(playerObject);
 
         // Instantiate new player object and insert at the same position in list
-        Transform randomSpawn = GetRandomSpawnpoint().transform;
-        GameObject newPlayer = Instantiate(playerManagerScript.GetSelectedCharacter(playerNumber),
+        Transform randomSpawn = GetSpawnpoint().transform;
+        GameObject newPlayer = Instantiate(playerManager.GetSelectedCharacter(playerNumber),
                 randomSpawn.position, randomSpawn.rotation);
         players.Insert(playerNumber, newPlayer);
 
@@ -130,21 +131,22 @@ public class PlayerSpawner : MonoBehaviour
         SetupSplitScreen(thisCam, playerNumber);
     }
 
-    private SpawnPoint GetRandomSpawnpoint()
+    private SpawnPoint GetSpawnpoint()
     {
-        int randomIndex = UnityEngine.Random.Range(0, spawnPoints.Count-1);
+        SpawnPoint chosenSpawn = gameModeSpawnLogic.GetSpawnPosition(spawnPoints);
+        StartCoroutine(ReserveSpawnpoint(chosenSpawn));
 
-        // Prevent another player from using this spawnpoint for (spawnTimer) seconds
-        spawnPointAvailable[randomIndex] = false;
-        StartCoroutine(MakeSpawnpointAvailable(randomIndex));
-
-        return spawnPoints[randomIndex];
+        return chosenSpawn;
     }
 
-    private IEnumerator MakeSpawnpointAvailable(int spawnPointIndex) 
+    private IEnumerator ReserveSpawnpoint(SpawnPoint spawnpoint) 
     {
+        // Prevent multiple players from spawning at the same spawn point
+        spawnpoint.spawnAvailable = false;
         yield return new WaitForSeconds(spawnTimer);
-        spawnPointAvailable[spawnPointIndex] = true;
+        spawnpoint.spawnAvailable = true;
     }
+
+
 
 }
