@@ -133,7 +133,7 @@ public class PlayerSpawner : MonoBehaviour
 
     private SpawnPoint GetSpawnpoint()
     {
-        SpawnPoint chosenSpawn = gameModeSpawnLogic.GetSpawnPosition(spawnPoints);
+        SpawnPoint chosenSpawn = gameModeSpawnLogic.GetSpawnPosition(spawnPoints, players);
         StartCoroutine(ReserveSpawnpoint(chosenSpawn));
 
         return chosenSpawn;
