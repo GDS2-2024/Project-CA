@@ -10,6 +10,11 @@ public class PlayerStatManager : MonoBehaviour
     public int maxAmmoInClip;
     public int currentAmmo;
     public float reloadTime;
+    private InputDevice thisController;
+    private PlayerController controllerScript;
+    private float health;
+
+    public float maxHealth = 100f;
 
     // Player Components
     private PlayerHUD playerHUD;
@@ -73,13 +78,18 @@ public class PlayerStatManager : MonoBehaviour
 
         if (health > 0)
         {
-            
+            if (health > maxHealth)
+            {
+                health = maxHealth;
+            }
         }
         else
         {
             GiveKillScoreToAttacker(attacker);
             OnDeath();
         }
+
+        print(health);
     }
 
     public void ReduceAmmo()
