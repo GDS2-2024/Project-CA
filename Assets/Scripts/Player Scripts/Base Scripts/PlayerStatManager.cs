@@ -6,14 +6,9 @@ using UnityEngine.InputSystem;
 public class PlayerStatManager : MonoBehaviour
 {
     // Player Stat Variables
-    public float health;
     public int maxAmmoInClip;
     public int currentAmmo;
     public float reloadTime;
-    private InputDevice thisController;
-    private PlayerController controllerScript;
-    private float health;
-
     public float maxHealth = 100f;
 
     // Player Components
@@ -21,6 +16,7 @@ public class PlayerStatManager : MonoBehaviour
     private PlayerMoveBase playerMovement;
     private Rigidbody playerRigidbody;
     private PlayerScore playerScore;
+    private float health;
 
     // Player Controller
     private PlayerController controllerScript;

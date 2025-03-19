@@ -32,7 +32,7 @@ public class DamageExplosion : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             playerStatScript = other.gameObject.GetComponent<PlayerStatManager>();
-            playerStatScript.TakeDamage(damage);
+            playerStatScript.TakeDamage(damage, null);
         }
     }
 }

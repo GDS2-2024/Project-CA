@@ -32,7 +32,7 @@ public class HealthExplosion : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             playerStatScript = other.gameObject.GetComponent<PlayerStatManager>();
-            playerStatScript.TakeDamage(-heal);
+            playerStatScript.TakeDamage(-heal, null);
         }
     }
 }
