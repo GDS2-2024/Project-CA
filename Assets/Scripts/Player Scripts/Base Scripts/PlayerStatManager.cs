@@ -7,8 +7,9 @@ public class PlayerStatManager : MonoBehaviour
 {
     private InputDevice thisController;
     private PlayerController controllerScript;
+    private float health;
 
-    public float health;
+    public float maxHealth = 100f;
     public int clipSize;
     public int currentClip;
 
@@ -49,12 +50,17 @@ public class PlayerStatManager : MonoBehaviour
 
         if (health > 0)
         {
-            
+            if (health > maxHealth)
+            {
+                health = maxHealth;
+            }
         }
         else
         {
             Die();
         }
+
+        print(health);
     }
 
     public void ReduceAmmo()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamageExplosion : MonoBehaviour
 {
     public float deathCD = 0.5f;
-    public float damage = 50f;
+    private float damage = 25f;
 
     private float deathCurrent = 0f;
     private PlayerStatManager playerStatScript;

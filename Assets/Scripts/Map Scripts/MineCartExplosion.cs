@@ -37,12 +37,10 @@ public class MineCartExplosion : MonoBehaviour
     {
         if (gameObject.name.StartsWith(bombCart.name))
         {
-            print("bomb cart explode");
             Instantiate(damageExplosion, gameObject.transform.position, Quaternion.identity, null);
         }
         else if (gameObject.name.StartsWith(healthCart.name))
         {
-            print("heal cart explode");
             Instantiate(healthExplosion, gameObject.transform.position, Quaternion.identity, null);
         }
         Destroy(gameObject);

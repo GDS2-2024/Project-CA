@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealthExplosion : MonoBehaviour
 {
     public float deathCD = 0.5f;
-    public float damage = 50.0f;
+    private float heal = 25.0f;
 
     private float deathCurrent = 0f;
     private PlayerStatManager playerStatScript;
@@ -32,7 +32,7 @@ public class HealthExplosion : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             playerStatScript = other.gameObject.GetComponent<PlayerStatManager>();
-            playerStatScript.TakeDamage(-damage);
+            playerStatScript.TakeDamage(-heal);
         }
     }
 }
