@@ -236,6 +236,8 @@ MonoBehaviour:
   health: 10
   bombCart: {fileID: 5433640485118383529}
   healthCart: {fileID: 2055615329128313753, guid: b6d016bcbdbf2d0478fa3c027a8df02e, type: 3}
+  damageExplosion: {fileID: 2247593937045596193, guid: 0171a4787aaf528458421457815ebdd7, type: 3}
+  healthExplosion: {fileID: 834418320500769010, guid: 0a6c46fc4b99aa94c975fdee6328897d, type: 3}
 --- !u!114 &6275478181296531066
 MonoBehaviour:
   m_ObjectHideFlags: 0

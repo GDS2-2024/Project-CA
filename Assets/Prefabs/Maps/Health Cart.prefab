@@ -253,6 +253,8 @@ MonoBehaviour:
   health: 10
   bombCart: {fileID: 5433640485118383529, guid: 6f81a94fc2e78e44ab36d40899889d0b, type: 3}
   healthCart: {fileID: 2055615329128313753}
+  damageExplosion: {fileID: 2247593937045596193, guid: 0171a4787aaf528458421457815ebdd7, type: 3}
+  healthExplosion: {fileID: 834418320500769010, guid: 0a6c46fc4b99aa94c975fdee6328897d, type: 3}
 --- !u!4 &3663538595178452394 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8256647226682324722, guid: 256d7b4cfa6694c4d9a56d2f8ef1d201, type: 3}

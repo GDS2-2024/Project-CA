@@ -39,7 +39,6 @@ public class TestProjectile : MonoBehaviour
             MineCartExplosion cartExplodeScript = collision.gameObject.GetComponent<MineCartExplosion>();
             cartExplodeScript.TakeDamage(damage);
         }
-
         Destroy(gameObject);
     }
 }
