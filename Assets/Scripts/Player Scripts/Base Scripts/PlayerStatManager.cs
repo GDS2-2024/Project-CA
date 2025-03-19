@@ -32,6 +32,7 @@ public class PlayerStatManager : MonoBehaviour
         // Setup Ammo
         playerHUD = gameObject.GetComponent<PlayerHUD>();
         currentAmmo = maxAmmoInClip;
+        health = maxHealth;
         if (playerHUD) playerHUD.UpateAmmoUI(currentAmmo);
 
         // Setup Controller
@@ -110,7 +111,7 @@ public class PlayerStatManager : MonoBehaviour
 
     private void GiveKillScoreToAttacker(GameObject attacker)
     {
-        attacker.GetComponent<PlayerScore>().AddPlayerKill();
+        if (attacker.GetComponent<PlayerScore>()) { attacker.GetComponent<PlayerScore>().AddPlayerKill(); }
     }
 
     private void OnDeath()
