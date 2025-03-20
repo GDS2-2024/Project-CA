@@ -139,10 +139,11 @@ public class PlayerMoveBase : MonoBehaviour
 
     void Move()
     {
+        Debug.Log($"movementDisabled {movementDisabled}");
         if (movementDisabled) { return; }
         Vector3 desiredVelocity = moveDir * moveSpeed;
 
-        if (moveDir.magnitude > 0 && isGrounded)
+        if (moveDir.magnitude > 0)
         {           
             // If move input then add to existing velocity
             Vector3 velocityChange = desiredVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z);
@@ -192,6 +193,10 @@ public class PlayerMoveBase : MonoBehaviour
     {
         StartCoroutine(DisableMovement(duration));
     }
+
+    public void DisableMovement() { movementDisabled = true; }
+
+    public void EnableMovement() { movementDisabled = false; }
 
     private IEnumerator DisableMovement(float duration)
     {

@@ -67,7 +67,8 @@ public class AbilityGrapple : Ability
             if (distance < maxGrappleDistance)
             {
                 grappleStartTime = Time.time;
-                isGrappling = true;               
+                isGrappling = true;
+                playerMove.DisableMovement();
             } else
             {
                 StartCoroutine(DrawRedLine());
@@ -84,6 +85,7 @@ public class AbilityGrapple : Ability
     void StopGrapple()
     {
         isGrappling = false;
+        playerMove.EnableMovement();
         lineRenderer.positionCount = 0;
     }
 

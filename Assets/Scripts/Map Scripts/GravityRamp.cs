@@ -12,7 +12,7 @@ public class GravityRamp : MonoBehaviour
         {
             Rigidbody rb = other.GetComponent<Rigidbody>();
             PlayerMoveBase playerMove = other.GetComponent<PlayerMoveBase>();
-            playerMove.TempDisableMovement(0.2f);
+            playerMove.TempDisableMovement(3.0f); // Hardcoded timer, need a better implementation to disable until player touches the ground again
 
             Vector3 forceDirection = transform.TransformDirection(GravityForce);
             rb.AddForce(forceDirection, ForceMode.Impulse);
