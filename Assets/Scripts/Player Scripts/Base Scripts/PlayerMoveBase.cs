@@ -21,9 +21,12 @@ public class PlayerMoveBase : MonoBehaviour
 
     //Movement variables
     private Rigidbody rb;
+    private CapsuleCollider playerCollider;
     private Vector3 moveDir;
     public float moveSpeed;
     public float jumpHeight;
+    public bool isGrounded { get; private set; }
+    public bool movementDisabled = false;
 
     //Camera variables
     public Camera playerCam;
@@ -31,7 +34,6 @@ public class PlayerMoveBase : MonoBehaviour
     private float cameraYaw;
     private float minClamp = -89.0f;
     private float maxClamp = 89.0f;
-    public bool isCameraLocked = false; //Prevents HandleCamera() from overriding spawn point rotation
 
     //Camera offsests
     public float distance;
@@ -50,6 +52,7 @@ public class PlayerMoveBase : MonoBehaviour
         currentState = playerState.Idle;
 
         rb = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
         controllerScript = gameObject.GetComponent<PlayerController>();
         thisController = controllerScript.GetController();
 
@@ -61,12 +64,20 @@ public class PlayerMoveBase : MonoBehaviour
     void Update()
     {
         MoveDirection();
-        if (!isCameraLocked) HandleCamera();
+        HandleCamera();
     }
 
     private void FixedUpdate()
     {
+        CheckIsGrounded();
         Move();
+    }
+
+    public void CheckIsGrounded()
+    {
+        RaycastHit hit;
+        float raycastDistance = playerCollider.height / 2 + 0.1f;
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, raycastDistance);
     }
 
     public void SetState(playerState newState)
@@ -120,8 +131,21 @@ public class PlayerMoveBase : MonoBehaviour
 
     void Move()
     {
-        Vector3 newVelocity = moveDir * moveSpeed;
-        rb.velocity = new Vector3(newVelocity.x, rb.velocity.y, newVelocity.z);
+        if (movementDisabled) { return; }
+        Vector3 desiredVelocity = moveDir * moveSpeed;
+
+        if (moveDir.magnitude > 0 && isGrounded)
+        {           
+            // If move input then add to existing velocity
+            Vector3 velocityChange = desiredVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        } else if (moveDir.magnitude == 0 && isGrounded)
+        {
+            // If no input and grounded, apply friction to slow down movement
+            Vector3 dampedVelocity = new Vector3(rb.velocity.x * 0.85f, rb.velocity.y, rb.velocity.z * 0.85f);
+            rb.velocity = new Vector3(dampedVelocity.x, rb.velocity.y, dampedVelocity.z);
+        }
+        // If the player is in the air, this class does not manipulate velocity
     }
 
     void HandleCamera()
@@ -155,5 +179,17 @@ public class PlayerMoveBase : MonoBehaviour
         
         // Rotate player horizontally to face direction of the camera's yaw
         transform.rotation = Quaternion.Euler(0, cameraYaw, 0);
+    }
+
+    public void TempDisableMovement(float duration)
+    {
+        StartCoroutine(DisableMovement(duration));
+    }
+
+    private IEnumerator DisableMovement(float duration)
+    {
+        movementDisabled = true;
+        yield return new WaitForSeconds(duration);
+        movementDisabled = false;
     }
 }

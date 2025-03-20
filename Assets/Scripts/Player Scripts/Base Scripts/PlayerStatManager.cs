@@ -85,8 +85,6 @@ public class PlayerStatManager : MonoBehaviour
             GiveKillScoreToAttacker(attacker);
             OnDeath();
         }
-
-        print(health);
     }
 
     public void ReduceAmmo()
