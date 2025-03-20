@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -24,7 +25,7 @@ public class PlayerMoveBase : MonoBehaviour
     private CapsuleCollider playerCollider;
     private Vector3 moveDir;
     public float moveSpeed;
-    public float jumpHeight;
+    public float jumpForce;
     public bool isGrounded { get; private set; }
     public bool movementDisabled = false;
 
@@ -104,16 +105,17 @@ public class PlayerMoveBase : MonoBehaviour
     {
         float moveX = 0;
         float moveZ = 0;
-        //gets vertical and horizontal input from the input device
         if (thisController is Keyboard keyboard)
         {
             moveZ = keyboard.wKey.isPressed ? 1 : keyboard.sKey.isPressed ? -1 : 0;
             moveX = keyboard.dKey.isPressed ? 1 : keyboard.aKey.isPressed ? -1 : 0;
+            if (keyboard.spaceKey.wasPressedThisFrame) { Jump(); }
         }
         else if (thisController is Gamepad controller)
         {
             moveZ = controller.leftStick.up.isPressed ? 1 : controller.leftStick.down.isPressed ? -1 : 0;
             moveX = controller.leftStick.right.isPressed ? 1 : controller.leftStick.left.isPressed ? -1 : 0;
+            if (controller.buttonSouth.wasPressedThisFrame) { Jump(); }
         }
 
         moveDir = transform.TransformDirection(new Vector3(moveX, 0f, moveZ).normalized);
@@ -127,6 +129,12 @@ public class PlayerMoveBase : MonoBehaviour
         {
             SetState(playerState.Idle);
         }
+    }
+
+    private void Jump()
+    {
+        if (!isGrounded) { return; }
+        rb.AddForce(Vector3.up * 10 * jumpForce, ForceMode.Impulse);
     }
 
     void Move()
@@ -161,7 +169,6 @@ public class PlayerMoveBase : MonoBehaviour
         {
             inputX = controller.rightStick.ReadValue().x * controlXSens;
             inputY = controller.rightStick.ReadValue().y * controlYSens;
-
         }
 
         // Update yaw and pitch

@@ -2416,6 +2416,10 @@ PrefabInstance:
       propertyPath: zoomedReticleSize
       value: 65
       objectReference: {fileID: 0}
+    - target: {fileID: 3661997528233401019, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
+      propertyPath: jumpForce
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3661997528233401021, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
       propertyPath: m_RootOrder
       value: 4
