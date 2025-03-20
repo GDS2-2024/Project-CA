@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6660858813532343493}
   - component: {fileID: 6660858813532343492}
+  - component: {fileID: 260802004776874493}
   m_Layer: 0
   m_Name: KOTH Manager
   m_TagString: Untagged
@@ -62,6 +63,19 @@ MonoBehaviour:
   - {fileID: 3916229290758473516}
   - {fileID: 3916229290772813703}
   activeHill: {fileID: 0}
+--- !u!114 &260802004776874493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6660858813532343494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ee63a9fd6e37447b67d3b4e3bb7da5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDistanceFromPlayers: 6
 --- !u!1001 &147184216
 PrefabInstance:
   m_ObjectHideFlags: 0

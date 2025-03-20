@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class KOTHManager : MonoBehaviour
 {
@@ -34,10 +35,10 @@ public class KOTHManager : MonoBehaviour
         playerSpawner = GameObject.Find("Player Spawner");
         playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>();
         playerList = playerSpawnerScript.GetPlayersInGame();
-        SwitchToNextHill();
 
+        SwitchToNextHill();
+        EnableObjectiveMarker();
         InvokeRepeating("CheckIfPlayerHasWon", 1.0f, 1.0f);
-        InvokeRepeating("UpdateAllPlayerTimerHUDs", 0.0f, 1.0f);
     }
 
     // Update is called once per frame
@@ -47,12 +48,12 @@ public class KOTHManager : MonoBehaviour
         {
             UpdateGameTimer();
             UpdateHillTimer();
+            UpdateObjectiveDirection();
         }      
     }
 
     private void SwitchToNextHill()
     {
-        Debug.Log("Loading Next Hill...");
         if (hills.Count == 0)
         {
             Debug.Log("ERROR: Objective Hills List is empty.");
@@ -60,7 +61,7 @@ public class KOTHManager : MonoBehaviour
         }
 
         // Hide previous hill
-        if (activeHill != null) activeHill.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+        if (activeHill != null) activeHill.GetComponent<HillObjective>().SetVisibility(false);
 
         hillIndex++;
         // Loop to start of list
@@ -68,8 +69,9 @@ public class KOTHManager : MonoBehaviour
         
         // Assign and show new hill
         activeHill = hills[hillIndex];
-        activeHill.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+        activeHill.GetComponent<HillObjective>().SetVisibility(true);
         if (remainingGameTime != 360) { TellPlayersNewHill(); } // ignore at game start
+        EnableObjectiveMarker();
     }
 
     private void UpdateGameTimer()
@@ -79,6 +81,7 @@ public class KOTHManager : MonoBehaviour
         {
             TimerEnd();
         }
+        UpdateAllPlayerTimerHUDs();
     }
 
     private void UpdateHillTimer()
@@ -110,7 +113,6 @@ public class KOTHManager : MonoBehaviour
     // Add text to HUD for all players telling them that the hill has moved.
     private void TellPlayersNewHill()
     {
-        Debug.Log("Telling players the Hill has moved.");
         foreach (GameObject player in playerList)
         {
             PlayerHUD hud = player.GetComponent<PlayerHUD>();
@@ -144,4 +146,36 @@ public class KOTHManager : MonoBehaviour
         }
     }
 
+    private void UpdateObjectiveDirection()
+    {
+        foreach (GameObject player in playerList)
+        {
+            Vector3 playerPosition = player.transform.position;
+            Vector3 hillPosition = activeHill.transform.position;
+
+            // Get the direction to the hill
+            Vector3 directionToHill = hillPosition - playerPosition;
+            directionToHill.y = 0;
+
+            // Get the player's forward direction on the horizontal plane
+            Vector3 playerForward = player.transform.forward;
+            playerForward.y = 0;
+
+            // Compute the angle between the player's forward direction and the hill
+            float angle = Vector3.SignedAngle(playerForward, directionToHill, Vector3.up);
+
+            //Debug.Log($"Angle to objective: {angle}");
+            PlayerHUD hud = player.GetComponent<PlayerHUD>();
+            hud.SetCompassObjective(activeHill.transform.position);
+        }
+    }
+
+    private void EnableObjectiveMarker()
+    {
+        foreach (GameObject player in playerList)
+        {
+            PlayerHUD hud = player.GetComponent<PlayerHUD>();
+            hud.SetActiveCompassObjective(true);
+        }
+    }
 }
