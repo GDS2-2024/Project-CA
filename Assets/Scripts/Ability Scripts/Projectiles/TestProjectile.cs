@@ -42,6 +42,10 @@ public class TestProjectile : MonoBehaviour
         {
             MineCartExplosion cartExplodeScript = collision.gameObject.GetComponent<MineCartExplosion>();
             cartExplodeScript.TakeDamage(damage);
+        } else if (collision.gameObject.tag == "ExplosiveBarrel")
+        {
+            ExplosiveBarrel barrelScript = collision.gameObject.GetComponent<ExplosiveBarrel>();
+            barrelScript.TakeDamage(damage);
         }
         Destroy(gameObject);
     }

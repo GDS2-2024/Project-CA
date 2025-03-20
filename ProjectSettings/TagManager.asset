@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Map
+  - Cart
+  - ExplosiveBarrel
   layers:
   - Default
   - TransparentFX
