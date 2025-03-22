@@ -247,9 +247,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 842056221}
-  - component: {fileID: 842056222}
+  - component: {fileID: 6461237747496067332}
   m_Layer: 0
-  m_Name: High DMG Bullets
+  m_Name: X-Ray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +270,7 @@ Transform:
   m_Father: {fileID: 3661997528233401021}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &842056222
+--- !u!114 &6461237747496067332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,14 +279,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 842056220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de3f036816bb28047bf3fadb8c6aa2d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ced8b9772d79c143a786ef3ceddaefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 30
+  cooldown: 20
   currentCooldownTime: 0
-  normalBullet: {fileID: 3502144147338531713, guid: 98a33118016ed4446b9dcc4e205dd830, type: 3}
-  FMJBullet: {fileID: 3502144147338531713, guid: 85a7208a8e3c35e4382816b8135ecf49, type: 3}
-  fmjDuration: 5
+  duration: 5
+  playerCamera: {fileID: 3661997530115082012}
 --- !u!1001 &7151161618206565580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -302,7 +301,7 @@ PrefabInstance:
     - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: DamageAbility
       value: 
-      objectReference: {fileID: 842056222}
+      objectReference: {fileID: 6461237747496067332}
     - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: UtilityAbility
       value: 
@@ -314,7 +313,7 @@ PrefabInstance:
     - target: {fileID: 5507541783009307284, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8bead7f8f6ed97b4b9786c885186896a, type: 3}
+      objectReference: {fileID: 21300000, guid: 80a48a6c1174d6d438d700f034a899e4, type: 3}
     - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -373,11 +372,11 @@ PrefabInstance:
       objectReference: {fileID: 13400000, guid: 24719fe153dd3c4448e15aa5f854fbf7, type: 2}
     - target: {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Name
-      value: Outlaw Prefab
+      value: Bounty Hunter
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_LocalPosition.x
@@ -423,6 +422,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3cdbc64a1d9adf946a0df7201d3eb497, type: 2}
+    - target: {fileID: 5903094053358665333, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: maxAmmoInClip
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: bullet
       value: 
@@ -433,7 +436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: shotSpeed
-      value: 1
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: aimedSensRedution
@@ -445,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: zoomedReticleSize
-      value: 50
+      value: 65
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects:
@@ -530,5 +533,10 @@ MonoBehaviour:
 --- !u!4 &3661997530115082011 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5903094051481199575, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+  m_PrefabInstance: {fileID: 7151161618206565580}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &3661997530115082012 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5903094051481199568, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
   m_PrefabInstance: {fileID: 7151161618206565580}
   m_PrefabAsset: {fileID: 0}

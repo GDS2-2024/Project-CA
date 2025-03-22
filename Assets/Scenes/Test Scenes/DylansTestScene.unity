@@ -369,7 +369,7 @@ Transform:
   - {fileID: 1294498530}
   - {fileID: 1832204838}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &326737986
 GameObject:
@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 543154901}
   - component: {fileID: 543154900}
   - component: {fileID: 543154899}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -740,7 +740,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6024fb6c1e309d04ca4fa23c148afd06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1093,7 +1093,7 @@ GameObject:
   - component: {fileID: 762379621}
   - component: {fileID: 762379620}
   - component: {fileID: 762379619}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1183,7 +1183,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6024fb6c1e309d04ca4fa23c148afd06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1646,7 +1646,7 @@ GameObject:
   - component: {fileID: 1294498533}
   - component: {fileID: 1294498532}
   - component: {fileID: 1294498531}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1736,7 +1736,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6024fb6c1e309d04ca4fa23c148afd06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1780,7 +1780,7 @@ GameObject:
   - component: {fileID: 1343085309}
   - component: {fileID: 1343085308}
   - component: {fileID: 1343085305}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1870,7 +1870,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6024fb6c1e309d04ca4fa23c148afd06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2276,7 +2276,7 @@ GameObject:
   - component: {fileID: 1832204841}
   - component: {fileID: 1832204840}
   - component: {fileID: 1832204839}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Dummy
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2366,7 +2366,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6024fb6c1e309d04ca4fa23c148afd06, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2408,21 +2408,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Outlaw Prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 3661997528233401018, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
-      propertyPath: normalReticleSize
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3661997528233401018, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
-      propertyPath: zoomedReticleSize
-      value: 65
-      objectReference: {fileID: 0}
-    - target: {fileID: 3661997528233401019, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
-      propertyPath: jumpForce
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3661997528233401021, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3661997528233401021, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2713,7 +2701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4410806181198227263, guid: 01be2fb46fe1e0f43afd308df919c465, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4410806181198227263, guid: 01be2fb46fe1e0f43afd308df919c465, type: 3}
       propertyPath: m_LocalPosition.x

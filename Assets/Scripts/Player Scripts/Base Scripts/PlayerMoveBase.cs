@@ -139,7 +139,6 @@ public class PlayerMoveBase : MonoBehaviour
 
     void Move()
     {
-        Debug.Log($"movementDisabled {movementDisabled}");
         if (movementDisabled) { return; }
         Vector3 desiredVelocity = moveDir * moveSpeed;
 
