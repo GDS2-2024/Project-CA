@@ -9,6 +9,8 @@ public class PlayerStatManager : MonoBehaviour
     public int maxAmmoInClip;
     public int currentAmmo;
     public float reloadTime;
+    private bool isReloading;
+    private float reloadDurationTimer;
     public float maxHealth = 100f;
     private float health;
 
@@ -72,6 +74,7 @@ public class PlayerStatManager : MonoBehaviour
                 StartCoroutine(Reload());
             }
         }
+        if (isReloading) { ManageReloadCountdown(); }
     }
 
     public void TakeDamage(float damage, GameObject attacker)
@@ -102,7 +105,10 @@ public class PlayerStatManager : MonoBehaviour
     public IEnumerator Reload()
     {
         // Start reload animation here
+        isReloading = true;
+        reloadDurationTimer = 0;
         yield return new WaitForSeconds(reloadTime);
+        isReloading = false;
         currentAmmo = maxAmmoInClip;
         if (playerHUD) playerHUD.UpateAmmoUI(currentAmmo);
     }
@@ -110,7 +116,14 @@ public class PlayerStatManager : MonoBehaviour
     public void CancelReload()
     {
         // Stop reload animation here
+        isReloading = false;
         StopCoroutine(Reload());
+    }
+
+    public void ManageReloadCountdown()
+    {
+        reloadDurationTimer += Time.deltaTime;
+        playerHUD.UpdateReloadCooldown(1 - (reloadDurationTimer / reloadTime));
     }
 
     private void GiveKillScoreToAttacker(GameObject attacker)

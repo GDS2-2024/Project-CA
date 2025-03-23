@@ -9,9 +9,10 @@ public class PlayerHUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (!ammoTextComponent) { Debug.LogWarning("PlayerHUD: There is no Ammo text component assigned."); }
-        if (!healthBarTransform) { Debug.LogWarning("PlayerHUD: There is no Health Bar Transform component assigned."); }
-        if (!healthBarImage) { Debug.LogWarning("PlayerHUD: There is no Health Bar Image component assigned."); }
+        if (!AmmoTextComponent) { Debug.LogWarning("PlayerHUD: There is no Ammo text component assigned."); }
+        if (!AmmoReloadImage) { Debug.LogWarning("PlayerHUD: There is no Ammo Reload Image component assigned."); }
+        if (!HealthBarTransform) { Debug.LogWarning("PlayerHUD: There is no Health Bar Transform component assigned."); }
+        if (!HealthBarImage) { Debug.LogWarning("PlayerHUD: There is no Health Bar Image component assigned."); }
         if (!UtilCoolDownImage) { Debug.LogWarning("PlayerHUD: There is no Utility Cooldown Image component assigned."); }
         if (!DamageCoolDownImage) { Debug.LogWarning("PlayerHUD: There is no Damage Cooldown Image component assigned."); }
         if (!GameTimerText) { Debug.LogWarning("PlayerHUD: There is no Game Timer text component assigned."); }
@@ -27,22 +28,27 @@ public class PlayerHUD : MonoBehaviour
     }
 
     // Ammo
-    public TMP_Text ammoTextComponent;
+    public TMP_Text AmmoTextComponent;
+    public Image AmmoReloadImage;
     public void UpateAmmoUI(int newAmount)
     {
-        ammoTextComponent.text = "" + newAmount;
+        AmmoTextComponent.text = "" + newAmount;
+    }
+    public void UpdateReloadCooldown(float currentPercentage)
+    {
+        AmmoReloadImage.fillAmount = currentPercentage;
     }
 
     // Health
-    public RectTransform healthBarTransform;
-    public RawImage healthBarImage;
+    public RectTransform HealthBarTransform;
+    public RawImage HealthBarImage;
     private Color red = new Color(255f / 255f, 0f / 255f, 0f / 255f);
     private Color green = new Color(0f / 255f, 255f / 255f, 0f / 255f);
     public void UpdateHealthBar(float newHealth)
     {
-        healthBarTransform.sizeDelta = new Vector2((newHealth / 100f) * 400, 50);
+        HealthBarTransform.sizeDelta = new Vector2((newHealth / 100f) * 400, 50);
         Color newColor = Color.Lerp(red, green, newHealth / 100f);
-        healthBarImage.color = newColor;
+        HealthBarImage.color = newColor;
     }
 
     // Utilities
