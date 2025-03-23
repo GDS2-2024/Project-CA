@@ -369,7 +369,7 @@ PrefabInstance:
     - target: {fileID: 5903094053358665324, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 24719fe153dd3c4448e15aa5f854fbf7, type: 2}
+      objectReference: {fileID: 13400000, guid: 49fe079b773741146bd926f53d405989, type: 2}
     - target: {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Name
       value: Bounty Hunter
