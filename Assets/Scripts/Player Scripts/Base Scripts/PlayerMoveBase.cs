@@ -181,12 +181,18 @@ public class PlayerMoveBase : MonoBehaviour
         Vector3 targetPos = transform.position + transform.right * offsetDistance + Vector3.up * heightOffset;
         Vector3 cameraPos = rotation * new Vector3(0, 0, -distance) + targetPos;
         playerCam.transform.position = cameraPos;
-        playerCam.transform.rotation = rotation;
         playerCam.transform.LookAt(transform.position + transform.right * offsetDistance + Vector3.up * heightOffset);
         
-        // Rotate player horizontally to face direction of the camera's yaw
-        transform.rotation = Quaternion.Euler(0, cameraYaw, 0);
+        // Rotate player horizontally
+        transform.Rotate(Vector3.up * inputX, Space.World);
     }
+
+    public void InitializeCameraRotation(float initialYaw, float initialPitch)
+    {
+        cameraYaw = initialYaw;
+        cameraPitch = initialPitch;
+    }
+
 
     public void TempDisableMovement(float duration)
     {

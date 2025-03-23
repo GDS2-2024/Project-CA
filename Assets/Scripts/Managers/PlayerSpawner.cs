@@ -47,6 +47,9 @@ public class PlayerSpawner : MonoBehaviour
             players.Insert(playerNumber, newPlayer);
 
             // Setup Camera & Controller
+            PlayerMoveBase playerMove = newPlayer.GetComponent<PlayerMoveBase>();
+            Quaternion initialRotation = randomSpawn.rotation;
+            playerMove.InitializeCameraRotation(initialRotation.eulerAngles.y, initialRotation.eulerAngles.x);
             Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
             InputDevice thisController = playerManager.inputDevices[playerNumber];
             PlayerController controllerScript = newPlayer.GetComponent<PlayerController>();
@@ -127,6 +130,9 @@ public class PlayerSpawner : MonoBehaviour
         controllerScript.SetController(playerController);
 
         // Setup Camera
+        PlayerMoveBase playerMove = newPlayer.GetComponent<PlayerMoveBase>();
+        Quaternion initialRotation = randomSpawn.rotation;
+        playerMove.InitializeCameraRotation(initialRotation.eulerAngles.y, initialRotation.eulerAngles.x);
         Camera thisCam = newPlayer.GetComponentInChildren<Camera>();
         SetupSplitScreen(thisCam, playerNumber);
     }
