@@ -10,13 +10,16 @@ public class PlayerStatManager : MonoBehaviour
     public int currentAmmo;
     public float reloadTime;
     public float maxHealth = 100f;
+    private float health;
 
     // Player Components
     private PlayerHUD playerHUD;
     private PlayerMoveBase playerMovement;
     private Rigidbody playerRigidbody;
     private PlayerScore playerScore;
-    private float health;
+    private TestShoot playerShoot;
+    private CapsuleCollider playerCollider;
+    private PlayerAbilityHandler playerAbilityHandler;
 
     // Player Controller
     private PlayerController controllerScript;
@@ -47,6 +50,9 @@ public class PlayerStatManager : MonoBehaviour
         playerMovement = gameObject.GetComponent<PlayerMoveBase>();
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
         playerScore = gameObject.GetComponent<PlayerScore>();
+        playerShoot = gameObject.GetComponent<TestShoot>();
+        playerCollider = gameObject.GetComponent<CapsuleCollider>();
+        playerAbilityHandler = gameObject.GetComponent<PlayerAbilityHandler>();
     }
 
     // Update is called once per frame
@@ -121,12 +127,14 @@ public class PlayerStatManager : MonoBehaviour
             renderer.enabled = false;
         }
 
-        // Disable movement
+        // Disable Components
         if (playerMovement) playerMovement.enabled = false;
         if (playerRigidbody) playerRigidbody.velocity = Vector3.zero;
-
-        // Disable score component (so they cant get score when dead)
+        if (playerRigidbody) playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         if (playerScore) playerScore.enabled = false;
+        if (playerShoot) playerShoot.enabled = false;
+        if (playerCollider) playerCollider.enabled = false;
+        if (playerAbilityHandler) playerAbilityHandler.enabled = false;
 
         // Show 3-second UI countdown for respawning
         StartRespawnCountdown();
