@@ -29,24 +29,28 @@ public class TestProjectile : MonoBehaviour
         shooter = whoShot;
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player")
         {
-            if (collision.gameObject != shooter) // Ignores if the player shoots themselves
+            if (other.gameObject != shooter) // Ignores if the player shoots themselves
             {
-                PlayerStatManager statScript = collision.gameObject.GetComponent<PlayerStatManager>();
+                PlayerStatManager statScript = other.gameObject.GetComponent<PlayerStatManager>();
                 statScript.TakeDamage(damage, shooter);
+                Destroy(gameObject);
             }
-        } else if (collision.gameObject.tag == "Cart")
-        {
-            MineCartExplosion cartExplodeScript = collision.gameObject.GetComponent<MineCartExplosion>();
-            cartExplodeScript.TakeDamage(damage);
-        } else if (collision.gameObject.tag == "ExplosiveBarrel")
-        {
-            ExplosiveBarrel barrelScript = collision.gameObject.GetComponent<ExplosiveBarrel>();
-            barrelScript.TakeDamage(damage);
         }
-        Destroy(gameObject);
+        else if (other.gameObject.tag == "Cart")
+        {
+            MineCartExplosion cartExplodeScript = other.gameObject.GetComponent<MineCartExplosion>();
+            cartExplodeScript.TakeDamage(damage);
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.tag == "ExplosiveBarrel")
+        {
+            ExplosiveBarrel barrelScript = other.gameObject.GetComponent<ExplosiveBarrel>();
+            barrelScript.TakeDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }
