@@ -1626,7 +1626,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Baroness
+  m_text: Pyromaniac
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c8bc5a1ae9b4e074f8a8f15bc3a28e68, type: 2}
   m_sharedMaterial: {fileID: 6312888865274604225, guid: c8bc5a1ae9b4e074f8a8f15bc3a28e68, type: 2}
@@ -5712,7 +5712,7 @@ MonoBehaviour:
   characterPrefabs:
   - {fileID: 3661997528233400993, guid: 230294a0f37fe6744b6ee80dd44eb2be, type: 3}
   - {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-  - {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+  - {fileID: 490854935388327303, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
   - {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
 --- !u!1 &923367681
 GameObject:
@@ -7119,7 +7119,7 @@ GameObject:
   - component: {fileID: 1048573539}
   - component: {fileID: 1048573538}
   m_Layer: 5
-  m_Name: Baroness
+  m_Name: Pyromaniac
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

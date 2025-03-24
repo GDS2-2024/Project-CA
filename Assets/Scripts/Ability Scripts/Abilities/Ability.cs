@@ -31,7 +31,6 @@ public abstract class Ability : MonoBehaviour
             isOnCooldown = false;
             currentCooldownTime = 0;
         }
-
     }
 
 }
