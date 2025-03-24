@@ -7,9 +7,13 @@ public class TestProjectile : MonoBehaviour
 
     private Rigidbody rb;
 
-    public float bulletSpeed;
-    public float damage;
+    public float bulletSpeed, damage, gravity = 9.8f;
     private GameObject shooter; // Which player shot this bullet
+
+    private Vector3 bullet_velocity = new Vector3 (0, 0, 0); //the vector that contains bullet's current speed
+	private Vector3 last_position = new Vector3(0,0,0), current_position = new Vector3 (0,0,0);
+
+    public float lifetime = 3.0f;
 
     // Start is called before the first frame update
     void Awake()
@@ -17,40 +21,79 @@ public class TestProjectile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
-    { 
-        
+    void Start()
+    {
+        current_position = transform.position;
+
+        // Set a timeout so if we don't hit anything the bullet will be destroyed
+        Destroy(this.gameObject, lifetime);
     }
 
     public void Shoot(Vector3 moveDir, GameObject whoShot)
     {
-        rb.velocity = moveDir * bulletSpeed;
+        bullet_velocity = moveDir * bulletSpeed;
         shooter = whoShot;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void FixedUpdate()
     {
-        if (other.gameObject.tag == "Player")
-        {
-            if (other.gameObject != shooter) // Ignores if the player shoots themselves
+        rb.velocity = bullet_velocity; 
+		bullet_velocity.y -= gravity; 
+ 
+		/* linecasting */
+		RaycastHit hit;
+		last_position = current_position;
+		current_position = transform.position;
+
+
+		if (Physics.Linecast(last_position, current_position, out hit))
+		{
+            switch (hit.transform.tag)
             {
-                PlayerStatManager statScript = other.gameObject.GetComponent<PlayerStatManager>();
-                statScript.TakeDamage(damage, shooter);
-                Destroy(gameObject);
+                case "Player":
+                    if (hit.transform.gameObject != shooter) // Ignores if the player shoots themselves
+                    {
+                        PlayerStatManager statScript = hit.transform.gameObject.GetComponent<PlayerStatManager>();
+                        statScript.TakeDamage(damage, shooter);
+                        Destroy(gameObject);
+                    }
+                    break;
+                case "Cart":
+                    MineCartExplosion cartExplodeScript = hit.transform.gameObject.GetComponent<MineCartExplosion>();
+                    cartExplodeScript.TakeDamage(damage);
+                    Destroy(gameObject);
+                    break;
+                case "ExplosiveBarrel":
+                    ExplosiveBarrel barrelScript = hit.transform.gameObject.GetComponent<ExplosiveBarrel>();
+                    barrelScript.TakeDamage(damage);
+                    Destroy(gameObject);
+                    break;
+                case "Projectile": //Do nothing if it hits another projectile (or itself)
+                    break;  
+                default: // Prefer to use tag like "Terrain" but this is ok
+                    //Get the normal of the hit point to reflect the bullet
+                    Vector3 normal = hit.normal;
+                    Debug.Log(Mathf.Abs(Vector3.Angle(bullet_velocity, -normal) - 90));
+        
+                    // Shallow angles ricochet, otherwise destroy the bullet
+                    if (Mathf.Abs(Vector3.Angle(bullet_velocity, -normal) - 90) < 20.0f)
+                    {
+                        // Reflect * energy loss factor
+                        bullet_velocity = Vector3.Reflect(bullet_velocity, normal) * 0.8f;  
+                    }
+                    else
+                    {
+                        Destroy(gameObject);
+                    }
+
+                    // Move the bullet back outside the object
+                    transform.position = hit.point;
+                    rb.position = hit.point;
+                    current_position = hit.point;
+                    break;
             }
-        }
-        else if (other.gameObject.tag == "Cart")
-        {
-            MineCartExplosion cartExplodeScript = other.gameObject.GetComponent<MineCartExplosion>();
-            cartExplodeScript.TakeDamage(damage);
-            Destroy(gameObject);
-        }
-        else if (other.gameObject.tag == "ExplosiveBarrel")
-        {
-            ExplosiveBarrel barrelScript = other.gameObject.GetComponent<ExplosiveBarrel>();
-            barrelScript.TakeDamage(damage);
-            Destroy(gameObject);
-        }
+		}
+		Debug.DrawLine (last_position, current_position, Color.red, lifetime);
+
     }
 }
