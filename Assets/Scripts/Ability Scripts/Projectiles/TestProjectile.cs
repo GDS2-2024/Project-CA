@@ -7,6 +7,8 @@ public class TestProjectile : MonoBehaviour
 
     private Rigidbody rb;
 
+    bool drawDebug = true;
+
     public float bulletSpeed, damage, gravity = 9.8f;
     private GameObject shooter; // Which player shot this bullet
 
@@ -14,6 +16,8 @@ public class TestProjectile : MonoBehaviour
 	private Vector3 last_position = new Vector3(0,0,0), current_position = new Vector3 (0,0,0);
 
     public float lifetime = 3.0f;
+
+    public float ricochetAngle = 20.0f;
 
     // Start is called before the first frame update
     void Awake()
@@ -73,27 +77,44 @@ public class TestProjectile : MonoBehaviour
                 default: // Prefer to use tag like "Terrain" but this is ok
                     //Get the normal of the hit point to reflect the bullet
                     Vector3 normal = hit.normal;
-                    Debug.Log(Mathf.Abs(Vector3.Angle(bullet_velocity, -normal) - 90));
+                    Debug.Log(Vector3.Angle(bullet_velocity, normal) - 90);
         
                     // Shallow angles ricochet, otherwise destroy the bullet
-                    if (Mathf.Abs(Vector3.Angle(bullet_velocity, -normal) - 90) < 20.0f)
+                    if (Vector3.Angle(bullet_velocity, normal) - 90 < 20.0f)
                     {
+                        
                         // Reflect * energy loss factor
                         bullet_velocity = Vector3.Reflect(bullet_velocity, normal) * 0.8f;  
+                        
+                        // Move the bullet back outside the object and update rb velocity
+                        transform.position = hit.point;
+                        Physics.SyncTransforms();
+                        current_position = hit.point;
+                        rb.MovePosition(hit.point);
+                        rb.velocity = bullet_velocity;
+
+                        if (drawDebug)
+                        {
+                            Debug.DrawLine(hit.point, hit.point + normal, Color.green, lifetime);
+                        }
                     }
                     else
                     {
+                        if (drawDebug)
+                        {
+                            Debug.DrawLine(hit.point, hit.point + normal, Color.red, lifetime);
+                        }
                         Destroy(gameObject);
                     }
 
-                    // Move the bullet back outside the object
-                    transform.position = hit.point;
-                    rb.position = hit.point;
-                    current_position = hit.point;
+
                     break;
             }
 		}
-		Debug.DrawLine (last_position, current_position, Color.red, lifetime);
-
+		if (drawDebug)
+        {
+            Debug.DrawLine (last_position, current_position, Color.red, lifetime);
+        }
+            
     }
 }
