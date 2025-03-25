@@ -18,6 +18,9 @@ public class TestProjectile : MonoBehaviour
     private Vector3 last_position = new Vector3(0, 0, 0),
         current_position = new Vector3(0, 0, 0);
 
+    [SerializeField]
+    private ParticleSystem hitEffect;
+
     public float lifetime = 3.0f;
 
     public float ricochetAngle = 20.0f;
@@ -62,7 +65,7 @@ public class TestProjectile : MonoBehaviour
                         // Apply damage to the player
                         PlayerStatManager statScript =
                             hit.transform.gameObject.GetComponent<PlayerStatManager>();
-                        statScript.TakeDamage(damage, shooter);
+                        statScript.TakeDamage(damage, shooter, hit);
 
                         // If bullet is slow enough, destroy it
                         if (bullet_velocity.magnitude < 10f)
@@ -103,8 +106,29 @@ public class TestProjectile : MonoBehaviour
                     //Get the normal of the hit point to reflect the bullet
                     Vector3 normal = hit.normal;
 
-                    // Shallow angles ricochet, otherwise destroy the bullet
-                    if (Vector3.Angle(bullet_velocity, normal) - 90 < 20.0f)
+                    // Spawn hit effect
+                    if (hitEffect)
+                    {
+                        ParticleSystem effect = Instantiate<ParticleSystem>(
+                            hitEffect,
+                            hit.point,
+                            Quaternion.Euler(hit.normal)
+                        );
+                        effect.Play();
+                        Destroy(effect.gameObject, effect.main.duration);
+                    }
+
+                    //Steep angles destroy the bullet
+                    if (Vector3.Angle(bullet_velocity, normal) - 90 > 20.0f)
+                    {
+                        if (drawDebug)
+                        {
+                            Debug.DrawLine(hit.point, hit.point + normal, Color.red, lifetime);
+                        }
+                        Destroy(gameObject);
+                    }
+                    // Shallow angles ricochet
+                    else
                     {
                         // Reflect * energy loss factor
                         bullet_velocity = Vector3.Reflect(bullet_velocity, normal) * 0.8f;
@@ -121,15 +145,6 @@ public class TestProjectile : MonoBehaviour
                             Debug.DrawLine(hit.point, hit.point + normal, Color.green, lifetime);
                         }
                     }
-                    else
-                    {
-                        if (drawDebug)
-                        {
-                            Debug.DrawLine(hit.point, hit.point + normal, Color.red, lifetime);
-                        }
-                        Destroy(gameObject);
-                    }
-
                     break;
             }
             if (drawDebug)
@@ -232,13 +247,13 @@ public class TestProjectile : MonoBehaviour
         float spreadAngle = 5.0f;
         float velocityLoss = 0.5f; // Magnitude of energy lost
         float maxDepth = 2.0f; // Maximum depth to penetrate
+        Vector3 new_velocity = rb.velocity;
 
-        Vector3 new_velocity = ApplyConeSpread(spreadAngle);
-        rb.velocity = new_velocity;
         //Cast a ray to find the exit point of the player
         RaycastHit exitHit;
         if (RayCastExit(hit.point, hit.transform.gameObject, new_velocity, maxDepth, out exitHit))
         {
+            float penDistance = Vector3.Distance(hit.point, exitHit.point);
             // Move the bullet to the exit point and update rb velocity
             transform.position = exitHit.point;
             Physics.SyncTransforms();
@@ -254,8 +269,11 @@ public class TestProjectile : MonoBehaviour
                     lifetime
                 );
             }
-            rb.velocity *= velocityLoss;
+            rb.velocity *= velocityLoss * penDistance;
+            new_velocity = ApplyConeSpread(spreadAngle);
             bullet_velocity = rb.velocity;
         }
+
+        rb.velocity = new_velocity;
     }
 }
