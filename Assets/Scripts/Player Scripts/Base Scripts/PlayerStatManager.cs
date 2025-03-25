@@ -14,6 +14,11 @@ public class PlayerStatManager : MonoBehaviour
     public float maxHealth = 100f;
     private float health;
 
+    public ParticleSystem hitEffect;
+
+    [SerializeField]
+    private GameObject hitDecal;
+
     // Player Components
     private PlayerHUD playerHUD;
     private PlayerMoveBase playerMovement;
@@ -38,15 +43,18 @@ public class PlayerStatManager : MonoBehaviour
         playerHUD = gameObject.GetComponent<PlayerHUD>();
         currentAmmo = maxAmmoInClip;
         health = maxHealth;
-        if (playerHUD) playerHUD.UpateAmmoUI(currentAmmo);
+        if (playerHUD)
+            playerHUD.UpateAmmoUI(currentAmmo);
 
         // Setup Controller
         controllerScript = gameObject.GetComponent<PlayerController>();
-        if (controllerScript) thisController = controllerScript.GetController();
+        if (controllerScript)
+            thisController = controllerScript.GetController();
 
         // Setup Player Spawner
         playerSpawner = GameObject.Find("Player Spawner");
-        if (playerSpawner) playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>();
+        if (playerSpawner)
+            playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>();
 
         // Get Player Components
         playerMovement = gameObject.GetComponent<PlayerMoveBase>();
@@ -74,13 +82,44 @@ public class PlayerStatManager : MonoBehaviour
                 StartCoroutine(Reload());
             }
         }
-        if (isReloading) { ManageReloadCountdown(); }
+        if (isReloading)
+        {
+            ManageReloadCountdown();
+        }
+    }
+
+    public void TakeDamage(float damage, GameObject attacker, RaycastHit hitPoint)
+    {
+        TakeDamage(damage, attacker);
+        if (hitEffect)
+        {
+            ParticleSystem effect = Instantiate(
+                hitEffect,
+                hitPoint.point,
+                Quaternion.LookRotation(hitPoint.normal)
+            );
+            // attach the effect to the player
+            effect.transform.SetParent(transform);
+            effect.Play();
+            Destroy(effect.gameObject, effect.main.duration);
+        }
+        if (hitDecal)
+        {
+            GameObject decal = Instantiate(
+                hitDecal,
+                hitPoint.point,
+                Quaternion.LookRotation(-hitPoint.normal)
+            );
+            decal.transform.SetParent(transform);
+            Destroy(decal, 5f);
+        }
     }
 
     public void TakeDamage(float damage, GameObject attacker)
     {
         health -= damage;
-        if (playerHUD) playerHUD.UpdateHealthBar(health);
+        if (playerHUD)
+            playerHUD.UpdateHealthBar(health);
 
         if (health > 0)
         {
@@ -96,12 +135,16 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public bool isPlayerReloading() { return isReloading; }
+    public bool isPlayerReloading()
+    {
+        return isReloading;
+    }
 
     public void ReduceAmmo()
     {
         currentAmmo -= 1;
-        if (playerHUD) playerHUD.UpateAmmoUI(currentAmmo);
+        if (playerHUD)
+            playerHUD.UpateAmmoUI(currentAmmo);
     }
 
     public IEnumerator Reload()
@@ -112,7 +155,8 @@ public class PlayerStatManager : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
         isReloading = false;
         currentAmmo = maxAmmoInClip;
-        if (playerHUD) playerHUD.UpateAmmoUI(currentAmmo);
+        if (playerHUD)
+            playerHUD.UpateAmmoUI(currentAmmo);
     }
 
     public void CancelReload()
@@ -130,12 +174,16 @@ public class PlayerStatManager : MonoBehaviour
 
     private void GiveKillScoreToAttacker(GameObject attacker)
     {
-        if (attacker != null) { attacker.GetComponent<PlayerScore>().AddPlayerKill(); }
+        if (attacker != null)
+        {
+            attacker.GetComponent<PlayerScore>().AddPlayerKill();
+        }
     }
 
     private void OnDeath()
     {
-        if (playerScore) playerScore.AddPlayerDeath();
+        if (playerScore)
+            playerScore.AddPlayerDeath();
         // Hide all MeshRenderers in this object and its children
         foreach (MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>())
         {
@@ -143,13 +191,20 @@ public class PlayerStatManager : MonoBehaviour
         }
 
         // Disable Components
-        if (playerMovement) playerMovement.enabled = false;
-        if (playerRigidbody) playerRigidbody.velocity = Vector3.zero;
-        if (playerRigidbody) playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
-        if (playerScore) playerScore.enabled = false;
-        if (playerShoot) playerShoot.enabled = false;
-        if (playerCollider) playerCollider.enabled = false;
-        if (playerAbilityHandler) playerAbilityHandler.enabled = false;
+        if (playerMovement)
+            playerMovement.enabled = false;
+        if (playerRigidbody)
+            playerRigidbody.velocity = Vector3.zero;
+        if (playerRigidbody)
+            playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        if (playerScore)
+            playerScore.enabled = false;
+        if (playerShoot)
+            playerShoot.enabled = false;
+        if (playerCollider)
+            playerCollider.enabled = false;
+        if (playerAbilityHandler)
+            playerAbilityHandler.enabled = false;
 
         // Show 3-second UI countdown for respawning
         StartRespawnCountdown();
@@ -158,14 +213,23 @@ public class PlayerStatManager : MonoBehaviour
 
     private void StartRespawnCountdown()
     {
-        if (!playerHUD) { return; }
+        if (!playerHUD)
+        {
+            return;
+        }
 
         playerHUD.StartRespawnTimer();
     }
 
     private void Respawn()
     {
-        if (playerSpawnerScript) { playerSpawnerScript.RespawnPlayer(thisController, gameObject); }
-        else { Debug.LogWarning("RESPAWN FAILED: No Player Spawner object"); }
+        if (playerSpawnerScript)
+        {
+            playerSpawnerScript.RespawnPlayer(thisController, gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("RESPAWN FAILED: No Player Spawner object");
+        }
     }
 }
