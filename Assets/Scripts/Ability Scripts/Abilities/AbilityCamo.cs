@@ -45,7 +45,7 @@ public class AbilityCamo : Ability
 
         Debug.Log("Camo Wears Off!");
 
-        StartCoroutine(Cooldown());  // Start cooldown timer before reusing ability
+        StartCooldown();  // Start cooldown timer before reusing ability
     }
 
     private void ApplyInvisibility(bool state)

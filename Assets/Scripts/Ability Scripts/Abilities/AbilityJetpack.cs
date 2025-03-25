@@ -4,42 +4,35 @@ using UnityEngine;
 
 public class AbilityJetpack : Ability
 {
-    [SerializeField] private float initialBoost;  // The initial strong burst upwards
-    [SerializeField] private float maxJetpackForce;  // Max force applied while holding
-    [SerializeField] private float jetpackDecayRate;  // How fast the force weakens
-    [SerializeField] private float fuelDuration;  // Maximum time the jetpack can be used
+    private float initialBoost = 1.0f;
+    private float maxJetpackForce = 1.0f;
+    private float jetpackDecayRate = 1.0f;
+    private float fuelDuration = 3.0f;
 
     private Rigidbody rb;
     private bool isUsingJetpack = false;
     private float currentJetpackForce;
     public float fuelRemaining;
+    private ParticleSystem particleSys;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponentInParent<Rigidbody>();
         fuelRemaining = fuelDuration;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        particleSys = GetComponentInChildren<ParticleSystem>();
     }
 
     override public void OnPressAbility()
     {
         if (!isOnCooldown && !isUsingJetpack)
         {
-            Debug.Log("Jetpack Activated!");
             rb.useGravity = false;
             rb.AddForce(Vector3.up * initialBoost, ForceMode.Impulse);  // Initial burst
             isUsingJetpack = true;
             currentJetpackForce = maxJetpackForce;
             fuelRemaining = fuelDuration;
-        } else
-        {
-            Debug.Log("Ability on cooldown, wait to use again!");
+            particleSys.Play();
         }
     }
     override public void OnHoldingAbility()
@@ -51,7 +44,6 @@ public class AbilityJetpack : Ability
             fuelRemaining -= Time.deltaTime;
         } else
         {
-            Debug.Log("Jetpack is out of fuel!");
             StartFalling();
         }
     }
@@ -63,10 +55,13 @@ public class AbilityJetpack : Ability
 
     private void StartFalling()
     {
+        if (!isUsingJetpack) { return; }
+
         fuelRemaining = 0;
         isUsingJetpack = false;
         rb.useGravity = true;
-        StartCoroutine(Cooldown());
+        particleSys.Stop();
+        StartCooldown();
     }
 
 }

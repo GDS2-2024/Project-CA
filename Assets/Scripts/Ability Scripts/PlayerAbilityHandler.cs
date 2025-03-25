@@ -38,12 +38,12 @@ public class PlayerAbilityHandler : MonoBehaviour
         if (hasUtilityAbility)
         {
             ManageUtilityAbility();
-            playerHUD.UpdateUtilityCooldown(UtilityAbility.currentCooldownTime);
+            playerHUD.UpdateUtilityCooldown(UtilityAbility.currentCooldownTime / UtilityAbility.cooldown);
         }
         if (hasDamageAbility)
         {
             ManageDamageAbility();
-            playerHUD.UpdateDamageCooldown(DamageAbility.currentCooldownTime);
+            playerHUD.UpdateDamageCooldown(DamageAbility.currentCooldownTime / DamageAbility.cooldown);
         }
     }
 

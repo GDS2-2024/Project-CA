@@ -1,41 +1,45 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMoveBase : MonoBehaviour
 {
-
     private playerState currentState;
 
     //Controller
     private InputDevice thisController;
     private PlayerController controllerScript;
+    
+    //Inputs
+    private float inputX;
+    private float inputY;
+    public float mouseSens;
+    public float controlXSens;
+    public float controlYSens;
 
     //Movement variables
     private Rigidbody rb;
+    private CapsuleCollider playerCollider;
     private Vector3 moveDir;
-    private float moveX;
-    private float moveZ;
-
     public float moveSpeed;
-    public float jumpHeight;
+    public float jumpForce;
+    public bool isGrounded { get; private set; }
+    public bool movementDisabled = false;
 
     //Camera variables
-    private float mouseX;
-    private float mouseY;
+    public Camera playerCam;
     private float cameraPitch;
     private float cameraYaw;
-    private float minClamp = 30f;
-    private float maxClamp = 120f;
+    private float minClamp = -89.0f;
+    private float maxClamp = 89.0f;
 
-
-    public Camera playerCam;
-    public float cameraSens;
-    public Vector3 cameraOffset;
-    public float rightOffset;
-    public float heightOffset;
-    public float smoothSpeed;
+    //Camera offsests
+    public float distance;
+    public float offsetDistance;
+    public float heightOffset; 
 
     public enum playerState
     {
@@ -46,27 +50,35 @@ public class PlayerMoveBase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
         currentState = playerState.Idle;
+
+        rb = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<CapsuleCollider>();
+        controllerScript = gameObject.GetComponent<PlayerController>();
+        thisController = controllerScript.GetController();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        controllerScript = gameObject.GetComponent<PlayerController>();
-        thisController = controllerScript.GetController();
     }
 
     // Update is called once per frame
     void Update()
     {
         MoveDirection();
-
         HandleCamera();
     }
 
     private void FixedUpdate()
     {
+        CheckIsGrounded();
         Move();
+    }
+
+    public void CheckIsGrounded()
+    {
+        RaycastHit hit;
+        float raycastDistance = playerCollider.height / 2 + 0.1f;
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, raycastDistance);
     }
 
     public void SetState(playerState newState)
@@ -91,22 +103,22 @@ public class PlayerMoveBase : MonoBehaviour
 
     void MoveDirection()
     {
-        //gets vertical and horizontal input from the input device
+        float moveX = 0;
+        float moveZ = 0;
         if (thisController is Keyboard keyboard)
         {
             moveZ = keyboard.wKey.isPressed ? 1 : keyboard.sKey.isPressed ? -1 : 0;
             moveX = keyboard.dKey.isPressed ? 1 : keyboard.aKey.isPressed ? -1 : 0;
+            if (keyboard.spaceKey.wasPressedThisFrame) { Jump(); }
         }
         else if (thisController is Gamepad controller)
         {
             moveZ = controller.leftStick.up.isPressed ? 1 : controller.leftStick.down.isPressed ? -1 : 0;
             moveX = controller.leftStick.right.isPressed ? 1 : controller.leftStick.left.isPressed ? -1 : 0;
+            if (controller.buttonSouth.wasPressedThisFrame) { Jump(); }
         }
 
-
-        //move direction is based on the direction the camera is facing
-        moveDir = playerCam.transform.TransformDirection(new Vector3(moveX, 0f, moveZ).normalized);
-        //Stops players from running into the air
+        moveDir = transform.TransformDirection(new Vector3(moveX, 0f, moveZ).normalized);
         moveDir.y = 0;
 
         if (moveDir.z > 0 || moveDir.x > 0)
@@ -119,10 +131,29 @@ public class PlayerMoveBase : MonoBehaviour
         }
     }
 
+    private void Jump()
+    {
+        if (!isGrounded) { return; }
+        rb.AddForce(Vector3.up * 10 * jumpForce, ForceMode.Impulse);
+    }
+
     void Move()
     {
-        Vector3 newVelocity = moveDir * moveSpeed;
-        rb.velocity = new Vector3(newVelocity.x, rb.velocity.y, newVelocity.z);
+        if (movementDisabled) { return; }
+        Vector3 desiredVelocity = moveDir * moveSpeed;
+
+        if (moveDir.magnitude > 0)
+        {           
+            // If move input then add to existing velocity
+            Vector3 velocityChange = desiredVelocity - new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            rb.AddForce(velocityChange, ForceMode.VelocityChange);
+        } else if (moveDir.magnitude == 0 && isGrounded)
+        {
+            // If no input and grounded, apply friction to slow down movement
+            Vector3 dampedVelocity = new Vector3(rb.velocity.x * 0.85f, rb.velocity.y, rb.velocity.z * 0.85f);
+            rb.velocity = new Vector3(dampedVelocity.x, rb.velocity.y, dampedVelocity.z);
+        }
+        // If the player is in the air, this class does not manipulate velocity
     }
 
     void HandleCamera()
@@ -131,34 +162,51 @@ public class PlayerMoveBase : MonoBehaviour
         if (thisController is Keyboard)
         {
             Mouse mouse = Mouse.current;
-            mouseX = mouse.delta.x.ReadValue() * cameraSens;
-            mouseY = mouse.delta.y.ReadValue() * cameraSens;
+            inputX = mouse.delta.x.ReadValue() * mouseSens;
+            inputY = mouse.delta.y.ReadValue() * mouseSens;
         }
         else if (thisController is Gamepad controller)
         {
-            mouseX = controller.rightStick.right.isPressed ? 1 * cameraSens : controller.rightStick.left.isPressed ? -1 * cameraSens : 0;
-            mouseY = controller.rightStick.up.isPressed ? 1 * cameraSens : controller.rightStick.down.isPressed ? -1 * cameraSens : 0;
+            inputX = controller.rightStick.ReadValue().x * controlXSens;
+            inputY = controller.rightStick.ReadValue().y * controlYSens;
         }
 
-        cameraYaw += mouseX;
-
-        cameraPitch += mouseY;
-        //stops the player from looking too high or too low
+        // Update yaw and pitch
+        cameraYaw += inputX;
+        cameraPitch -= inputY;
         cameraPitch = Mathf.Clamp(cameraPitch, minClamp, maxClamp);
 
-        //Rotate the camera around the player
+        // Update camera position and rotation
         Quaternion rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0);
-        Vector3 newPos = transform.position + rotation * cameraOffset;
+        Vector3 targetPos = transform.position + transform.right * offsetDistance + Vector3.up * heightOffset;
+        Vector3 cameraPos = rotation * new Vector3(0, 0, -distance) + targetPos;
+        playerCam.transform.position = cameraPos;
+        playerCam.transform.LookAt(transform.position + transform.right * offsetDistance + Vector3.up * heightOffset);
+        
+        // Rotate player horizontally
+        transform.Rotate(Vector3.up * inputX, Space.World);
+    }
 
-        playerCam.transform.position = newPos;
+    public void InitializeCameraRotation(float initialYaw, float initialPitch)
+    {
+        cameraYaw = initialYaw;
+        cameraPitch = initialPitch;
+    }
 
-        //rotate the character the face the x direction of the camera
-        transform.rotation = Quaternion.Euler(0, cameraYaw, 0);
 
-        //offsets ensure that the character isn't positioned in the middle of the screen for the players POV
-        Vector3 rightOffsetVec = playerCam.transform.right * rightOffset;
-        Vector3 heightOffsetVec = playerCam.transform.up * heightOffset;
-        //ensure that the camera is always looking at the player
-        playerCam.transform.LookAt(transform.position + rightOffsetVec + heightOffsetVec);
+    public void TempDisableMovement(float duration)
+    {
+        StartCoroutine(DisableMovement(duration));
+    }
+
+    public void DisableMovement() { movementDisabled = true; }
+
+    public void EnableMovement() { movementDisabled = false; }
+
+    private IEnumerator DisableMovement(float duration)
+    {
+        movementDisabled = true;
+        yield return new WaitForSeconds(duration);
+        movementDisabled = false;
     }
 }

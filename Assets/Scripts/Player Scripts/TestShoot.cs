@@ -6,15 +6,16 @@ using UnityEngine.InputSystem;
 
 public class TestShoot : MonoBehaviour
 {
-
     private GameObject newBullet;
     private TestProjectile projectileScript;
     private RaycastHit hit;
     private Vector3 target;
     private PlayerStatManager statScript;
+    private PlayerMoveBase playerMovement;
     private bool shotDelay;
     private InputDevice thisController;
     private PlayerController controllerScript;
+    private PlayerHUD playerHUD;
 
     public GameObject bullet;
     public Vector3 spawnPos;
@@ -22,13 +23,26 @@ public class TestShoot : MonoBehaviour
     public GameObject gun;
     public float shotSpeed;
 
+    private int normalFOV = 60;
+    public int aimedFOV;
+    public float aimedSensRedution; // Higher numbers = lower sensitivity
+    private float zoomSpeed = 10f;
+    private float targetFOV = 60;
+
+    public float normalReticleSize;
+    public float zoomedReticleSize;
+    private float targetReticleSize;
+
     // Start is called before the first frame update
     void Start()
     {
         statScript = gameObject.GetComponent<PlayerStatManager>();
+        playerMovement = gameObject.GetComponent<PlayerMoveBase>();
         shotDelay = false;
         controllerScript = gameObject.GetComponent<PlayerController>();
         thisController = controllerScript.GetController();
+        playerHUD = GetComponent<PlayerHUD>();
+        targetReticleSize = normalReticleSize;
     }
 
     // Update is called once per frame
@@ -37,22 +51,41 @@ public class TestShoot : MonoBehaviour
         if (thisController is Keyboard)
         {
             Mouse mouse = Mouse.current;
-            if (mouse.leftButton.isPressed && statScript.currentClip > 0 && !shotDelay)
-            {
-                ShootBullet();
-            }
+            if (mouse.leftButton.isPressed && statScript.currentAmmo > 0 && !shotDelay) ShootBullet();
+            if (mouse.rightButton.wasPressedThisFrame) SetZoom(true);
+            if (mouse.rightButton.wasReleasedThisFrame) SetZoom(false);
         }
         else if (thisController is Gamepad controller)
         {
-            if (controller.rightTrigger.isPressed && statScript.currentClip > 0 && !shotDelay)
-            {
-                ShootBullet();
-            }
+            if (controller.rightTrigger.isPressed && statScript.currentAmmo > 0 && !shotDelay) ShootBullet();
+            if (controller.leftTrigger.wasPressedThisFrame) SetZoom(true);
+            if (controller.leftTrigger.wasReleasedThisFrame) SetZoom(false);
         }
+
+        // ADS / ZOOM
+        playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
+        float newReticleSize = Mathf.Lerp(playerHUD.Reticle.rectTransform.sizeDelta.x, targetReticleSize, Time.deltaTime * zoomSpeed);
+        playerHUD.SetReticleSize(newReticleSize);
+    }
+
+    void SetZoom(bool isAimed)
+    {
+        targetFOV = isAimed ? aimedFOV : normalFOV;
+
+        //Reduce aiming sensitivity when zoomed
+        float sensMultiplier = isAimed ? 1f / aimedSensRedution : aimedSensRedution;
+        playerMovement.controlXSens *= sensMultiplier;
+        playerMovement.controlYSens *= sensMultiplier;
+        playerMovement.mouseSens *= sensMultiplier;
+
+        //Shrink reticle when zoomed
+        targetReticleSize = isAimed ? zoomedReticleSize : normalReticleSize;
     }
 
     void ShootBullet()
     {
+        if (statScript.isPlayerReloading()) { return; }
+        
         //Reduce Player ammo
         statScript.ReduceAmmo();
 
@@ -77,7 +110,7 @@ public class TestShoot : MonoBehaviour
         newBullet = Instantiate(bullet, spawnPos, transform.rotation);
         //Gets the projectile script of the just created bullet
         projectileScript = newBullet.GetComponent<TestProjectile>();
-        projectileScript.Shoot(direction);
+        projectileScript.Shoot(direction, gameObject);
 
         //Stops all bullets from firing at once, gives a variable fire rate
         StartCoroutine(ShotTimer());

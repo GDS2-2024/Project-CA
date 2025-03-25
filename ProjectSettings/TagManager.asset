@@ -5,14 +5,17 @@ TagManager:
   serializedVersion: 2
   tags:
   - Map
+  - Cart
+  - ExplosiveBarrel
+  - Projectile
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - FastProjectile
   - 
   - 
   - 

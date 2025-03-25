@@ -7,13 +7,14 @@ public class AbilityGrapple : Ability
     private Vector3 grapplePoint;
     public LayerMask whatIsGrappleable;
     public Transform grappleGunTip, cam, player;
-    private float maxDistance = 100f;
+    private float maxGrappleDistance = 75f;
+    private float maxRaycast = 500f;
 
     private Rigidbody playerRb;
     private PlayerMoveBase playerMove;
     private bool isGrappling = false;
-    private float grappleSpeedMultiplier = 50f; // Controls how fast speed increases
-    private float stopDistance = 1.2f; // Distance from the grapple point where the player stops
+    private float grappleSpeedMultiplier = 50f;
+    private float stopDistance = 1.2f;
 
     private float grappleStartTime;
     void Awake()
@@ -36,7 +37,7 @@ public class AbilityGrapple : Ability
         if (!isOnCooldown)
         {
             StopGrapple();
-            StartCoroutine(Cooldown());
+            StartCooldown();
         }
     }
 
@@ -50,26 +51,41 @@ public class AbilityGrapple : Ability
 
     void LateUpdate()
     {
-        DrawRope();
+        DrawGreenLine();
     }
 
     void StartGrapple()
     {
         RaycastHit hit;
-        if (Physics.Raycast(cam.position, cam.forward, out hit, maxDistance, whatIsGrappleable))
+        if (Physics.Raycast(cam.position, cam.forward, out hit, maxRaycast, whatIsGrappleable))
         {
-            grapplePoint = hit.point;
-            grappleStartTime = Time.time;
-            isGrappling = true;
-
             lineRenderer.positionCount = 2;
             currentGrapplePosition = grappleGunTip.position;
+            grapplePoint = hit.point;
+
+            float distance = Vector3.Distance(transform.position, hit.point);
+            if (distance < maxGrappleDistance)
+            {
+                grappleStartTime = Time.time;
+                isGrappling = true;
+                playerMove.DisableMovement();
+            } else
+            {
+                StartCoroutine(DrawRedLine());
+            }     
+        }
+        else
+        {
+            // Raycast did not hit, so simulate a far grapple point
+            grapplePoint = cam.position + cam.forward * maxRaycast;
+            StartCoroutine(DrawRedLine());
         }
     }
 
     void StopGrapple()
     {
         isGrappling = false;
+        playerMove.EnableMovement();
         lineRenderer.positionCount = 0;
     }
 
@@ -85,7 +101,7 @@ public class AbilityGrapple : Ability
         if (distance < stopDistance)
         {
             StopGrapple();
-            StartCoroutine(Cooldown());
+            StartCooldown();
             return;
         }
 
@@ -101,14 +117,44 @@ public class AbilityGrapple : Ability
 
     private Vector3 currentGrapplePosition; 
 
-    void DrawRope()
+    void DrawGreenLine()
     {
         if (!isGrappling) return;
 
-        currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, grapplePoint, Time.deltaTime * 8f);
+        lineRenderer.startColor = Color.green;
+        lineRenderer.endColor = Color.green;
+        currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, grapplePoint, Time.deltaTime * 6f);
         lineRenderer.SetPosition(0, grappleGunTip.position);
         lineRenderer.SetPosition(1, currentGrapplePosition);
     }
+
+    IEnumerator DrawRedLine()
+    {
+        lineRenderer.positionCount = 2;
+        lineRenderer.startColor = Color.red;
+        lineRenderer.endColor = Color.red;
+
+        Vector3 startGrapplePosition = grappleGunTip.position;
+        Vector3 endGrapplePosition = grapplePoint;
+        float elapsedTime = 0f;
+        float duration = 0.5f;
+
+        // Lerp the red line over time
+        while (elapsedTime < duration)
+        {
+            if (lineRenderer.positionCount == 0) { yield break; }
+
+            elapsedTime += Time.deltaTime;
+            Vector3 currentPosition = Vector3.Lerp(startGrapplePosition, endGrapplePosition, elapsedTime / duration);
+            lineRenderer.SetPosition(0, grappleGunTip.position);
+            lineRenderer.SetPosition(1, currentPosition);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        lineRenderer.positionCount = 0;
+    }
+
 
     public override void OnHoldingAbility()
     {
