@@ -8,17 +8,19 @@ public class SceneManagement : MonoBehaviour
 
     private static SceneManagement instance;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (instance == null)
+        {
+            // If no instance exists, set this one
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            // If an instance already exists, destroy this one
+            Destroy(gameObject);
+        }
     }
 
     public void ReturnToMenu()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -13,12 +14,32 @@ public class MatchManager : MonoBehaviour
 
     private List<GameObject> playerList;
     private PlayerSpawner playerSpawner;
-    private ScoreBoardManager scoreBoardManager;
+    private ScoreBoardData scoreBoardData;
+    private ScoreboardUI scoreBoardUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        scoreBoardManager = GameObject.Find("Scoreboard Manager").GetComponent<ScoreBoardManager>();
+        GameObject sbManager = GameObject.Find("Scoreboard Manager");
+        if (sbManager == null)
+        {
+            Debug.LogError("Scoreboard Manager GameObject not found in the scene!");
+        }
+
+        scoreBoardData = sbManager?.GetComponent<ScoreBoardData>();
+        if (scoreBoardData == null)
+        {
+            Debug.LogError("ScoreBoardData component is missing on Scoreboard Manager!");
+        }
+
+        scoreBoardUI = scoreBoardData?.GetComponent<ScoreboardUI>();
+        if (scoreBoardUI == null)
+        {
+            Debug.LogError("ScoreboardUI component is missing on Scoreboard Manager!");
+        }
+
+        scoreBoardData = GameObject.Find("Scoreboard Manager").GetComponent<ScoreBoardData>();
+        scoreBoardUI = scoreBoardData.GetComponent<ScoreboardUI>();
         playerSpawner = GameObject.Find("Player Spawner").GetComponent<PlayerSpawner>();
         playerList = playerSpawner.GetPlayersInGame();
 
@@ -59,7 +80,7 @@ public class MatchManager : MonoBehaviour
 
     private void CheckIfPlayerHasWon()
     {
-        PlayerScore winningPlayer = scoreBoardManager.GetHighestPlayerScore();
+        PlayerScore winningPlayer = scoreBoardData.GetHighestPlayerScore();
         if (winningPlayer.GetObjectiveScore() >= scoreToWin)
         {
             Debug.Log("Player has reached score to win.");
@@ -71,8 +92,16 @@ public class MatchManager : MonoBehaviour
     {
         hasGameFinished = true;
         CancelInvoke("CheckIfPlayerHasWon");
-        GameObject winningPlayer = scoreBoardManager.GetHighestPlayerScore().gameObject;
+        GameObject winningPlayer = scoreBoardData.GetHighestPlayerScore().gameObject;
         Debug.Log("Winning player is: " + winningPlayer);
-        // TO DO: show a scoreboard then load back to main menu
+        scoreBoardUI.PopulateScoreboard(scoreBoardData.GetAllPlayerScores());
+        Invoke("LoadMenu", 10.0f);
     }
+
+    private void LoadMenu()
+    {
+        SceneManagement sceneManager = GameObject.Find("Scene Manager").GetComponent<SceneManagement>();
+        sceneManager.ReturnToMenu();
+    }
+
 }

@@ -26,7 +26,7 @@ public class GameModeMenu : MonoBehaviour
     void Start()
     {
         playerManagerScript = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
-        sceneManagement = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
+        sceneManagement = GameObject.Find("Scene Manager").GetComponent<SceneManagement>();
         ResetGameModeMenu();
     }
 

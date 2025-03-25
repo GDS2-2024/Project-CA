@@ -51,7 +51,7 @@ public class MenuManager : MonoBehaviour
 
     private void InitializeManagers()
     {
-        sceneManagement = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
+        sceneManagement = GameObject.Find("Scene Manager").GetComponent<SceneManagement>();
         playerManager = GameObject.Find("Player Manager").GetComponent<PlayerManager>();
         gameModeMenuManager = GameObject.Find("Gamemode Menu").GetComponent<GameModeMenu>();
         gameModeMenuManager.enabled = false;
