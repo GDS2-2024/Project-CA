@@ -84,6 +84,8 @@ public class TestShoot : MonoBehaviour
 
     void ShootBullet()
     {
+        if (statScript.isPlayerReloading()) { return; }
+        
         //Reduce Player ammo
         statScript.ReduceAmmo();
 

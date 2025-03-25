@@ -96,6 +96,8 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    public bool isPlayerReloading() { return isReloading; }
+
     public void ReduceAmmo()
     {
         currentAmmo -= 1;
