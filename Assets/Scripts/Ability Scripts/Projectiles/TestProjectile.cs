@@ -112,7 +112,7 @@ public class TestProjectile : MonoBehaviour
                         ParticleSystem effect = Instantiate<ParticleSystem>(
                             hitEffect,
                             hit.point,
-                            Quaternion.Euler(hit.normal)
+                            Quaternion.LookRotation(hit.normal)
                         );
                         effect.Play();
                         Destroy(effect.gameObject, effect.main.duration);

@@ -96,7 +96,7 @@ public class PlayerStatManager : MonoBehaviour
             ParticleSystem effect = Instantiate(
                 hitEffect,
                 hitPoint.point,
-                Quaternion.Euler(hitPoint.normal)
+                Quaternion.LookRotation(hitPoint.normal)
             );
             // attach the effect to the player
             effect.transform.SetParent(transform);
