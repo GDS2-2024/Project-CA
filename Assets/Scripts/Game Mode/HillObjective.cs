@@ -5,10 +5,15 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Represents a single hill objective for KOTH, keeps track of players in hill and scores accordingly 
+/// </summary>
 public class HillObjective : MonoBehaviour
 {
     [SerializeField] private int numOfPlayersInHill = 0;
     [SerializeField] private KOTHManager KOTHManager;
+    private MatchManager matchManager;
+
     private Collider hillCollider;
     private MeshRenderer hillRenderer;
 
@@ -21,13 +26,14 @@ public class HillObjective : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        matchManager = GameObject.Find("Match Manager").GetComponent<MatchManager>();
         if (KOTHManager == null) { Debug.Log("ERROR: Hill has no KOTHManager"); }
         StartCoroutine(CheckPlayersInHill());
     }
 
     private IEnumerator CheckPlayersInHill()
     {
-        while (!KOTHManager.hasGameFinished)
+        while (!matchManager.hasGameFinished)
         {
             yield return new WaitForSeconds(0.1f);
             if (this.gameObject == KOTHManager.activeHill) { UpdatePlayersInHill(); }
@@ -42,14 +48,14 @@ public class HillObjective : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (KOTHManager.hasGameFinished) { return; }
+        if (matchManager.hasGameFinished) { return; }
         if (this.gameObject != KOTHManager.activeHill) { return; }
         if (other.tag == "Player") { other.GetComponent<PlayerHUD>().SetActiveCompassObjective(false); }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (KOTHManager.hasGameFinished) { return; }
+        if (matchManager.hasGameFinished) { return; }
         if (this.gameObject != KOTHManager.activeHill) { return; }
         if (numOfPlayersInHill == 1 && other.tag == "Player")
         {
@@ -64,7 +70,7 @@ public class HillObjective : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (KOTHManager.hasGameFinished) { return; }
+        if (matchManager.hasGameFinished) { return; }
         if (this.gameObject != KOTHManager.activeHill) { return; }
         if (other.tag == "Player")
         {
