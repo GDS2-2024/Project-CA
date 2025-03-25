@@ -96,6 +96,8 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    public bool isPlayerReloading() { return isReloading; }
+
     public void ReduceAmmo()
     {
         currentAmmo -= 1;
@@ -128,7 +130,7 @@ public class PlayerStatManager : MonoBehaviour
 
     private void GiveKillScoreToAttacker(GameObject attacker)
     {
-        if (attacker.GetComponent<PlayerScore>()) { attacker.GetComponent<PlayerScore>().AddPlayerKill(); }
+        if (attacker != null) { attacker.GetComponent<PlayerScore>().AddPlayerKill(); }
     }
 
     private void OnDeath()
