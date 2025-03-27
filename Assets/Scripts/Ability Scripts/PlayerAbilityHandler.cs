@@ -7,10 +7,12 @@ public class PlayerAbilityHandler : MonoBehaviour
 {
     public Ability UtilityAbility;
     public Ability DamageAbility;
+    public Ability UltimateAbility;
 
     private PlayerHUD playerHUD;
     private bool hasUtilityAbility = true;
     private bool hasDamageAbility = true;
+    private bool hasUltimateAbility = true;
     private InputDevice thisController;
     private PlayerController controllerScript;
 
@@ -28,6 +30,11 @@ public class PlayerAbilityHandler : MonoBehaviour
             Debug.Log("The Character does not have a DAMAGE ability.");
             hasDamageAbility = false;
         }
+        if (UltimateAbility == null)
+        {
+            Debug.Log("The Character does not have a ULTIMATE ability.");
+            hasUltimateAbility = false;
+        }
         controllerScript = gameObject.GetComponent<PlayerController>();
         thisController = controllerScript.GetController();
     }
@@ -44,6 +51,11 @@ public class PlayerAbilityHandler : MonoBehaviour
         {
             ManageDamageAbility();
             playerHUD.UpdateDamageCooldown(DamageAbility.currentCooldownTime / DamageAbility.cooldown);
+        }
+        if (hasUltimateAbility)
+        {
+            ManageUltimateAbility();
+            playerHUD.UpdateUltimateCooldown(UltimateAbility.currentCooldownTime / UltimateAbility.cooldown);
         }
     }
 
@@ -76,6 +88,22 @@ public class PlayerAbilityHandler : MonoBehaviour
             if (controller.leftShoulder.wasPressedThisFrame) { DamageAbility.OnPressAbility(); }
             if (controller.leftShoulder.isPressed) { DamageAbility.OnHoldingAbility(); }
             if (controller.leftShoulder.wasReleasedThisFrame) { DamageAbility.OnReleaseAbility(); }
+        }
+    }
+
+    private void ManageUltimateAbility()
+    {
+        if (thisController is Keyboard keyboard)
+        {
+            if (keyboard.altKey.wasPressedThisFrame) { UltimateAbility.OnPressAbility(); }
+            if (keyboard.altKey.isPressed) { UltimateAbility.OnHoldingAbility(); }
+            if (keyboard.altKey.wasReleasedThisFrame) { UltimateAbility.OnReleaseAbility(); }
+        }
+        else if (thisController is Gamepad controller)
+        {
+            if (controller.buttonNorth.wasPressedThisFrame) { UltimateAbility.OnPressAbility(); }
+            if (controller.buttonNorth.isPressed) { UltimateAbility.OnHoldingAbility(); }
+            if (controller.buttonNorth.wasReleasedThisFrame) { UltimateAbility.OnReleaseAbility(); }
         }
     }
 }

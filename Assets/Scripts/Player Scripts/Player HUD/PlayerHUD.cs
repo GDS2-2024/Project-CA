@@ -15,29 +15,18 @@ public class PlayerHUD : MonoBehaviour
         if (!HealthBarImage) { Debug.LogWarning("PlayerHUD: There is no Health Bar Image component assigned."); }
         if (!UtilCoolDownImage) { Debug.LogWarning("PlayerHUD: There is no Utility Cooldown Image component assigned."); }
         if (!DamageCoolDownImage) { Debug.LogWarning("PlayerHUD: There is no Damage Cooldown Image component assigned."); }
+        if (!UltimateCooldownImage) { Debug.LogWarning("PlayerHUD: There is no Ultimate Cooldown Image component assigned."); }
         if (!GameTimerText) { Debug.LogWarning("PlayerHUD: There is no Game Timer text component assigned."); }
         if (!RespawnTimer) { Debug.LogWarning("PlayerHUD: There is no Respawn Timer text component assigned."); }
         if (!ObjectiveScore) { Debug.LogWarning("PlayerHUD: There is no Objective Score text component assigned."); }
         if (!ObjectivePrompt) { Debug.LogWarning("PlayerHUD: There is no Objective Prompt text component assigned."); }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // Ammo
     public TMP_Text AmmoTextComponent;
     public Image AmmoReloadImage;
-    public void UpateAmmoUI(int newAmount)
-    {
-        AmmoTextComponent.text = "" + newAmount;
-    }
-    public void UpdateReloadCooldown(float currentPercentage)
-    {
-        AmmoReloadImage.fillAmount = currentPercentage;
-    }
+    public void UpateAmmoUI(int newAmount) { AmmoTextComponent.text = "" + newAmount; }
+    public void UpdateReloadCooldown(float currentPercentage) { AmmoReloadImage.fillAmount = currentPercentage; }
 
     // Health
     public RectTransform HealthBarTransform;
@@ -54,26 +43,16 @@ public class PlayerHUD : MonoBehaviour
     // Utilities
     public Image UtilCoolDownImage;
     public Image DamageCoolDownImage;
-    public void UpdateUtilityCooldown(float currentPercentage)
-    {
-        UtilCoolDownImage.fillAmount = currentPercentage;
-    }
-    public void UpdateDamageCooldown(float currentPercentage)
-    {
-        DamageCoolDownImage.fillAmount = currentPercentage;
-    }
+    public Image UltimateCooldownImage;
+    public void UpdateUtilityCooldown(float currentPercentage) { UtilCoolDownImage.fillAmount = currentPercentage; }
+    public void UpdateDamageCooldown(float currentPercentage) { DamageCoolDownImage.fillAmount = currentPercentage; }
+    public void UpdateUltimateCooldown(float currentPercentage) { UltimateCooldownImage.fillAmount = currentPercentage; }
 
     // Timers
     public TMP_Text GameTimerText;
     public TMP_Text RespawnTimer;
-    public void UpdateGameTimer(string newTime)
-    {
-        GameTimerText.text = newTime;
-    }
-    public void StartRespawnTimer()
-    {
-        StartCoroutine(RespawnCountdownRoutine(3));
-    }
+    public void UpdateGameTimer(string newTime) { GameTimerText.text = newTime; }
+    public void StartRespawnTimer() { StartCoroutine(RespawnCountdownRoutine(3)); }
 
     private IEnumerator RespawnCountdownRoutine(int countdownTime)
     {
@@ -90,31 +69,18 @@ public class PlayerHUD : MonoBehaviour
     // Objectives
     public TMP_Text ObjectiveScore;
     public TMP_Text ObjectivePrompt;
-    public void UpdateObjectiveScore(int currentScore)
-    {
-        ObjectiveScore.text = "Score: " + currentScore;
-    }
-    public void UpdateObjectivePrompt(string currentObjective)
-    {
-        ObjectivePrompt.text = "" + currentObjective;
-    }
-    // Add a duration for how long to show the prompt
+    public void UpdateObjectiveScore(int currentScore) { ObjectiveScore.text = "Score: " + currentScore; }
+    public void UpdateObjectivePrompt(string currentObjective) { ObjectivePrompt.text = "" + currentObjective; }
     public void UpdateObjectivePrompt(string currentObjective, float duration)
     {
         ObjectivePrompt.text = "" + currentObjective;
         Invoke("ClearObjectivePrompt", duration);
     }
-    public void ClearObjectivePrompt()
-    {
-        ObjectivePrompt.text = "";
-    }
+    public void ClearObjectivePrompt() { ObjectivePrompt.text = ""; }
 
     // Reticle
     public Image Reticle;
-    public void SetReticleSize(float reticleSize)
-    {
-        Reticle.rectTransform.sizeDelta = new Vector2(reticleSize, reticleSize);
-    }
+    public void SetReticleSize(float reticleSize) { Reticle.rectTransform.sizeDelta = new Vector2(reticleSize, reticleSize); }
 
     // Compass
     public Camera PlayerCamera;
@@ -133,8 +99,5 @@ public class PlayerHUD : MonoBehaviour
         
     }
 
-    public void SetActiveCompassObjective(bool enabled)
-    {
-        ObjectiveRectTransform.gameObject.SetActive(enabled);
-    }
+    public void SetActiveCompassObjective(bool enabled) { ObjectiveRectTransform.gameObject.SetActive(enabled); }
 }
