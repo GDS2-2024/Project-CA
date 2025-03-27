@@ -91,12 +91,12 @@ public class PlayerHUD : MonoBehaviour
     public void SetCompassObjective(Vector3 objectiveWorldPosition)
     {
         Vector3 directionToTarget = objectiveWorldPosition - CameraTransform.position;
-        float angle = Vector2.SignedAngle(new Vector2(directionToTarget.x, directionToTarget.z),
+        float angle = Vector2.SignedAngle(
+            new Vector2(directionToTarget.x, directionToTarget.z),
             new Vector2(CameraTransform.transform.forward.x, CameraTransform.transform.forward.z));
-        float compassPositionX = Mathf.Clamp(angle / PlayerCamera.fieldOfView, -1, 1);
+        float compassPositionX = Mathf.Clamp(angle / 80, -1, 1);
         ObjectiveRectTransform.anchoredPosition = 
-            new Vector2(CompassBarRectTransform.rect.width*0.8f / 2 * compassPositionX, ObjectiveRectTransform.anchoredPosition.y);
-        
+            new Vector2(500 * compassPositionX, ObjectiveRectTransform.anchoredPosition.y);
     }
 
     public void SetActiveCompassObjective(bool enabled) { ObjectiveRectTransform.gameObject.SetActive(enabled); }
