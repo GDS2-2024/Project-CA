@@ -11,7 +11,7 @@ public class PlayerHUD : MonoBehaviour
     {
         if (!AmmoTextComponent) { Debug.LogWarning("PlayerHUD: There is no Ammo text component assigned."); }
         if (!AmmoReloadImage) { Debug.LogWarning("PlayerHUD: There is no Ammo Reload Image component assigned."); }
-        if (!HealthBarTransform) { Debug.LogWarning("PlayerHUD: There is no Health Bar Transform component assigned."); }
+        if (!HealthBarImage) { Debug.LogWarning("PlayerHUD: There is no Health Bar Image component assigned."); }
         if (!HealthBarImage) { Debug.LogWarning("PlayerHUD: There is no Health Bar Image component assigned."); }
         if (!UtilCoolDownImage) { Debug.LogWarning("PlayerHUD: There is no Utility Cooldown Image component assigned."); }
         if (!DamageCoolDownImage) { Debug.LogWarning("PlayerHUD: There is no Damage Cooldown Image component assigned."); }
@@ -29,13 +29,12 @@ public class PlayerHUD : MonoBehaviour
     public void UpdateReloadCooldown(float currentPercentage) { AmmoReloadImage.fillAmount = currentPercentage; }
 
     // Health
-    public RectTransform HealthBarTransform;
-    public RawImage HealthBarImage;
+    public Image HealthBarImage;
     private Color red = new Color(255f / 255f, 0f / 255f, 0f / 255f);
     private Color green = new Color(0f / 255f, 255f / 255f, 0f / 255f);
     public void UpdateHealthBar(float newHealth)
     {
-        HealthBarTransform.sizeDelta = new Vector2((newHealth / 100f) * 400, 50);
+        HealthBarImage.fillAmount = newHealth / 100f;
         Color newColor = Color.Lerp(red, green, newHealth / 100f);
         HealthBarImage.color = newColor;
     }
@@ -96,7 +95,7 @@ public class PlayerHUD : MonoBehaviour
             new Vector2(CameraTransform.transform.forward.x, CameraTransform.transform.forward.z));
         float compassPositionX = Mathf.Clamp(angle / 80, -1, 1);
         ObjectiveRectTransform.anchoredPosition = 
-            new Vector2(500 * compassPositionX, ObjectiveRectTransform.anchoredPosition.y);
+            new Vector2(450 * compassPositionX, ObjectiveRectTransform.anchoredPosition.y);
     }
 
     public void SetActiveCompassObjective(bool enabled) { ObjectiveRectTransform.gameObject.SetActive(enabled); }

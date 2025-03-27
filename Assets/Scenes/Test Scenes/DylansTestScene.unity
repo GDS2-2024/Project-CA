@@ -2267,22 +2267,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 320357469, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 439146733, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 751067447, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4686110367495927427, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -45
-      objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Name
       value: Player Base

@@ -309,7 +309,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 1000, y: 80}
+  m_SizeDelta: {x: 900, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &320357471
 CanvasRenderer:
@@ -542,7 +542,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2000, y: 65}
+  m_SizeDelta: {x: 1000, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &508699081
 GameObject:
@@ -850,7 +850,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &751067450
 CanvasRenderer:
@@ -1843,9 +1843,9 @@ GameObject:
   m_Component:
   - component: {fileID: 454259783168254108}
   - component: {fileID: 8667969136209268320}
-  - component: {fileID: 8209947651329053586}
+  - component: {fileID: 838020409}
   m_Layer: 5
-  m_Name: Health Bar
+  m_Name: Health Cooldown Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1869,7 +1869,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 400, y: 50}
+  m_SizeDelta: {x: 640, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8667969136209268320
 CanvasRenderer:
@@ -1879,7 +1879,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227742568838300129}
   m_CullTransparentMesh: 1
---- !u!114 &8209947651329053586
+--- !u!114 &838020409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1888,24 +1888,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 227742568838300129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.17074609, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 513522163f96c7143b8b2c50de26ce6b, type: 3}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
+  m_Sprite: {fileID: 21300000, guid: 513522163f96c7143b8b2c50de26ce6b, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &497628058349540151
 GameObject:
   m_ObjectHideFlags: 0
@@ -3748,7 +3751,7 @@ Transform:
   - {fileID: 5903094052215905936}
   - {fileID: 5903094052578400912}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5903094053358665330
 MeshFilter:
@@ -3917,8 +3920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AmmoTextComponent: {fileID: 5345515178572322491}
   AmmoReloadImage: {fileID: 1797643409381205316}
-  HealthBarTransform: {fileID: 454259783168254108}
-  HealthBarImage: {fileID: 8209947651329053586}
+  HealthBarImage: {fileID: 838020409}
   UtilCoolDownImage: {fileID: 4084545837423615682}
   DamageCoolDownImage: {fileID: 749905779550240468}
   UltimateCooldownImage: {fileID: 7317825211659290624}
@@ -4359,7 +4361,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -150}
-  m_SizeDelta: {x: 410, y: 60}
+  m_SizeDelta: {x: 650, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7065545864122751763
 CanvasRenderer:
@@ -4434,7 +4436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -30}
+  m_AnchoredPosition: {x: 0, y: -45}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &478061721605606339
