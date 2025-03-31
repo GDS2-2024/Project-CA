@@ -2204,6 +2204,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 391634812}
     m_Modifications:
+    - target: {fileID: 2220348012263459821, guid: 01be2fb46fe1e0f43afd308df919c465, type: 3}
+      propertyPath: GravityForce.x
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 3926440095327632773, guid: 01be2fb46fe1e0f43afd308df919c465, type: 3}
       propertyPath: m_Name
       value: Gravity Ramp
@@ -9553,6 +9557,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 391634812}
     m_Modifications:
+    - target: {fileID: 2220348012263459821, guid: 01be2fb46fe1e0f43afd308df919c465, type: 3}
+      propertyPath: GravityForce.x
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 3926440095327632773, guid: 01be2fb46fe1e0f43afd308df919c465, type: 3}
       propertyPath: m_Name
       value: Gravity Ramp

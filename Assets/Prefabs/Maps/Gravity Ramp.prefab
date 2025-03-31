@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 932a2ffd7847825489ac57497e187fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GravityForce: {x: 50, y: 0, z: 0}
 --- !u!1 &3926440095327632773
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,7 +92,7 @@ Transform:
   m_Children:
   - {fileID: 680920998}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &763799183250811034
 MeshFilter:

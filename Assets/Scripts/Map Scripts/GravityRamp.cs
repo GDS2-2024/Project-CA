@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GravityRamp : MonoBehaviour
 {
-    private Vector3 GravityForce = new Vector3(50, 0, 0);
+    public Vector3 GravityForce;
     
     private void OnTriggerEnter(Collider other)
     {
