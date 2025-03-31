@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &634029556
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 634029557}
+  - component: {fileID: 634029558}
+  m_Layer: 3
+  m_Name: Floor is Lava
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &634029557
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634029556}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 490854935388327323}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &634029558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 634029556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec2a256b709b7044087fb2258400b297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 3
+  currentCooldownTime: 0
+  lavaMaterial: {fileID: 2100000, guid: a88e7ca7370d0644e9545efe537292f3, type: 2}
+  lavaPrefab: {fileID: 4945467041907836859, guid: d6d4ec2178aac6b40843305b67a3cdf6, type: 3}
 --- !u!1 &1395746553
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,6 +333,10 @@ PrefabInstance:
       propertyPath: UtilityAbility
       value: 
       objectReference: {fileID: 1395746558}
+    - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: UltimateAbility
+      value: 
+      objectReference: {fileID: 634029558}
     - target: {fileID: 5507541783009307284, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -349,6 +401,10 @@ PrefabInstance:
       propertyPath: shotSpeed
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 8663238808674679718, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 085f12c3980d0994b9c3fad6621655cb, type: 3}
     m_RemovedComponents: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
@@ -357,6 +413,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1761192835}
+    - targetCorrespondingSourceObject: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 634029557}
   m_SourcePrefab: {fileID: 100100000, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
 --- !u!4 &490854935388327323 stripped
 Transform:

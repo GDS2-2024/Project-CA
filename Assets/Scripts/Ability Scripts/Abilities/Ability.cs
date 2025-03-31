@@ -18,6 +18,7 @@ public abstract class Ability : MonoBehaviour
         currentCooldownTime = (int)cooldown;
     }
 
+    // Abilities must not have an Update function
     private void Update()
     {
         if (!isOnCooldown) { return; }

@@ -15,12 +15,6 @@ public class AbilityCamo : Ability
         playerMeshRenderer = GetComponentInParent<MeshRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public override void OnPressAbility()
     {
         if (!isInvisible && !isOnCooldown)

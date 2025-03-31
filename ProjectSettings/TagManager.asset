@@ -8,6 +8,7 @@ TagManager:
   - Cart
   - ExplosiveBarrel
   - Projectile
+  - Ground
   layers:
   - Default
   - TransparentFX
