@@ -4,31 +4,20 @@ using UnityEngine;
 
 public class AbilityBanditHeal : Ability
 {
-    public float duration;
+    public float abilityDuration;
+    public float healingDenom;
 
-    private float currentDuration;
+    private PlayerStatManager playerStatScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    private void FixedUpdate()
-    {
-        if (currentDuration > 0)
-        {
-            currentDuration -= Time.deltaTime;
-        }
-        else
-        {
-            currentDuration = 0f;
-        }
+        playerStatScript = GetComponentInParent<PlayerStatManager>();
     }
 
     public override void OnPressAbility()
     {
-        currentDuration = duration;
+        StartCoroutine(SanguineReaver());
     }
 
     public override void OnHoldingAbility()
@@ -39,5 +28,15 @@ public class AbilityBanditHeal : Ability
     public override void OnReleaseAbility()
     {
 
+    }
+
+    private IEnumerator SanguineReaver()
+    {
+        playerStatScript.abilityDamageTracker = true;
+        yield return new WaitForSeconds(abilityDuration);
+        playerStatScript.health += playerStatScript.durationDamageDealt / healingDenom;
+        playerStatScript.abilityDamageTracker = false;
+        playerStatScript.durationDamageDealt = 0f;
+        StartCooldown();
     }
 }

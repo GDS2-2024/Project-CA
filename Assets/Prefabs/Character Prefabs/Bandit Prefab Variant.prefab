@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1896653544176270632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 242045941285412594}
+  - component: {fileID: 6934429751603254819}
+  m_Layer: 0
+  m_Name: Sanguine Reaver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &242045941285412594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896653544176270632}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 8.686735, y: -10.142363, z: -10.5860615}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5412584890183799957}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6934429751603254819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896653544176270632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b143e4da680934aa478d1a4d692b67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 3
+  currentCooldownTime: 0
+  abilityDuration: 3
+  healingDenom: 2
 --- !u!1 &4764442933288588949
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,6 +123,10 @@ PrefabInstance:
       propertyPath: DamageAbility
       value: 
       objectReference: {fileID: 6851728086719776394}
+    - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: UtilityAbility
+      value: 
+      objectReference: {fileID: 6934429751603254819}
     - target: {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Name
       value: Bandit Prefab Variant
@@ -132,6 +184,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1592655507221178894}
+    - targetCorrespondingSourceObject: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 242045941285412594}
   m_SourcePrefab: {fileID: 100100000, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
 --- !u!4 &5412584890183799957 stripped
 Transform:
