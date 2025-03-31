@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BanditDash : Ability
+public class AbilityBanditDash : Ability
 {
 
     public float dashForce;

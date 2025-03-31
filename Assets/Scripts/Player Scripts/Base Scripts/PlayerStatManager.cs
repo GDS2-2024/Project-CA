@@ -36,6 +36,8 @@ public class PlayerStatManager : MonoBehaviour
     private GameObject playerSpawner;
     private PlayerSpawner playerSpawnerScript;
 
+    private float totalDamageDealth = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -118,6 +120,7 @@ public class PlayerStatManager : MonoBehaviour
     public void TakeDamage(float damage, GameObject attacker)
     {
         health -= damage;
+        TrackDamageDealt(damage, attacker);
         if (playerHUD)
             playerHUD.UpdateHealthBar(health);
 
@@ -180,6 +183,13 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    private void TrackDamageDealt(float damage, GameObject attacker)
+    {
+        if (attacker != null)
+        {
+            attacker.GetComponent<PlayerStatManager>().totalDamageDealth += damage;
+        }
+    }
     private void OnDeath()
     {
         if (playerScore)
