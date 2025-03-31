@@ -12,8 +12,10 @@ public class PlayerStatManager : MonoBehaviour
     private bool isReloading;
     private float reloadDurationTimer;
     public float maxHealth = 100f;
-    private float health;
+    public bool abilityDamageTracker = false;
+    public float durationDamageDealt = 0f;
 
+    public float health;
     public ParticleSystem hitEffect;
 
     [SerializeField]
@@ -35,6 +37,8 @@ public class PlayerStatManager : MonoBehaviour
     // Player Spawner used to Respawn
     private GameObject playerSpawner;
     private PlayerSpawner playerSpawnerScript;
+
+    private float totalDamageDealt = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -118,6 +122,7 @@ public class PlayerStatManager : MonoBehaviour
     public void TakeDamage(float damage, GameObject attacker)
     {
         health -= damage;
+        TrackDamageDealt(damage, attacker);
         if (playerHUD)
             playerHUD.UpdateHealthBar(health);
 
@@ -180,6 +185,19 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
+    public void TrackDamageDealt(float damage, GameObject attacker)
+    {
+        if (attacker != null)
+        {
+            PlayerStatManager attackerStatScript = attacker.GetComponent<PlayerStatManager>();
+            attackerStatScript.totalDamageDealt += damage;
+            if (attackerStatScript.abilityDamageTracker)
+            {
+                attackerStatScript.durationDamageDealt += damage;
+                print(attackerStatScript.durationDamageDealt);
+            }
+        }
+    }
     private void OnDeath()
     {
         if (playerScore)
