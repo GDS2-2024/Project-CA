@@ -12,8 +12,8 @@ public class PlayerStatManager : MonoBehaviour
     private bool isReloading;
     private float reloadDurationTimer;
     public float maxHealth = 100f;
-    private float health;
 
+    public float health;
     public ParticleSystem hitEffect;
 
     [SerializeField]
