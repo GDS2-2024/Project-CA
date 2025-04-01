@@ -14,6 +14,8 @@ public class AbilityLava : Ability
     void Start()
     {
         //StartCooldown();
+
+        lavaMaterial = Resources.Load<Material>("LavaMaterial");
     }
 
     public override void OnPressAbility()
@@ -54,6 +56,19 @@ public class AbilityLava : Ability
 
         GameObject lavaInstance = Instantiate(lavaPrefab, ground.transform.position, ground.transform.rotation);
         lavaInstance.transform.localScale = new Vector3(ground.transform.lossyScale.x, 1, ground.transform.lossyScale.z);
+
+        ParticleSystem[] allParticles = lavaInstance.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem ps in allParticles)
+        {
+            var shape = ps.shape;
+            shape.scale = new Vector3(ground.transform.lossyScale.x, 1, ground.transform.lossyScale.z);
+            float area = shape.scale.x * shape.scale.z;
+            var emission = ps.emission;
+            emission.rateOverTimeMultiplier = area * emission.rateOverTimeMultiplier;
+            ps.Clear();
+            ps.Play();
+        }
+
         lavaList.Add(lavaInstance);
     }
 

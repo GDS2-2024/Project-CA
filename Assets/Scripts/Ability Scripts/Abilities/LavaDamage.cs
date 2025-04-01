@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lava : MonoBehaviour
+public class LavaDamage : MonoBehaviour
 {
     private float damage = 10.0f;
 

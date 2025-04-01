@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2a256b709b7044087fb2258400b297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 3
+  cooldown: 60
   currentCooldownTime: 0
   lavaMaterial: {fileID: 2100000, guid: a88e7ca7370d0644e9545efe537292f3, type: 2}
   lavaPrefab: {fileID: 4945467041907836859, guid: d6d4ec2178aac6b40843305b67a3cdf6, type: 3}
@@ -341,6 +341,30 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 71e8493616ffcbd458e470c15be9fffe, type: 3}
+    - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4dd6d9a57c62d884eba2cf519209e5ca, type: 3}
+    - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094051868910321, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094051868910322, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094051868910322, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Name
       value: Pyromaniac
@@ -398,8 +422,24 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: aimedFOV
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: shotSpeed
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: aimedSensRedution
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: normalReticleSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: zoomedReticleSize
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 8663238808674679718, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Sprite
