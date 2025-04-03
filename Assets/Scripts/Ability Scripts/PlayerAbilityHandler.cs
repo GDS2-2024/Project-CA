@@ -13,6 +13,9 @@ public class PlayerAbilityHandler : MonoBehaviour
     private bool hasUtilityAbility = true;
     private bool hasDamageAbility = true;
     private bool hasUltimateAbility = true;
+    public bool HasUtilityAbility() { return hasUtilityAbility; }
+    public bool HasDamageAbility() { return hasDamageAbility; }
+    public bool HasUltimateAbility() { return hasUltimateAbility; }
     private InputDevice thisController;
     private PlayerController controllerScript;
 
