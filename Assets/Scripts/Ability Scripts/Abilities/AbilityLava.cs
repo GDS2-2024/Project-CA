@@ -13,7 +13,7 @@ public class AbilityLava : Ability
     // Start is called before the first frame update
     void Start()
     {
-        //StartCooldown();
+        isOnCooldown = true;
 
         lavaMaterial = Resources.Load<Material>("LavaMaterial");
     }

@@ -122,6 +122,10 @@ public class PlayerSpawner : MonoBehaviour
         int intScore = Convert.ToInt32(newPlayerScore.GetObjectiveScore());
         newPlayer.GetComponent<PlayerHUD>().UpdateObjectiveScore(intScore);
 
+        // Pass ability cooldown timer (Ultimate ability)
+        float oldUltCooldownTimer = playerObject.GetComponent<PlayerAbilityHandler>().UltimateAbility.currentCooldownTime;
+        newPlayer.GetComponent<PlayerAbilityHandler>().UltimateAbility.currentCooldownTime = oldUltCooldownTimer;
+
         // Detroy old player object
         Destroy(playerObject);
 
