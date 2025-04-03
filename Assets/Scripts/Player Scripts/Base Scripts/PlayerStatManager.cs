@@ -21,6 +21,9 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField]
     private GameObject hitDecal;
 
+    [SerializeField]
+    private DamageIndicator dmgDirectionIndicator;
+
     // Player Components
     private PlayerHUD playerHUD;
     private PlayerMoveBase playerMovement;
@@ -117,6 +120,12 @@ public class PlayerStatManager : MonoBehaviour
             decal.transform.SetParent(transform);
             Destroy(decal, 5f);
         }
+        if (dmgDirectionIndicator)
+        {
+            dmgDirectionIndicator.damageLocation = attacker.transform.position;
+            GameObject dmgObj = Instantiate(dmgDirectionIndicator.gameObject, GetComponentInChildren<Canvas>().transform);
+            dmgObj.SetActive(true);
+        }
     }
 
     public void TakeDamage(float damage, GameObject attacker)
@@ -128,10 +137,7 @@ public class PlayerStatManager : MonoBehaviour
 
         if (health > 0)
         {
-            if (health > maxHealth)
-            {
-                health = maxHealth;
-            }
+            if (health > maxHealth) { health = maxHealth; }
         }
         else
         {

@@ -3751,7 +3751,7 @@ Transform:
   - {fileID: 5903094052215905936}
   - {fileID: 5903094052578400912}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5903094053358665330
 MeshFilter:
@@ -3892,8 +3892,12 @@ MonoBehaviour:
   currentAmmo: 0
   reloadTime: 1.5
   maxHealth: 100
+  abilityDamageTracker: 0
+  durationDamageDealt: 0
+  health: 0
   hitEffect: {fileID: 0}
   hitDecal: {fileID: 0}
+  dmgDirectionIndicator: {fileID: 8178755387698674755, guid: 817719667e05a0c48a8dd0cefbd20a2f, type: 3}
 --- !u!114 &6797758679327343705
 MonoBehaviour:
   m_ObjectHideFlags: 0
