@@ -4012,6 +4012,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: normalReticleSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: zoomedReticleSize
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}

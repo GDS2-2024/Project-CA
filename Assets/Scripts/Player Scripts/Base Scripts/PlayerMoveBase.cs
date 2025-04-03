@@ -64,14 +64,14 @@ public class PlayerMoveBase : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveDirection();
+        GetMovementInput();
         HandleCamera();
     }
 
     private void FixedUpdate()
     {
         CheckIsGrounded();
-        Move();
+        HandleMovement();
     }
 
     public void CheckIsGrounded()
@@ -101,7 +101,7 @@ public class PlayerMoveBase : MonoBehaviour
         }
     }
 
-    void MoveDirection()
+    void GetMovementInput()
     {
         float moveX = 0;
         float moveZ = 0;
@@ -137,7 +137,7 @@ public class PlayerMoveBase : MonoBehaviour
         rb.AddForce(Vector3.up * 10 * jumpForce, ForceMode.Impulse);
     }
 
-    void Move()
+    void HandleMovement()
     {
         if (movementDisabled) { return; }
         Vector3 desiredVelocity = moveDir * moveSpeed;
@@ -167,8 +167,8 @@ public class PlayerMoveBase : MonoBehaviour
         }
         else if (thisController is Gamepad controller)
         {
-            inputX = controller.rightStick.ReadValue().x * controlXSens;
-            inputY = controller.rightStick.ReadValue().y * controlYSens;
+            inputX = controller.rightStick.ReadValue().x * controlXSens * Time.deltaTime;
+            inputY = controller.rightStick.ReadValue().y * controlYSens * Time.deltaTime;
         }
 
         // Update yaw and pitch

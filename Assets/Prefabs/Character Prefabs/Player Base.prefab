@@ -3751,7 +3751,7 @@ Transform:
   - {fileID: 5903094052215905936}
   - {fileID: 5903094052578400912}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5903094053358665330
 MeshFilter:
@@ -3846,8 +3846,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSens: 0.1
-  controlXSens: 0.2
-  controlYSens: 0.1
+  controlXSens: 100
+  controlYSens: 50
   moveSpeed: 8
   jumpForce: 1
   movementDisabled: 0
