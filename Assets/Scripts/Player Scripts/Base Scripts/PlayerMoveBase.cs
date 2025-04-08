@@ -11,7 +11,6 @@ public class PlayerMoveBase : MonoBehaviour
 
     //Controller
     private InputDevice thisController;
-    private PlayerController controllerScript;
     
     //Inputs
     private float inputX;
@@ -28,6 +27,7 @@ public class PlayerMoveBase : MonoBehaviour
     public float jumpForce;
     public bool isGrounded { get; private set; }
     public bool movementDisabled = false;
+    public bool cameraDisabled = false;
 
     //Camera variables
     public Camera playerCam;
@@ -54,8 +54,7 @@ public class PlayerMoveBase : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
-        controllerScript = gameObject.GetComponent<PlayerController>();
-        thisController = controllerScript.GetController();
+        thisController = GetComponent<PlayerController>().GetController();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -158,6 +157,7 @@ public class PlayerMoveBase : MonoBehaviour
 
     void HandleCamera()
     {
+        if (cameraDisabled) { return; }
         //Gets input from the input device
         if (thisController is Keyboard)
         {
@@ -193,7 +193,7 @@ public class PlayerMoveBase : MonoBehaviour
         cameraPitch = initialPitch;
     }
 
-
+    // Disable/Enable Movement
     public void TempDisableMovement(float duration)
     {
         StartCoroutine(DisableMovement(duration));
@@ -208,5 +208,34 @@ public class PlayerMoveBase : MonoBehaviour
         movementDisabled = true;
         yield return new WaitForSeconds(duration);
         movementDisabled = false;
+    }
+
+    // Disable/Enable Camera
+    public void TempDisableCamera(float duration)
+    {
+        StartCoroutine(DisableCamera(duration));
+    }
+
+    public void DisableCamera() { cameraDisabled = true; }
+
+    public void EnableCamera() { cameraDisabled = false; }
+
+    private IEnumerator DisableCamera(float duration)
+    {
+        cameraDisabled = true;
+        yield return new WaitForSeconds(duration);
+        cameraDisabled = false;
+    }
+
+    public void TempSlowMovement(float duration)
+    {
+        StartCoroutine(SlowMovement(duration));
+    }
+
+    private IEnumerator SlowMovement(float duration)
+    {
+        moveSpeed *= 0.5f;
+        yield return new WaitForSeconds(duration);
+        moveSpeed *= 2f;
     }
 }

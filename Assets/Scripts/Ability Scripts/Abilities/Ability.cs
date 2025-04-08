@@ -19,7 +19,7 @@ public abstract class Ability : MonoBehaviour
     }
 
     // Abilities must not have an Update function
-    private void Update()
+    protected virtual void Update()
     {
         if (!isOnCooldown) { return; }
 
