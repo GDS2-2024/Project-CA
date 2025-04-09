@@ -79,6 +79,7 @@ MonoBehaviour:
   currentCooldownTime: 0
   mapScreenPrefab: {fileID: 5459553526861436934, guid: d4183a3afedeeaa4298ef0bb49900bd1, type: 3}
   freezePrefab: {fileID: 8208516054095050754, guid: 211b76f81ad4ea9468f16406bdd46f3c, type: 3}
+  minimapIcon: {fileID: 7848834605485873951, guid: 810292a6ac298f84a855a38ae81336aa, type: 3}
   playerHUDTransform: {fileID: 3661997529046990428}
 --- !u!1 &657641785
 GameObject:

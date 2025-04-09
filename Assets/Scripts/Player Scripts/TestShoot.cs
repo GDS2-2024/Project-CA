@@ -16,6 +16,7 @@ public class TestShoot : MonoBehaviour
     private InputDevice thisController;
     private PlayerController controllerScript;
     private PlayerHUD playerHUD;
+    private bool shootingDisabled = false;
 
     public GameObject bullet;
     public Vector3 spawnPos;
@@ -70,6 +71,7 @@ public class TestShoot : MonoBehaviour
 
     void SetZoom(bool isAimed)
     {
+        if (shootingDisabled) { return; }
         targetFOV = isAimed ? aimedFOV : normalFOV;
 
         //Reduce aiming sensitivity when zoomed
@@ -84,6 +86,7 @@ public class TestShoot : MonoBehaviour
 
     void ShootBullet()
     {
+        if (shootingDisabled) { return; }
         if (statScript.isPlayerReloading()) { return; }
         
         //Reduce Player ammo
@@ -121,5 +124,22 @@ public class TestShoot : MonoBehaviour
         shotDelay = true;
         yield return new WaitForSeconds(shotSpeed);
         shotDelay = false;
+    }
+
+    // Disable/Enable Shooting
+    public void TempDisableShooting(float duration)
+    {
+        StartCoroutine(DisableShooting(duration));
+    }
+
+    public void DisableShooting() { shootingDisabled = true; }
+
+    public void EnableShooting() { shootingDisabled = false; }
+
+    private IEnumerator DisableShooting(float duration)
+    {
+        shootingDisabled = true;
+        yield return new WaitForSeconds(duration);
+        shootingDisabled = false;
     }
 }

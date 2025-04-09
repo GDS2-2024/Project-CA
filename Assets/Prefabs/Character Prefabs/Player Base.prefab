@@ -3851,6 +3851,7 @@ MonoBehaviour:
   moveSpeed: 8
   jumpForce: 1
   movementDisabled: 0
+  cameraDisabled: 0
   playerCam: {fileID: 5903094051481199568}
   distance: 3
   offsetDistance: 1

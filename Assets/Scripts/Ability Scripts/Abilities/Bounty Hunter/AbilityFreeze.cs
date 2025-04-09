@@ -8,18 +8,21 @@ public class AbilityFreeze : Ability
 {
     public GameObject mapScreenPrefab;
     public GameObject freezePrefab;
+    public GameObject minimapIcon;
     public Transform playerHUDTransform;
 
     private bool isMapShown = false;
     private GameObject mapUI;
     private GameObject freezeObj;
     private InputDevice thisController;
+    private PlayerSpawner playerSpawner;
 
     // Start is called before the first frame update
     void Start()
     {
         isOnCooldown = true;
         thisController = GetComponentInParent<PlayerController>().GetController();
+        playerSpawner = GameObject.Find("Player Spawner").GetComponent<PlayerSpawner>();
     }
 
     public override void OnPressAbility()
@@ -37,19 +40,42 @@ public class AbilityFreeze : Ability
             isMapShown = true;
             mapUI = Instantiate(mapScreenPrefab, playerHUDTransform);
             freezeObj = Instantiate(freezePrefab, Vector3.zero, Quaternion.identity);
-            // Pause player movement while they select where zone location
+            // Show player icons on map
+            if (playerSpawner)
+            {
+                List<GameObject> players = playerSpawner.GetPlayersInGame();
+                foreach (GameObject player in players)
+                {
+                    Instantiate(minimapIcon, player.transform);
+                }
+            }
+            // Pause player movement and shooting while they select where zone location
             PlayerMoveBase playerMove = GetComponentInParent<PlayerMoveBase>();
             playerMove.DisableMovement();
             playerMove.DisableCamera();
+            TestShoot testShoot = GetComponentInParent<TestShoot>();
+            testShoot.DisableShooting();
         }
         else
         {
             isMapShown = false;
             Destroy(mapUI);
-            // Resume player movement when map is gone
+            // Hide player icons on map
+            if (playerSpawner)
+            {
+                List<GameObject> players = playerSpawner.GetPlayersInGame();
+                foreach (GameObject player in players)
+                {
+                    Transform minimapIconTransform = player.transform.Find("Minimap Icon(Clone)");
+                    if (minimapIconTransform) Destroy(minimapIconTransform.gameObject);
+                }
+            }
+            // Resume player movement and shooting when map is gone
             PlayerMoveBase playerMove = GetComponentInParent<PlayerMoveBase>();
             playerMove.EnableMovement();
             playerMove.EnableCamera();
+            TestShoot testShoot = GetComponentInParent<TestShoot>();
+            testShoot.EnableShooting();
         }
     }
 
