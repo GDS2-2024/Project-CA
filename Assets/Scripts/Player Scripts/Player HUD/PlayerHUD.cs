@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class PlayerHUD : MonoBehaviour
 {
+    private void Awake()
+    {
+        SetupInputIcons();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -99,4 +106,26 @@ public class PlayerHUD : MonoBehaviour
     }
 
     public void SetActiveCompassObjective(bool enabled) { ObjectiveRectTransform.gameObject.SetActive(enabled); }
+
+    // Changes the sprites for the HUD based on which input type this player is using
+    public List<Texture> keyboardIcons;
+    public List<Texture> xboxGamepadIcons;
+    public List<Texture> psGamepadIcons;
+
+    private void SetupInputIcons()
+    {
+        InputDevice playerController =  gameObject.GetComponent<PlayerController>().GetController();
+        if (playerController is Keyboard keyboard)
+        {
+            
+        }
+        else if (playerController is UnityEngine.InputSystem.XInput.XInputController)
+        {         
+
+        }
+        else if (playerController is UnityEngine.InputSystem.DualShock.DualShockGamepad)
+        {
+
+        }
+    }
 }

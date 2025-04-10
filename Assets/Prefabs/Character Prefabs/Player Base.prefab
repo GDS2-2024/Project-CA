@@ -3938,6 +3938,16 @@ MonoBehaviour:
   CameraTransform: {fileID: 5903094051481199575}
   CompassBarRectTransform: {fileID: 439146733}
   ObjectiveRectTransform: {fileID: 751067448}
+  gamepadIcons:
+  - {fileID: 2800000, guid: c854c46111b34c74992e1750156c5f76, type: 3}
+  - {fileID: 2800000, guid: c854c46111b34c74992e1750156c5f76, type: 3}
+  - {fileID: 2800000, guid: 18c028da73544874395ea4870a3722e1, type: 3}
+  - {fileID: 2800000, guid: 6a13f530e0f4cf54abab8d8230285246, type: 3}
+  keyboardIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &4371058044870796072
 MonoBehaviour:
   m_ObjectHideFlags: 0
