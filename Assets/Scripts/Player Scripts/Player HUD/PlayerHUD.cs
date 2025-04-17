@@ -8,14 +8,10 @@ using UnityEngine.UI;
 
 public class PlayerHUD : MonoBehaviour
 {
-    private void Awake()
-    {
-        SetupInputIcons();
-    }
-
     // Start is called before the first frame update
     void Start()
     {
+        SetupInputIcons();
         if (!AmmoTextComponent) { Debug.LogWarning("PlayerHUD: There is no Ammo text component assigned."); }
         if (!AmmoReloadImage) { Debug.LogWarning("PlayerHUD: There is no Ammo Reload Image component assigned."); }
         if (!HealthBarImage) { Debug.LogWarning("PlayerHUD: There is no Health Bar Image component assigned."); }
@@ -108,24 +104,38 @@ public class PlayerHUD : MonoBehaviour
     public void SetActiveCompassObjective(bool enabled) { ObjectiveRectTransform.gameObject.SetActive(enabled); }
 
     // Changes the sprites for the HUD based on which input type this player is using
-    public List<Texture> keyboardIcons;
-    public List<Texture> xboxGamepadIcons;
-    public List<Texture> psGamepadIcons;
+    public List<Sprite> keyboardIcons;
+    public List<Sprite> xboxGamepadIcons;
+    public List<Sprite> psGamepadIcons;
+
+    public Image ReloadButtonIcon;
+    public Image UltimateButtonIcon;
+    public Image DamageButtonIcon;
+    public Image UtilityButtonIcon;
 
     private void SetupInputIcons()
     {
         InputDevice playerController =  gameObject.GetComponent<PlayerController>().GetController();
         if (playerController is Keyboard keyboard)
         {
-            
+            ReloadButtonIcon.sprite = keyboardIcons[0];
+            UltimateButtonIcon.sprite = keyboardIcons[1];
+            DamageButtonIcon.sprite = keyboardIcons[2];
+            UtilityButtonIcon.sprite = keyboardIcons[3];
         }
         else if (playerController is UnityEngine.InputSystem.XInput.XInputController)
-        {         
-
+        {
+            ReloadButtonIcon.sprite = xboxGamepadIcons[0];
+            UltimateButtonIcon.sprite = xboxGamepadIcons[1];
+            DamageButtonIcon.sprite = xboxGamepadIcons[2];
+            UtilityButtonIcon.sprite = xboxGamepadIcons[3];
         }
         else if (playerController is UnityEngine.InputSystem.DualShock.DualShockGamepad)
         {
-
+            ReloadButtonIcon.sprite = psGamepadIcons[0];
+            UltimateButtonIcon.sprite = psGamepadIcons[1];
+            DamageButtonIcon.sprite = psGamepadIcons[2];
+            UtilityButtonIcon.sprite = psGamepadIcons[3];
         }
     }
 }

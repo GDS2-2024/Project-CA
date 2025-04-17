@@ -3597,7 +3597,7 @@ Transform:
   - {fileID: 5903094052215905936}
   - {fileID: 5903094052578400912}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5903094053358665330
 MeshFilter:
@@ -3785,12 +3785,24 @@ MonoBehaviour:
   CompassBarRectTransform: {fileID: 439146733}
   ObjectiveRectTransform: {fileID: 751067448}
   keyboardIcons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  xboxGamepadIcons: []
-  psGamepadIcons: []
+  - {fileID: 21300000, guid: 0f29336218fddae4e999ed9431d7d75e, type: 3}
+  - {fileID: 21300000, guid: 4928f4b79edc40f44a1748ffa7b450b1, type: 3}
+  - {fileID: 21300000, guid: d5d7e21c6879c084ba24505d68736a62, type: 3}
+  - {fileID: 21300000, guid: 2989e7b9257cb644eb2bc098a70e413a, type: 3}
+  xboxGamepadIcons:
+  - {fileID: 21300000, guid: ea4a47a953f2afd408c1cbf0c670f12b, type: 3}
+  - {fileID: 21300000, guid: b05ecccaebac9c9479069ddfe3502c9a, type: 3}
+  - {fileID: 21300000, guid: 2199973a11133994ba97bab1991fe41d, type: 3}
+  - {fileID: 21300000, guid: 5754416aaf985a040989e2f423ca7139, type: 3}
+  psGamepadIcons:
+  - {fileID: 21300000, guid: e59c2f7ce46dea248bf9a6df69da161f, type: 3}
+  - {fileID: 21300000, guid: f11208458f6422b4e9a338942b354761, type: 3}
+  - {fileID: 21300000, guid: 4d995621c25ddb34583d81d7d64f34ab, type: 3}
+  - {fileID: 21300000, guid: 5612231d7e7dccd40a4b9f0caa650763, type: 3}
+  ReloadButtonIcon: {fileID: 1678454089981568410}
+  UltimateButtonIcon: {fileID: 955883191722593324}
+  UtilityButtonIcon: {fileID: 5802975950388537221}
+  DamageButtonIcon: {fileID: 9215723469753902671}
 --- !u!114 &4371058044870796072
 MonoBehaviour:
   m_ObjectHideFlags: 0
