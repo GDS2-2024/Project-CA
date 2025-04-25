@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -147,44 +148,34 @@ public class PlayerMoveBase : MonoBehaviour
         cameraPitch = initialPitch;
     }
 
-    // Disable/Enable Movement
+    // Temporary Disable/Enable
     public void TempDisableMovement(float duration)
     {
-        StartCoroutine(DisableMovement(duration));
+        StartCoroutine(TempAction(duration, () => movementDisabled = true, () => movementDisabled = false));
     }
-    private IEnumerator DisableMovement(float duration)
-    {
-        movementDisabled = true;
-        yield return new WaitForSeconds(duration);
-        movementDisabled = false;
-    }
-    public void DisableMovement() { movementDisabled = true; }
-    public void EnableMovement() { movementDisabled = false; }
 
-    // Disable/Enable Camera
     public void TempDisableCamera(float duration)
     {
-        StartCoroutine(DisableCamera(duration));
+        StartCoroutine(TempAction(duration, () => cameraDisabled = true, () => cameraDisabled = false));
     }
-    private IEnumerator DisableCamera(float duration)
-    {
-        cameraDisabled = true;
-        yield return new WaitForSeconds(duration);
-        cameraDisabled = false;
-    }
-    public void DisableCamera() { cameraDisabled = true; }
-    public void EnableCamera() { cameraDisabled = false; }
 
-    // Slow movement
     public void TempSlowMovement(float duration)
     {
-        StartCoroutine(SlowMovement(duration));
+        StartCoroutine(TempAction(duration, () => moveSpeed *= 0.5f, () => moveSpeed *= 2f));
     }
 
-    private IEnumerator SlowMovement(float duration)
+    // Manual control methods
+    public void DisableMovement() => movementDisabled = true;
+    public void EnableMovement() => movementDisabled = false;
+
+    public void DisableCamera() => cameraDisabled = true;
+    public void EnableCamera() => cameraDisabled = false;
+    
+    // General utility coroutine
+    private IEnumerator TempAction(float duration, Action onStart, Action onEnd)
     {
-        moveSpeed *= 0.5f;
+        onStart?.Invoke();
         yield return new WaitForSeconds(duration);
-        moveSpeed *= 2f;
+        onEnd?.Invoke();
     }
 }

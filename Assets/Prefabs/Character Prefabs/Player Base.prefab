@@ -3696,12 +3696,7 @@ MonoBehaviour:
   controlYSens: 50
   moveSpeed: 8
   jumpForce: 1
-  movementDisabled: 0
-  cameraDisabled: 0
   playerCam: {fileID: 5903094051481199568}
-  distance: 3
-  offsetDistance: 1
-  heightOffset: 1
 --- !u!114 &5903094053358665334
 MonoBehaviour:
   m_ObjectHideFlags: 0
