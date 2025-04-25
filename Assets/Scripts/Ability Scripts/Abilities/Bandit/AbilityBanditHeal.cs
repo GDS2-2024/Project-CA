@@ -34,7 +34,7 @@ public class AbilityBanditHeal : Ability
     {
         playerStatScript.abilityDamageTracker = true;
         yield return new WaitForSeconds(abilityDuration);
-        playerStatScript.health += playerStatScript.durationDamageDealt / healingDenom;
+        playerStatScript.currentHealth += playerStatScript.durationDamageDealt / healingDenom;
         playerStatScript.abilityDamageTracker = false;
         playerStatScript.durationDamageDealt = 0f;
         StartCooldown();

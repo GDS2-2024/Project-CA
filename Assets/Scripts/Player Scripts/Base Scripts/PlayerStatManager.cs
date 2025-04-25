@@ -1,28 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerStatManager : MonoBehaviour
 {
-    // Player Stat Variables
+    [Header("Ammo")]
     public int maxAmmoInClip;
     public int currentAmmo;
+
+    [Header("Reload")]
     public float reloadTime;
     private bool isReloading;
     private float reloadDurationTimer;
-    public float maxHealth = 100f;
+
+    [Header("Health")]
+    public float currentHealth;
+    private float maxHealth = 100f;
+
+    [Header("Damage tracking")]
     public bool abilityDamageTracker = false;
     public float durationDamageDealt = 0f;
+    private float totalDamageDealt = 0f;
 
-    public float health;
-    public ParticleSystem hitEffect;
-
-    [SerializeField]
-    private GameObject hitDecal;
-
-    [SerializeField]
-    private DamageIndicator dmgDirectionIndicator;
+    [Header("Damage effects")]
+    [SerializeField] private ParticleSystem hitEffect;
+    [SerializeField] private GameObject hitDecal;
+    [SerializeField] private DamageIndicator dmgDirectionIndicator;
 
     // Player Components
     private PlayerHUD playerHUD;
@@ -41,27 +44,22 @@ public class PlayerStatManager : MonoBehaviour
     private GameObject playerSpawner;
     private PlayerSpawner playerSpawnerScript;
 
-    private float totalDamageDealt = 0f;
-
     // Start is called before the first frame update
     void Start()
     {
         // Setup Ammo
         playerHUD = gameObject.GetComponent<PlayerHUD>();
         currentAmmo = maxAmmoInClip;
-        health = maxHealth;
-        if (playerHUD)
-            playerHUD.UpateAmmoUI(currentAmmo);
+        currentHealth = maxHealth;
+        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
 
         // Setup Controller
         controllerScript = gameObject.GetComponent<PlayerController>();
-        if (controllerScript)
-            thisController = controllerScript.GetController();
+        if (controllerScript) { thisController = controllerScript.GetController(); }
 
         // Setup Player Spawner
         playerSpawner = GameObject.Find("Player Spawner");
-        if (playerSpawner)
-            playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>();
+        if (playerSpawner) { playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>(); }
 
         // Get Player Components
         playerMovement = gameObject.GetComponent<PlayerMoveBase>();
@@ -130,14 +128,14 @@ public class PlayerStatManager : MonoBehaviour
 
     public void TakeDamage(float damage, GameObject attacker)
     {
-        health -= damage;
+        currentHealth -= damage;
         TrackDamageDealt(damage, attacker);
         if (playerHUD)
-            playerHUD.UpdateHealthBar(health);
+            playerHUD.UpdateHealthBar(currentHealth);
 
-        if (health > 0)
+        if (currentHealth > 0)
         {
-            if (health > maxHealth) { health = maxHealth; }
+            if (currentHealth > maxHealth) { currentHealth = maxHealth; }
         }
         else
         {
@@ -146,16 +144,12 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public bool isPlayerReloading()
-    {
-        return isReloading;
-    }
+    public bool isPlayerReloading() { return isReloading; }
 
     public void ReduceAmmo()
     {
         currentAmmo -= 1;
-        if (playerHUD)
-            playerHUD.UpateAmmoUI(currentAmmo);
+        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
     }
 
     public IEnumerator Reload()
@@ -166,8 +160,7 @@ public class PlayerStatManager : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
         isReloading = false;
         currentAmmo = maxAmmoInClip;
-        if (playerHUD)
-            playerHUD.UpateAmmoUI(currentAmmo);
+        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
     }
 
     public void CancelReload()

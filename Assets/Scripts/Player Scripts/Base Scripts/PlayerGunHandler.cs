@@ -67,7 +67,6 @@ public class PlayerGunHandler : MonoBehaviour
         playerHUD.SetReticleSize(newReticleSize);
     }
 
-
     void SetZoom(bool isAimed)
     {
         targetFOV = isAimed ? aimedFOV : normalFOV;

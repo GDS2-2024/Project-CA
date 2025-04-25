@@ -53,7 +53,7 @@ public class AbilityBanditDash : Ability
             print("player hit");
             playerStatScript = other.gameObject.GetComponent<PlayerStatManager>();
             playerStatScript.TakeDamage(damage, transform.parent.gameObject);
-            if (playerStatScript.health <= 0)
+            if (playerStatScript.currentHealth <= 0)
             {
                 currentCooldownTime = 0.0f;
                 isOnCooldown = false;
