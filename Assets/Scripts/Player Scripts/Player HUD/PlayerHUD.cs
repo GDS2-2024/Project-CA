@@ -26,12 +26,14 @@ public class PlayerHUD : MonoBehaviour
     }
 
     // Ammo
+    [Header("Ammo")]
     public TMP_Text AmmoTextComponent;
     public Image AmmoReloadImage;
     public void UpateAmmoUI(int newAmount) { AmmoTextComponent.text = "" + newAmount; }
     public void UpdateReloadCooldown(float currentPercentage) { AmmoReloadImage.fillAmount = currentPercentage; }
 
     // Health
+    [Header("Health")]
     public Image HealthBarImage;
     private Color red = new Color(255f / 255f, 0f / 255f, 0f / 255f);
     private Color green = new Color(0f / 255f, 255f / 255f, 0f / 255f);
@@ -43,6 +45,7 @@ public class PlayerHUD : MonoBehaviour
     }
 
     // Utilities
+    [Header("Ability Icons")]
     public Image UtilCoolDownImage;
     public Image DamageCoolDownImage;
     public Image UltimateCooldownImage;
@@ -51,6 +54,7 @@ public class PlayerHUD : MonoBehaviour
     public void UltimateAbilityCooldown(float currentPercentage) { UltimateCooldownImage.fillAmount = currentPercentage; }
 
     // Timers
+    [Header("Timers")]
     public TMP_Text GameTimerText;
     public TMP_Text RespawnTimer;
     public void UpdateGameTimer(string newTime) { GameTimerText.text = newTime; }
@@ -69,6 +73,7 @@ public class PlayerHUD : MonoBehaviour
     }
 
     // Objectives
+    [Header("Objective")]
     public TMP_Text ObjectiveScore;
     public TMP_Text ObjectivePrompt;
     public void UpdateObjectiveScore(int currentScore) { ObjectiveScore.text = "Score: " + currentScore; }
@@ -81,10 +86,12 @@ public class PlayerHUD : MonoBehaviour
     public void ClearObjectivePrompt() { ObjectivePrompt.text = ""; }
 
     // Reticle
+    [Header("Reticle")]
     public Image Reticle;
     public void SetReticleSize(float reticleSize) { Reticle.rectTransform.sizeDelta = new Vector2(reticleSize, reticleSize); }
 
     // Compass
+    [Header("Compass")]
     public Camera PlayerCamera;
     public Transform CameraTransform;
     public RectTransform CompassBarRectTransform;
@@ -104,10 +111,12 @@ public class PlayerHUD : MonoBehaviour
     public void SetActiveCompassObjective(bool enabled) { ObjectiveRectTransform.gameObject.SetActive(enabled); }
 
     // Changes the sprites for the HUD based on which input type this player is using
+    [Header("Input based Icons")]
     public List<Sprite> keyboardIcons;
     public List<Sprite> xboxGamepadIcons;
     public List<Sprite> psGamepadIcons;
 
+    [Header("Button Icons")]
     public Image ReloadButtonIcon;
     public Image UltimateButtonIcon;
     public Image DamageButtonIcon;
