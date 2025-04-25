@@ -5,7 +5,7 @@ using UnityEngine;
 public class AbilityFMJ : Ability
 {
     // Player Components
-    private TestShoot gunHandler;
+    private PlayerGunHandler gunHandler;
     private PlayerStatManager playerStatManager;
     private PlayerHUD playerHUD;
 
@@ -17,7 +17,7 @@ public class AbilityFMJ : Ability
     // Start is called before the first frame update
     void Start()
     {
-        gunHandler = GetComponentInParent<TestShoot>();
+        gunHandler = GetComponentInParent<PlayerGunHandler>();
         playerStatManager = GetComponentInParent<PlayerStatManager>();
         playerHUD = GetComponentInParent<PlayerHUD>();
 
@@ -35,7 +35,7 @@ public class AbilityFMJ : Ability
 
     private IEnumerator ActivateFMJ()
     {
-        gunHandler.bullet = FMJBullet;
+        gunHandler.bulletPrefab = FMJBullet;
         playerStatManager.currentAmmo = playerStatManager.maxAmmoInClip;
         playerHUD.UpateAmmoUI(playerStatManager.currentAmmo);
         yield return new WaitForSeconds(fmjDuration);
@@ -44,7 +44,7 @@ public class AbilityFMJ : Ability
 
     private void DeactivateFMJ()
     {
-        gunHandler.bullet = normalBullet;
+        gunHandler.bulletPrefab = normalBullet;
         StartCooldown();
     }
 

@@ -29,7 +29,7 @@ public class PlayerStatManager : MonoBehaviour
     private PlayerMoveBase playerMovement;
     private Rigidbody playerRigidbody;
     private PlayerScore playerScore;
-    private TestShoot playerShoot;
+    private PlayerGunHandler playerGun;
     private CapsuleCollider playerCollider;
     private PlayerAbilityHandler playerAbilityHandler;
 
@@ -67,7 +67,7 @@ public class PlayerStatManager : MonoBehaviour
         playerMovement = gameObject.GetComponent<PlayerMoveBase>();
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
         playerScore = gameObject.GetComponent<PlayerScore>();
-        playerShoot = gameObject.GetComponent<TestShoot>();
+        playerGun = gameObject.GetComponent<PlayerGunHandler>();
         playerCollider = gameObject.GetComponent<CapsuleCollider>();
         playerAbilityHandler = gameObject.GetComponent<PlayerAbilityHandler>();
     }
@@ -223,8 +223,8 @@ public class PlayerStatManager : MonoBehaviour
             playerRigidbody.constraints = RigidbodyConstraints.FreezeAll;
         if (playerScore)
             playerScore.enabled = false;
-        if (playerShoot)
-            playerShoot.enabled = false;
+        if (playerGun)
+            playerGun.enabled = false;
         if (playerCollider)
             playerCollider.enabled = false;
         if (playerAbilityHandler)

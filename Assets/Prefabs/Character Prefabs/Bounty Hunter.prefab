@@ -348,6 +348,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: dacf9048e0cdc92489b6b70fe04a1a16, type: 3}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: aimedFOV
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 3502144147338531713, guid: 98a33118016ed4446b9dcc4e205dd830, type: 3}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: aimedSensRedution
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: zoomedReticleSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: DamageAbility
       value: 

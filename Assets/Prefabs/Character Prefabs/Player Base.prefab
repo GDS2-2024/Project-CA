@@ -3567,10 +3567,10 @@ GameObject:
   - component: {fileID: 5903094053358665331}
   - component: {fileID: 5903094053358665324}
   - component: {fileID: 5903094053358665328}
-  - component: {fileID: 5903094053358665335}
-  - component: {fileID: 5903094053358665334}
-  - component: {fileID: 5903094053358665333}
   - component: {fileID: 6797758679327343705}
+  - component: {fileID: 5903094053358665335}
+  - component: {fileID: 2515466800264610688}
+  - component: {fileID: 5903094053358665333}
   - component: {fileID: 4613914936141617935}
   - component: {fileID: 4371058044870796072}
   - component: {fileID: 5862432884533016789}
@@ -3597,7 +3597,7 @@ Transform:
   - {fileID: 5903094052215905936}
   - {fileID: 5903094052578400912}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5903094053358665330
 MeshFilter:
@@ -3679,6 +3679,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &6797758679327343705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5903094053358665325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c19598276465524181a2671a432671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5903094053358665335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3697,7 +3709,7 @@ MonoBehaviour:
   moveSpeed: 8
   jumpForce: 1
   playerCam: {fileID: 5903094051481199568}
---- !u!114 &5903094053358665334
+--- !u!114 &2515466800264610688
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3706,18 +3718,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 5903094053358665325}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a04eed8083ec11b4ea5e99060ec74f67, type: 3}
+  m_Script: {fileID: 11500000, guid: 97b2fd2b3a6bd0b46ab8079112702dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 3502144147338531713, guid: b190fd2de83db6142a0cf1c0654b08e5, type: 3}
-  spawnPos: {x: 0, y: 0, z: 0}
+  gunObject: {fileID: 5903094052215905937}
+  bulletPrefab: {fileID: 3502144147338531713, guid: b190fd2de83db6142a0cf1c0654b08e5, type: 3}
   playerCam: {fileID: 5903094051481199568}
-  gun: {fileID: 5903094052215905937}
   shotSpeed: 0.5
-  aimedFOV: 60
+  aimedFOV: 55
   aimedSensRedution: 2
   normalReticleSize: 100
-  zoomedReticleSize: 100
+  zoomedReticleSize: 80
 --- !u!114 &5903094053358665333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3740,18 +3751,6 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   hitDecal: {fileID: 0}
   dmgDirectionIndicator: {fileID: 8178755387698674755, guid: 817719667e05a0c48a8dd0cefbd20a2f, type: 3}
---- !u!114 &6797758679327343705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5903094053358665325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c19598276465524181a2671a432671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4613914936141617935
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -325,6 +325,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 2a7a49ccf25a4d24ca6141079e3d4899, type: 3}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 3502144147338531713, guid: 00de7e3abffc1db45aa57e63e7bb9a93, type: 3}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: aimedSensRedution
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: DamageAbility
       value: 
@@ -365,13 +373,17 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 5903094052215905937, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_Name
+      value: Blaster
+      objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Name
       value: Pyromaniac
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_LocalPosition.x

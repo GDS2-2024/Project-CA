@@ -53,8 +53,8 @@ public class AbilityFreeze : Ability
             PlayerMoveBase playerMove = GetComponentInParent<PlayerMoveBase>();
             playerMove.DisableMovement();
             playerMove.DisableCamera();
-            TestShoot testShoot = GetComponentInParent<TestShoot>();
-            testShoot.DisableShooting();
+            PlayerGunHandler playerGun = GetComponentInParent<PlayerGunHandler>();
+            playerGun.DisableShooting();
         }
         else
         {
@@ -74,7 +74,7 @@ public class AbilityFreeze : Ability
             PlayerMoveBase playerMove = GetComponentInParent<PlayerMoveBase>();
             playerMove.EnableMovement();
             playerMove.EnableCamera();
-            TestShoot testShoot = GetComponentInParent<TestShoot>();
+            PlayerGunHandler testShoot = GetComponentInParent<PlayerGunHandler>();
             testShoot.EnableShooting();
         }
     }
