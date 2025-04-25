@@ -42,6 +42,7 @@ public class PlayerHealth : MonoBehaviour
         if (playerSpawner) { playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>(); }
 
         // Get Player Components
+        playerHUD = gameObject.GetComponent<PlayerHUD>();
         playerController = gameObject.GetComponent<PlayerController>().GetController();
         playerMovement = gameObject.GetComponent<PlayerMoveBase>();
         playerRigidbody = gameObject.GetComponent<Rigidbody>();

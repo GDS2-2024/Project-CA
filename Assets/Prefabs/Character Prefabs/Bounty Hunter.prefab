@@ -353,6 +353,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: shotSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: zoomedFOV
       value: 30
       objectReference: {fileID: 0}

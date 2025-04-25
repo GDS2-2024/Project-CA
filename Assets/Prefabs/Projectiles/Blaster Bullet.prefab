@@ -100,6 +100,7 @@ MonoBehaviour:
   bulletSpeed: 300
   damage: 10
   gravity: 9.8
+  hitEffect: {fileID: 2548903106310778824, guid: 6c73252180d00204f801ddcc2e6d87fd, type: 3}
   lifetime: 3
   ricochetAngle: 20
 --- !u!54 &6160585602081053676

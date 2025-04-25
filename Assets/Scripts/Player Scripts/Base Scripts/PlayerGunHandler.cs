@@ -35,7 +35,7 @@ public class PlayerGunHandler : MonoBehaviour
     public float zoomSensRedution; // Higher numbers = lower sensitivity
 
     // Reticle Sizes
-    private float normalReticleSize;
+    private float normalReticleSize = 100f;
     public float zoomedReticleSize;
     private float targetReticleSize;
 
@@ -48,6 +48,7 @@ public class PlayerGunHandler : MonoBehaviour
         playerController = GetComponent<PlayerController>().GetController();
 
         // Setup Ammo
+        currentAmmo = maxAmmoInClip;
         playerHUD = gameObject.GetComponent<PlayerHUD>();
         if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
 
