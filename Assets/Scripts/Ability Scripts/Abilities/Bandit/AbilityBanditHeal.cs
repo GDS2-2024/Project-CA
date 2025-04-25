@@ -7,12 +7,12 @@ public class AbilityBanditHeal : Ability
     public float abilityDuration;
     public float healingDenom;
 
-    private PlayerStatManager playerStatScript;
+    private PlayerHealth playerHealth;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerStatScript = GetComponentInParent<PlayerStatManager>();
+        playerHealth = GetComponentInParent<PlayerHealth>();
     }
 
     public override void OnPressAbility()
@@ -32,11 +32,11 @@ public class AbilityBanditHeal : Ability
 
     private IEnumerator SanguineReaver()
     {
-        playerStatScript.abilityDamageTracker = true;
+        playerHealth.abilityDamageTracker = true;
         yield return new WaitForSeconds(abilityDuration);
-        playerStatScript.currentHealth += playerStatScript.durationDamageDealt / healingDenom;
-        playerStatScript.abilityDamageTracker = false;
-        playerStatScript.durationDamageDealt = 0f;
+        playerHealth.currentHealth += playerHealth.durationDamageDealt / healingDenom;
+        playerHealth.abilityDamageTracker = false;
+        playerHealth.durationDamageDealt = 0f;
         StartCooldown();
     }
 }

@@ -6,8 +6,6 @@ public class AbilityFMJ : Ability
 {
     // Player Components
     private PlayerGunHandler gunHandler;
-    private PlayerStatManager playerStatManager;
-    private PlayerHUD playerHUD;
 
     // FMJ Variables
     public GameObject normalBullet;
@@ -18,8 +16,6 @@ public class AbilityFMJ : Ability
     void Start()
     {
         gunHandler = GetComponentInParent<PlayerGunHandler>();
-        playerStatManager = GetComponentInParent<PlayerStatManager>();
-        playerHUD = GetComponentInParent<PlayerHUD>();
 
         isOnCooldown = true;
         StartCooldown();

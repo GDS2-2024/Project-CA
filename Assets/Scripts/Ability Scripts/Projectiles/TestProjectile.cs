@@ -63,9 +63,8 @@ public class TestProjectile : MonoBehaviour
                     if (hit.transform.gameObject != shooter) // Ignores if the player shoots themselves
                     {
                         // Apply damage to the player
-                        PlayerStatManager statScript =
-                            hit.transform.gameObject.GetComponent<PlayerStatManager>();
-                        statScript.TakeDamage(damage, shooter, hit);
+                        PlayerHealth playerHealth = hit.transform.gameObject.GetComponent<PlayerHealth>();
+                        playerHealth.TakeDamage(damage, shooter, hit);
 
                         // If bullet is slow enough, destroy it
                         if (bullet_velocity.magnitude < 10f)

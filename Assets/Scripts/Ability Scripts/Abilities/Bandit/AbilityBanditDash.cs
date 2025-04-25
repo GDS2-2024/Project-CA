@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class AbilityBanditDash : Ability
 {
-
     public float dashForce;
     public float damage;
     public float dashDuration;
 
     private Rigidbody rb;
     private BoxCollider bc;
-    private PlayerStatManager playerStatScript;
+    private PlayerHealth playerHealth;
     private PlayerMoveBase playerMoveScript;
 
     // Start is called before the first frame update
@@ -51,9 +50,9 @@ public class AbilityBanditDash : Ability
         if (other.gameObject.tag == "Player")
         {
             print("player hit");
-            playerStatScript = other.gameObject.GetComponent<PlayerStatManager>();
-            playerStatScript.TakeDamage(damage, transform.parent.gameObject);
-            if (playerStatScript.currentHealth <= 0)
+            playerHealth = other.gameObject.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(damage, transform.parent.gameObject);
+            if (playerHealth.currentHealth <= 0)
             {
                 currentCooldownTime = 0.0f;
                 isOnCooldown = false;

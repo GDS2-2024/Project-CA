@@ -6,7 +6,6 @@ public class PlayerGunHandler : MonoBehaviour
 {
     // Player Components
     private PlayerHUD playerHUD;
-    private PlayerStatManager playerStats;
     private PlayerMoveBase playerMovement;
     private InputDevice playerController;
 
@@ -45,7 +44,6 @@ public class PlayerGunHandler : MonoBehaviour
     {
         // Get Player Components
         playerHUD = GetComponent<PlayerHUD>();
-        playerStats = GetComponent<PlayerStatManager>();
         playerMovement = GetComponent<PlayerMoveBase>();
         playerController = GetComponent<PlayerController>().GetController();
 

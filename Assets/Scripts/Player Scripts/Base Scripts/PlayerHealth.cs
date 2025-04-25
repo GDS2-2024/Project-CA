@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerStatManager : MonoBehaviour
+public class PlayerHealth : MonoBehaviour
 { 
     [Header("Health")]
     public float currentHealth;
@@ -102,8 +102,6 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-   
-
     private void GiveKillScoreToAttacker(GameObject attacker)
     {
         if (attacker != null)
@@ -116,12 +114,12 @@ public class PlayerStatManager : MonoBehaviour
     {
         if (attacker != null)
         {
-            PlayerStatManager attackerStatScript = attacker.GetComponent<PlayerStatManager>();
-            attackerStatScript.totalDamageDealt += damage;
-            if (attackerStatScript.abilityDamageTracker)
+            PlayerHealth attackerHealth = attacker.GetComponent<PlayerHealth>();
+            attackerHealth.totalDamageDealt += damage;
+            if (attackerHealth.abilityDamageTracker)
             {
-                attackerStatScript.durationDamageDealt += damage;
-                print(attackerStatScript.durationDamageDealt);
+                attackerHealth.durationDamageDealt += damage;
+                print(attackerHealth.durationDamageDealt);
             }
         }
     }

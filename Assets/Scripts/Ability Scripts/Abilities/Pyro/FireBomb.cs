@@ -23,8 +23,8 @@ public class FireBomb : MonoBehaviour
         if (other.tag != "Player") { return; }
         if (other.gameObject != firingPlayer) // Player can't damage themselves with firebomb
         {
-            PlayerStatManager statScript = other.gameObject.GetComponent<PlayerStatManager>();
-            statScript.TakeDamage(damagePerSecond * Time.deltaTime, firingPlayer);
+            PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(damagePerSecond * Time.deltaTime, firingPlayer);
         }
     }
 

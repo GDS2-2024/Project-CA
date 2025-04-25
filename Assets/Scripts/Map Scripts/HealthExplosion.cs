@@ -8,7 +8,7 @@ public class HealthExplosion : MonoBehaviour
     private float heal = 25.0f;
 
     private float deathCurrent = 0f;
-    private PlayerStatManager playerStatScript;
+    private PlayerHealth playerHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +31,8 @@ public class HealthExplosion : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            playerStatScript = other.gameObject.GetComponent<PlayerStatManager>();
-            playerStatScript.TakeDamage(-heal, null);
+            playerHealth = other.gameObject.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(-heal, null);
         }
     }
 }

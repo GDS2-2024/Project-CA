@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageExplosion : MonoBehaviour
@@ -8,7 +6,7 @@ public class DamageExplosion : MonoBehaviour
     private float damage = 25f;
 
     private float deathCurrent = 0f;
-    private PlayerStatManager playerStatScript;
+    private PlayerHealth playerHealth;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +29,8 @@ public class DamageExplosion : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            playerStatScript = other.gameObject.GetComponent<PlayerStatManager>();
-            playerStatScript.TakeDamage(damage, null);
+            playerHealth = other.gameObject.GetComponent<PlayerHealth>();
+            playerHealth.TakeDamage(damage, null);
         }
     }
 }

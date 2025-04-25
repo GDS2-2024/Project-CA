@@ -10,7 +10,7 @@ public class LavaDamage : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerStatManager>().TakeDamage(damage*Time.deltaTime, null);
+            other.GetComponent<PlayerHealth>().TakeDamage(damage*Time.deltaTime, null);
         }
     }
 }
