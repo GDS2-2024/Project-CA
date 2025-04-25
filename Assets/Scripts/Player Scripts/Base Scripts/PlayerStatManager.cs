@@ -3,16 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerStatManager : MonoBehaviour
-{
-    [Header("Ammo")]
-    public int maxAmmoInClip;
-    public int currentAmmo;
-
-    [Header("Reload")]
-    public float reloadTime;
-    private bool isReloading;
-    private float reloadDurationTimer;
-
+{ 
     [Header("Health")]
     public float currentHealth;
     private float maxHealth = 100f;
@@ -35,10 +26,7 @@ public class PlayerStatManager : MonoBehaviour
     private PlayerGunHandler playerGun;
     private CapsuleCollider playerCollider;
     private PlayerAbilityHandler playerAbilityHandler;
-
-    // Player Controller
-    private PlayerController controllerScript;
-    private InputDevice thisController;
+    private InputDevice playerController;
 
     // Player Spawner used to Respawn
     private GameObject playerSpawner;
@@ -47,50 +35,20 @@ public class PlayerStatManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Setup Ammo
-        playerHUD = gameObject.GetComponent<PlayerHUD>();
-        currentAmmo = maxAmmoInClip;
         currentHealth = maxHealth;
-        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
-
-        // Setup Controller
-        controllerScript = gameObject.GetComponent<PlayerController>();
-        if (controllerScript) { thisController = controllerScript.GetController(); }
 
         // Setup Player Spawner
         playerSpawner = GameObject.Find("Player Spawner");
         if (playerSpawner) { playerSpawnerScript = playerSpawner.GetComponent<PlayerSpawner>(); }
 
         // Get Player Components
+        playerController = gameObject.GetComponent<PlayerController>().GetController();
         playerMovement = gameObject.GetComponent<PlayerMoveBase>();
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
         playerScore = gameObject.GetComponent<PlayerScore>();
         playerGun = gameObject.GetComponent<PlayerGunHandler>();
         playerCollider = gameObject.GetComponent<CapsuleCollider>();
         playerAbilityHandler = gameObject.GetComponent<PlayerAbilityHandler>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (thisController is Keyboard keyboard)
-        {
-            if (keyboard.rKey.wasPressedThisFrame)
-            {
-                StartCoroutine(Reload());
-            }
-        }
-        else if (thisController is Gamepad controller)
-        {
-            if (controller.buttonWest.wasPressedThisFrame)
-            {
-                StartCoroutine(Reload());
-            }
-        }
-        if (isReloading)
-        {
-            ManageReloadCountdown();
-        }
     }
 
     public void TakeDamage(float damage, GameObject attacker, RaycastHit hitPoint)
@@ -144,37 +102,7 @@ public class PlayerStatManager : MonoBehaviour
         }
     }
 
-    public bool isPlayerReloading() { return isReloading; }
-
-    public void ReduceAmmo()
-    {
-        currentAmmo -= 1;
-        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
-    }
-
-    public IEnumerator Reload()
-    {
-        // Start reload animation here
-        isReloading = true;
-        reloadDurationTimer = 0;
-        yield return new WaitForSeconds(reloadTime);
-        isReloading = false;
-        currentAmmo = maxAmmoInClip;
-        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
-    }
-
-    public void CancelReload()
-    {
-        // Stop reload animation here
-        isReloading = false;
-        StopCoroutine(Reload());
-    }
-
-    public void ManageReloadCountdown()
-    {
-        reloadDurationTimer += Time.deltaTime;
-        playerHUD.UpdateReloadCooldown(1 - (reloadDurationTimer / reloadTime));
-    }
+   
 
     private void GiveKillScoreToAttacker(GameObject attacker)
     {
@@ -242,7 +170,7 @@ public class PlayerStatManager : MonoBehaviour
     {
         if (playerSpawnerScript)
         {
-            playerSpawnerScript.RespawnPlayer(thisController, gameObject);
+            playerSpawnerScript.RespawnPlayer(playerController, gameObject);
         }
         else
         {

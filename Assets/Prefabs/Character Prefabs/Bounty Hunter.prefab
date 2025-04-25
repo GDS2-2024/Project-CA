@@ -353,9 +353,21 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: zoomedFOV
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: reloadTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 3502144147338531713, guid: 98a33118016ed4446b9dcc4e205dd830, type: 3}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: zoomSensRedution
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: aimedSensRedution
       value: 3

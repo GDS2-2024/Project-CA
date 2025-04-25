@@ -36,8 +36,6 @@ public class AbilityFMJ : Ability
     private IEnumerator ActivateFMJ()
     {
         gunHandler.bulletPrefab = FMJBullet;
-        playerStatManager.currentAmmo = playerStatManager.maxAmmoInClip;
-        playerHUD.UpateAmmoUI(playerStatManager.currentAmmo);
         yield return new WaitForSeconds(fmjDuration);
         DeactivateFMJ();
     }

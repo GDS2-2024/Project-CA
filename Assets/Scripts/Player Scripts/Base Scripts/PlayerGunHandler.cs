@@ -14,31 +14,44 @@ public class PlayerGunHandler : MonoBehaviour
     public GameObject gunObject;
     public GameObject bulletPrefab;
     public Camera playerCam;
+    [Header("Gun Stats")]
     public float shotSpeed;
     private bool shotDelay;
     private bool shootingDisabled = false;
-    private bool CanShoot() => playerStats.currentAmmo > 0 && !shotDelay && !shootingDisabled && !playerStats.isPlayerReloading();
+
+    // Ammo & Reloading
+    public int maxAmmoInClip;
+    private int currentAmmo;
+    public float reloadTime;
+    private bool isReloading;
+    private float reloadDurationTimer;
+    private bool CanShoot() => currentAmmo > 0 && !shotDelay && !shootingDisabled && !isReloading;
 
     // Zoom & Aiming
+    [Header("Zoom")]
+    public int zoomedFOV;
     private int normalFOV = 60;
-    [Header("Zoom & Aiming")]
-    public int aimedFOV;
     private float targetFOV = 60;
-    private float zoomSpeedFOV = 10f;
-    public float aimedSensRedution; // Higher numbers = lower sensitivity
+    private float zoomSpeed = 10f;
+    public float zoomSensRedution; // Higher numbers = lower sensitivity
 
     // Reticle Sizes
-    public float normalReticleSize;
+    private float normalReticleSize;
     public float zoomedReticleSize;
     private float targetReticleSize;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Get Player Components
         playerHUD = GetComponent<PlayerHUD>();
         playerStats = GetComponent<PlayerStatManager>();
         playerMovement = GetComponent<PlayerMoveBase>();
         playerController = GetComponent<PlayerController>().GetController();
+
+        // Setup Ammo
+        playerHUD = gameObject.GetComponent<PlayerHUD>();
+        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
 
         shotDelay = false;
         targetReticleSize = normalReticleSize;
@@ -47,32 +60,36 @@ public class PlayerGunHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerController is Keyboard)
+        if (isReloading) { ManageReloadCountdown(); }
+
+        if (playerController is Keyboard keyboard)
         {
             Mouse mouse = Mouse.current;
             if (mouse.leftButton.isPressed && CanShoot()) ShootBullet();
             if (mouse.rightButton.wasPressedThisFrame) SetZoom(true);
             if (mouse.rightButton.wasReleasedThisFrame) SetZoom(false);
+            if (keyboard.rKey.wasPressedThisFrame) StartCoroutine(Reload());
         }
         else if (playerController is Gamepad controller)
         {
             if (controller.rightTrigger.isPressed && CanShoot()) ShootBullet();
             if (controller.leftTrigger.wasPressedThisFrame) SetZoom(true);
             if (controller.leftTrigger.wasReleasedThisFrame) SetZoom(false);
+            if (controller.buttonWest.wasPressedThisFrame) StartCoroutine(Reload());
         }
 
         // ADS / ZOOM
-        playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeedFOV);
-        float newReticleSize = Mathf.Lerp(playerHUD.Reticle.rectTransform.sizeDelta.x, targetReticleSize, Time.deltaTime * zoomSpeedFOV);
+        playerCam.fieldOfView = Mathf.Lerp(playerCam.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
+        float newReticleSize = Mathf.Lerp(playerHUD.Reticle.rectTransform.sizeDelta.x, targetReticleSize, Time.deltaTime * zoomSpeed);
         playerHUD.SetReticleSize(newReticleSize);
     }
 
     void SetZoom(bool isAimed)
     {
-        targetFOV = isAimed ? aimedFOV : normalFOV;
+        targetFOV = isAimed ? zoomedFOV : normalFOV;
 
         //Reduce aiming sensitivity when zoomed
-        float sensMultiplier = isAimed ? 1f / aimedSensRedution : aimedSensRedution;
+        float sensMultiplier = isAimed ? 1f / zoomSensRedution : zoomSensRedution;
         playerMovement.controlXSens *= sensMultiplier;
         playerMovement.controlYSens *= sensMultiplier;
         playerMovement.mouseSens *= sensMultiplier;
@@ -83,7 +100,7 @@ public class PlayerGunHandler : MonoBehaviour
 
     void ShootBullet()
     {        
-        playerStats.ReduceAmmo();
+        ReduceAmmo();
 
         // Perform a raycast from the center of the camera
         RaycastHit hit;
@@ -120,4 +137,37 @@ public class PlayerGunHandler : MonoBehaviour
     }
     public void DisableShooting() { shootingDisabled = true; }
     public void EnableShooting() { shootingDisabled = false; }
+
+    // Reloading
+    public bool isPlayerReloading() { return isReloading; }
+
+    public void ReduceAmmo()
+    {
+        currentAmmo -= 1;
+        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
+    }
+
+    public IEnumerator Reload()
+    {
+        // Start reload animation here
+        isReloading = true;
+        reloadDurationTimer = 0;
+        yield return new WaitForSeconds(reloadTime);
+        isReloading = false;
+        currentAmmo = maxAmmoInClip;
+        if (playerHUD) { playerHUD.UpateAmmoUI(currentAmmo); }
+    }
+
+    public void CancelReload()
+    {
+        // Stop reload animation here
+        isReloading = false;
+        StopCoroutine(Reload());
+    }
+
+    public void ManageReloadCountdown()
+    {
+        reloadDurationTimer += Time.deltaTime;
+        playerHUD.UpdateReloadCooldown(1 - (reloadDurationTimer / reloadTime));
+    }
 }

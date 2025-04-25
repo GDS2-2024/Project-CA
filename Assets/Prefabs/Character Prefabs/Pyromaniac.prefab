@@ -326,9 +326,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2a7a49ccf25a4d24ca6141079e3d4899, type: 3}
     - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: shotSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: reloadTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 3502144147338531713, guid: 00de7e3abffc1db45aa57e63e7bb9a93, type: 3}
+    - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: maxAmmoInClip
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2515466800264610688, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: aimedSensRedution
       value: 2
