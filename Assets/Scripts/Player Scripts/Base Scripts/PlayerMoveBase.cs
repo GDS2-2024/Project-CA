@@ -1,14 +1,9 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMoveBase : MonoBehaviour
 {
-    private playerState currentState;
-
     //Controller
     private InputDevice thisController;
     
@@ -26,8 +21,7 @@ public class PlayerMoveBase : MonoBehaviour
     public float moveSpeed;
     public float jumpForce;
     public bool isGrounded { get; private set; }
-    public bool movementDisabled = false;
-    public bool cameraDisabled = false;
+    private bool movementDisabled = false;
 
     //Camera variables
     public Camera playerCam;
@@ -35,23 +29,16 @@ public class PlayerMoveBase : MonoBehaviour
     private float cameraYaw;
     private float minClamp = -89.0f;
     private float maxClamp = 89.0f;
+    private bool cameraDisabled = false;
 
     //Camera offsests
-    public float distance;
-    public float offsetDistance;
-    public float heightOffset; 
-
-    public enum playerState
-    {
-        Idle,
-        Move
-    }
+    private float camDepthOffset = 3f;
+    private float camSideOffset = 1f;
+    private float camHeightOffset = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        currentState = playerState.Idle;
-
         rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<CapsuleCollider>();
         thisController = GetComponent<PlayerController>().GetController();
@@ -80,26 +67,6 @@ public class PlayerMoveBase : MonoBehaviour
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, raycastDistance);
     }
 
-    public void SetState(playerState newState)
-    {
-        if (currentState != newState)
-        {
-            currentState = newState;
-            OnStateEnter(newState);
-        }
-    }
-
-    public void OnStateEnter(playerState state)
-    {
-        switch (state)
-        {
-            case playerState.Idle:
-                break;
-            case playerState.Move:
-                break;
-        }
-    }
-
     void GetMovementInput()
     {
         float moveX = 0;
@@ -116,18 +83,8 @@ public class PlayerMoveBase : MonoBehaviour
             moveX = controller.leftStick.right.isPressed ? 1 : controller.leftStick.left.isPressed ? -1 : 0;
             if (controller.buttonSouth.wasPressedThisFrame) { Jump(); }
         }
-
         moveDir = transform.TransformDirection(new Vector3(moveX, 0f, moveZ).normalized);
         moveDir.y = 0;
-
-        if (moveDir.z > 0 || moveDir.x > 0)
-        {
-            SetState(playerState.Move);
-        }
-        else
-        {
-            SetState(playerState.Idle);
-        }
     }
 
     private void Jump()
@@ -140,7 +97,6 @@ public class PlayerMoveBase : MonoBehaviour
     {
         if (movementDisabled) { return; }
         Vector3 desiredVelocity = moveDir * moveSpeed;
-
         if (moveDir.magnitude > 0)
         {           
             // If move input then add to existing velocity
@@ -158,7 +114,6 @@ public class PlayerMoveBase : MonoBehaviour
     void HandleCamera()
     {
         if (cameraDisabled) { return; }
-        //Gets input from the input device
         if (thisController is Keyboard)
         {
             Mouse mouse = Mouse.current;
@@ -170,7 +125,6 @@ public class PlayerMoveBase : MonoBehaviour
             inputX = controller.rightStick.ReadValue().x * controlXSens * Time.deltaTime;
             inputY = controller.rightStick.ReadValue().y * controlYSens * Time.deltaTime;
         }
-
         // Update yaw and pitch
         cameraYaw += inputX;
         cameraPitch -= inputY;
@@ -178,10 +132,10 @@ public class PlayerMoveBase : MonoBehaviour
 
         // Update camera position and rotation
         Quaternion rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0);
-        Vector3 targetPos = transform.position + transform.right * offsetDistance + Vector3.up * heightOffset;
-        Vector3 cameraPos = rotation * new Vector3(0, 0, -distance) + targetPos;
+        Vector3 targetPos = transform.position + transform.right * camSideOffset + Vector3.up * camHeightOffset;
+        Vector3 cameraPos = rotation * new Vector3(0, 0, -camDepthOffset) + targetPos;
         playerCam.transform.position = cameraPos;
-        playerCam.transform.LookAt(transform.position + transform.right * offsetDistance + Vector3.up * heightOffset);
+        playerCam.transform.LookAt(transform.position + transform.right * camSideOffset + Vector3.up * camHeightOffset);
         
         // Rotate player horizontally
         transform.Rotate(Vector3.up * inputX, Space.World);
@@ -198,35 +152,30 @@ public class PlayerMoveBase : MonoBehaviour
     {
         StartCoroutine(DisableMovement(duration));
     }
-
-    public void DisableMovement() { movementDisabled = true; }
-
-    public void EnableMovement() { movementDisabled = false; }
-
     private IEnumerator DisableMovement(float duration)
     {
         movementDisabled = true;
         yield return new WaitForSeconds(duration);
         movementDisabled = false;
     }
+    public void DisableMovement() { movementDisabled = true; }
+    public void EnableMovement() { movementDisabled = false; }
 
     // Disable/Enable Camera
     public void TempDisableCamera(float duration)
     {
         StartCoroutine(DisableCamera(duration));
     }
-
-    public void DisableCamera() { cameraDisabled = true; }
-
-    public void EnableCamera() { cameraDisabled = false; }
-
     private IEnumerator DisableCamera(float duration)
     {
         cameraDisabled = true;
         yield return new WaitForSeconds(duration);
         cameraDisabled = false;
     }
+    public void DisableCamera() { cameraDisabled = true; }
+    public void EnableCamera() { cameraDisabled = false; }
 
+    // Slow movement
     public void TempSlowMovement(float duration)
     {
         StartCoroutine(SlowMovement(duration));
