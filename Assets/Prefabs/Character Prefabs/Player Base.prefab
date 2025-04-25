@@ -3721,8 +3721,8 @@ MonoBehaviour:
   shotSpeed: 0.5
   aimedFOV: 60
   aimedSensRedution: 2
-  normalReticleSize: 10
-  zoomedReticleSize: 10
+  normalReticleSize: 100
+  zoomedReticleSize: 100
 --- !u!114 &5903094053358665333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3801,8 +3801,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5612231d7e7dccd40a4b9f0caa650763, type: 3}
   ReloadButtonIcon: {fileID: 1678454089981568410}
   UltimateButtonIcon: {fileID: 955883191722593324}
-  UtilityButtonIcon: {fileID: 5802975950388537221}
   DamageButtonIcon: {fileID: 9215723469753902671}
+  UtilityButtonIcon: {fileID: 5802975950388537221}
 --- !u!114 &4371058044870796072
 MonoBehaviour:
   m_ObjectHideFlags: 0
