@@ -120,6 +120,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: LeftAbility
+      value: 
+      objectReference: {fileID: 6851728086719776394}
+    - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: RightAbility
+      value: 
+      objectReference: {fileID: 6934429751603254819}
+    - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: DamageAbility
       value: 
       objectReference: {fileID: 6851728086719776394}

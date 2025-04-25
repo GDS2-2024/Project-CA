@@ -270,13 +270,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -485,66 +481,6 @@ Transform:
   m_Father: {fileID: 527160731}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &223836120
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 2
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5903094053358665325, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_Name
-      value: Player Base
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5903094053358665334, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
-    m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
 --- !u!1 &255244147
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,13 +1100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -1472,13 +1404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -2232,13 +2160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -2372,13 +2296,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -2512,13 +2432,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -3248,13 +3164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -3388,13 +3300,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -3528,13 +3436,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -3752,13 +3656,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -3989,13 +3889,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}
@@ -4079,6 +3975,65 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473248360}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1682079632
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 490854935388327303, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_Name
+      value: Pyromaniac
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 490854935388327323, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: a1c03c93b06be5d44839717c51df4e31, type: 3}
 --- !u!1 &1744278344
 GameObject:
   m_ObjectHideFlags: 0
@@ -4834,13 +4789,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d54f3a0c23d8404b8df68dda113b51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAmmoInClip: 0
-  currentAmmo: 0
-  reloadTime: 0
-  maxHealth: 100
+  currentHealth: 0
   abilityDamageTracker: 0
   durationDamageDealt: 0
-  health: 0
   hitEffect: {fileID: 2548903106310778824, guid: 82661381ad273884faa46bf9d4daf46c, type: 3}
   hitDecal: {fileID: 3005155216612922875, guid: a1502758a7fbced47a0caf30bd6e7e16, type: 3}
   dmgDirectionIndicator: {fileID: 0}

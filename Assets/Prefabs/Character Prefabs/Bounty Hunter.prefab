@@ -381,6 +381,14 @@ PrefabInstance:
       value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: LeftAbility
+      value: 
+      objectReference: {fileID: 6461237747496067332}
+    - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: RightAbility
+      value: 
+      objectReference: {fileID: 657641787}
+    - target: {fileID: 4371058044870796072, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: DamageAbility
       value: 
       objectReference: {fileID: 6461237747496067332}
@@ -544,10 +552,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 657641786}
+      addedObject: {fileID: 842056221}
     - targetCorrespondingSourceObject: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 842056221}
+      addedObject: {fileID: 657641786}
     - targetCorrespondingSourceObject: {fileID: 5903094053358665329, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       insertIndex: -1
       addedObject: {fileID: 561502459}

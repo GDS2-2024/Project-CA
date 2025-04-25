@@ -46,9 +46,9 @@ public class PlayerHUD : MonoBehaviour
     public Image UtilCoolDownImage;
     public Image DamageCoolDownImage;
     public Image UltimateCooldownImage;
-    public void UpdateUtilityCooldown(float currentPercentage) { UtilCoolDownImage.fillAmount = currentPercentage; }
-    public void UpdateDamageCooldown(float currentPercentage) { DamageCoolDownImage.fillAmount = currentPercentage; }
-    public void UpdateUltimateCooldown(float currentPercentage) { UltimateCooldownImage.fillAmount = currentPercentage; }
+    public void RightAbilityCooldown(float currentPercentage) { UtilCoolDownImage.fillAmount = currentPercentage; }
+    public void LeftAbilityCooldown(float currentPercentage) { DamageCoolDownImage.fillAmount = currentPercentage; }
+    public void UltimateAbilityCooldown(float currentPercentage) { UltimateCooldownImage.fillAmount = currentPercentage; }
 
     // Timers
     public TMP_Text GameTimerText;

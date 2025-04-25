@@ -5,17 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerAbilityHandler : MonoBehaviour
 {
-    public Ability UtilityAbility;
-    public Ability DamageAbility;
+    public Ability LeftAbility;
+    public Ability RightAbility;
     public Ability UltimateAbility;
 
     private PlayerHUD playerHUD;
-    private bool hasUtilityAbility = true;
-    private bool hasDamageAbility = true;
+    private bool hasLeftAbility = true;
+    private bool hasRightAbility = true;
     private bool hasUltimateAbility = true;
-    public bool HasUtilityAbility() { return hasUtilityAbility; }
-    public bool HasDamageAbility() { return hasDamageAbility; }
+    public bool HasLeftAbility() { return hasLeftAbility; }
+    public bool HasRightAbility() { return hasRightAbility; }
     public bool HasUltimateAbility() { return hasUltimateAbility; }
+    
     private InputDevice thisController;
     private PlayerController controllerScript;
 
@@ -23,15 +24,15 @@ public class PlayerAbilityHandler : MonoBehaviour
     void Start()
     {
         playerHUD = gameObject.GetComponent<PlayerHUD>();
-        if (UtilityAbility == null)
+        if (LeftAbility == null)
         {
-            Debug.Log("The Character does not have a UTILITY ability.");
-            hasUtilityAbility = false;
+            Debug.Log("The Character does not have a LEFT ability.");
+            hasLeftAbility = false;
         }
-        if (DamageAbility == null)
+        if (RightAbility == null)
         {
-            Debug.Log("The Character does not have a DAMAGE ability.");
-            hasDamageAbility = false;
+            Debug.Log("The Character does not have a RIGHT ability.");
+            hasRightAbility = false;
         }
         if (UltimateAbility == null)
         {
@@ -45,52 +46,52 @@ public class PlayerAbilityHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasUtilityAbility)
+        if (hasRightAbility)
         {
-            ManageUtilityAbility();
-            playerHUD.UpdateUtilityCooldown(UtilityAbility.currentCooldownTime / UtilityAbility.cooldown);
+            ManageRightAbility();
+            playerHUD.RightAbilityCooldown(RightAbility.currentCooldownTime / RightAbility.cooldown);
         }
-        if (hasDamageAbility)
+        if (hasLeftAbility)
         {
-            ManageDamageAbility();
-            playerHUD.UpdateDamageCooldown(DamageAbility.currentCooldownTime / DamageAbility.cooldown);
+            ManageLeftAbility();
+            playerHUD.LeftAbilityCooldown(LeftAbility.currentCooldownTime / LeftAbility.cooldown);
         }
         if (hasUltimateAbility)
         {
             ManageUltimateAbility();
-            playerHUD.UpdateUltimateCooldown(UltimateAbility.currentCooldownTime / UltimateAbility.cooldown);
+            playerHUD.UltimateAbilityCooldown(UltimateAbility.currentCooldownTime / UltimateAbility.cooldown);
         }
     }
 
-    private void ManageUtilityAbility()
+    private void ManageRightAbility()
     {
         if (thisController is Keyboard keyboard)
         {
-            if (keyboard.eKey.wasPressedThisFrame) { UtilityAbility.OnPressAbility(); }
-            if (keyboard.eKey.isPressed) { UtilityAbility.OnHoldingAbility(); }
-            if (keyboard.eKey.wasReleasedThisFrame) { UtilityAbility.OnReleaseAbility(); }
+            if (keyboard.eKey.wasPressedThisFrame) { RightAbility.OnPressAbility(); }
+            if (keyboard.eKey.isPressed) { RightAbility.OnHoldingAbility(); }
+            if (keyboard.eKey.wasReleasedThisFrame) { RightAbility.OnReleaseAbility(); }
         }
         else if (thisController is Gamepad controller)
         {
-            if (controller.rightShoulder.wasPressedThisFrame) { UtilityAbility.OnPressAbility(); }
-            if (controller.rightShoulder.isPressed) { UtilityAbility.OnHoldingAbility(); }
-            if (controller.rightShoulder.wasReleasedThisFrame) { UtilityAbility.OnReleaseAbility(); }
+            if (controller.rightShoulder.wasPressedThisFrame) { RightAbility.OnPressAbility(); }
+            if (controller.rightShoulder.isPressed) { RightAbility.OnHoldingAbility(); }
+            if (controller.rightShoulder.wasReleasedThisFrame) { RightAbility.OnReleaseAbility(); }
         }
     }
 
-    private void ManageDamageAbility()
+    private void ManageLeftAbility()
     {
         if (thisController is Keyboard keyboard)
         {
-            if (keyboard.qKey.wasPressedThisFrame) { DamageAbility.OnPressAbility(); }
-            if (keyboard.qKey.isPressed) { DamageAbility.OnHoldingAbility(); }
-            if (keyboard.qKey.wasReleasedThisFrame) { DamageAbility.OnReleaseAbility(); }
+            if (keyboard.qKey.wasPressedThisFrame) { LeftAbility.OnPressAbility(); }
+            if (keyboard.qKey.isPressed) { LeftAbility.OnHoldingAbility(); }
+            if (keyboard.qKey.wasReleasedThisFrame) { LeftAbility.OnReleaseAbility(); }
         }
         else if (thisController is Gamepad controller)
         {
-            if (controller.leftShoulder.wasPressedThisFrame) { DamageAbility.OnPressAbility(); }
-            if (controller.leftShoulder.isPressed) { DamageAbility.OnHoldingAbility(); }
-            if (controller.leftShoulder.wasReleasedThisFrame) { DamageAbility.OnReleaseAbility(); }
+            if (controller.leftShoulder.wasPressedThisFrame) { LeftAbility.OnPressAbility(); }
+            if (controller.leftShoulder.isPressed) { LeftAbility.OnHoldingAbility(); }
+            if (controller.leftShoulder.wasReleasedThisFrame) { LeftAbility.OnReleaseAbility(); }
         }
     }
 
