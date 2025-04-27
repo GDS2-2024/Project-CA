@@ -3597,7 +3597,7 @@ Transform:
   - {fileID: 5903094052215905936}
   - {fileID: 5903094052578400912}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5903094053358665330
 MeshFilter:
@@ -3703,12 +3703,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767c3829229bc66469f395996f187b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSens: 0.1
-  controlXSens: 100
-  controlYSens: 50
+  mouseSensitivity: 0.1
+  controllerSensitivityX: 100
+  controllerSensitivityY: 50
   moveSpeed: 8
   jumpForce: 1
   playerCam: {fileID: 5903094051481199568}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &5903094053358665333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3806,8 +3809,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b440c078cd89114b989c9587ebef4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UtilityAbility: {fileID: 0}
-  DamageAbility: {fileID: 0}
+  LeftAbility: {fileID: 0}
+  RightAbility: {fileID: 0}
   UltimateAbility: {fileID: 0}
 --- !u!114 &5862432884533016789
 MonoBehaviour:

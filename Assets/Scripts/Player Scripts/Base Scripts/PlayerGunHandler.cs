@@ -89,9 +89,9 @@ public class PlayerGunHandler : MonoBehaviour
 
         //Reduce aiming sensitivity when zoomed
         float sensMultiplier = isAimed ? 1f / zoomSensRedution : zoomSensRedution;
-        playerMovement.controlXSens *= sensMultiplier;
-        playerMovement.controlYSens *= sensMultiplier;
-        playerMovement.mouseSens *= sensMultiplier;
+        playerMovement.controllerSensitivityX *= sensMultiplier;
+        playerMovement.controllerSensitivityY *= sensMultiplier;
+        playerMovement.mouseSensitivity *= sensMultiplier;
 
         //Shrink reticle when zoomed
         targetReticleSize = isAimed ? zoomedReticleSize : normalReticleSize;

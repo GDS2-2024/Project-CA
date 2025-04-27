@@ -11,26 +11,31 @@ public class PlayerMoveBase : MonoBehaviour
     //Inputs
     private float inputX;
     private float inputY;
-    public float mouseSens;
-    public float controlXSens;
-    public float controlYSens;
+    [Header("Sensitivity")]
+    public float mouseSensitivity;
+    public float controllerSensitivityX;
+    public float controllerSensitivityY;
 
     //Movement variables
     private Rigidbody rb;
     private CapsuleCollider playerCollider;
     private Vector3 moveDir;
+    [Header("Movement")]
     public float moveSpeed;
     public float jumpForce;
     public bool isGrounded { get; private set; }
     private bool movementDisabled = false;
 
     //Camera variables
+    [Header("Camera")]
     public Camera playerCam;
     private float cameraPitch;
     private float cameraYaw;
     private float minClamp = -89.0f;
     private float maxClamp = 89.0f;
     private bool cameraDisabled = false;
+    private float cameraCollisionRadius = 0.3f;
+    public LayerMask collisionLayers = ~0;
 
     //Camera offsests
     private float camDepthOffset = 3f;
@@ -115,17 +120,19 @@ public class PlayerMoveBase : MonoBehaviour
     void HandleCamera()
     {
         if (cameraDisabled) { return; }
+
         if (thisController is Keyboard)
         {
             Mouse mouse = Mouse.current;
-            inputX = mouse.delta.x.ReadValue() * mouseSens;
-            inputY = mouse.delta.y.ReadValue() * mouseSens;
+            inputX = mouse.delta.x.ReadValue() * mouseSensitivity;
+            inputY = mouse.delta.y.ReadValue() * mouseSensitivity;
         }
         else if (thisController is Gamepad controller)
         {
-            inputX = controller.rightStick.ReadValue().x * controlXSens * Time.deltaTime;
-            inputY = controller.rightStick.ReadValue().y * controlYSens * Time.deltaTime;
+            inputX = controller.rightStick.ReadValue().x * controllerSensitivityX * Time.deltaTime;
+            inputY = controller.rightStick.ReadValue().y * controllerSensitivityY * Time.deltaTime;
         }
+
         // Update yaw and pitch
         cameraYaw += inputX;
         cameraPitch -= inputY;
@@ -133,13 +140,50 @@ public class PlayerMoveBase : MonoBehaviour
 
         // Update camera position and rotation
         Quaternion rotation = Quaternion.Euler(cameraPitch, cameraYaw, 0);
+
+        // Calculate camera target position
         Vector3 targetPos = transform.position + transform.right * camSideOffset + Vector3.up * camHeightOffset;
-        Vector3 cameraPos = rotation * new Vector3(0, 0, -camDepthOffset) + targetPos;
-        playerCam.transform.position = cameraPos;
-        playerCam.transform.LookAt(transform.position + transform.right * camSideOffset + Vector3.up * camHeightOffset);
-        
+        Vector3 desiredCameraPos = rotation * new Vector3(0, 0, -camDepthOffset) + targetPos;
+
+        // Calculate direction & distance for collision detection
+        Vector3 directionToCamera = (desiredCameraPos - targetPos).normalized;
+        float distanceToCamera = Vector3.Distance(targetPos, desiredCameraPos);
+
+        // Save for gizmo drawing
+        gizmoTargetPos = targetPos;
+        gizmoDirection = directionToCamera;
+        gizmoDistance = distanceToCamera;
+
+        RaycastHit hit;
+        if (Physics.SphereCast(targetPos, cameraCollisionRadius, directionToCamera, out hit, distanceToCamera, collisionLayers))
+        {
+            // Adjust desired position to hit point, backing off slightly by the collision radius
+            desiredCameraPos = targetPos + directionToCamera * (hit.distance - cameraCollisionRadius);
+        }
+
+        // Move and look
+        playerCam.transform.position = desiredCameraPos;
+        playerCam.transform.LookAt(targetPos);
+
         // Rotate player horizontally
         transform.Rotate(Vector3.up * inputX, Space.World);
+    }
+
+    // Fields to make Gizmo visible
+    private Vector3 gizmoTargetPos;
+    private Vector3 gizmoDirection;
+    private float gizmoDistance;
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(gizmoTargetPos, cameraCollisionRadius); // start point
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(gizmoTargetPos, gizmoTargetPos + gizmoDirection * gizmoDistance); // direction line
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(gizmoTargetPos + gizmoDirection * gizmoDistance, cameraCollisionRadius); // intended camera position
     }
 
     public void InitializeCameraRotation(float initialYaw, float initialPitch)
