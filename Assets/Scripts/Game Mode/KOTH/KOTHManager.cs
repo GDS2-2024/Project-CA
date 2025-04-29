@@ -19,7 +19,20 @@ public class KOTHManager : MonoBehaviour
 
     private void Awake()
     {
+        ShuffleHillOrder();
         activeHill = hills[0];
+    }
+
+    // Randomises the orderr of the hills every game
+    private void ShuffleHillOrder()
+    {
+        for (int i = 0; i < hills.Count; i++)
+        {
+            int randomIndex = Random.Range(i, hills.Count);
+            GameObject temp = hills[i];
+            hills[i] = hills[randomIndex];
+            hills[randomIndex] = temp;
+        }
     }
 
     // Start is called before the first frame update
