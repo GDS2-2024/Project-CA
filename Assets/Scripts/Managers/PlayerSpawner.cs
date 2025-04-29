@@ -10,7 +10,7 @@ public class PlayerSpawner : MonoBehaviour
 {
     // Spawning
     [SerializeField] private List<SpawnPoint> spawnPoints = new List<SpawnPoint>();
-    private float spawnTimer = 5.0f;
+    private float spawnTimer = 20.0f;
     public SpawnLogic gameModeSpawnLogic;
 
     // Players

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3916229290002533890}
   - component: {fileID: 3916229290002533893}
   - component: {fileID: 3916229290002533892}
-  - component: {fileID: 2586650074185854642}
+  - component: {fileID: 9197096738226965114}
   m_Layer: 2
   m_Name: KOTH Objective
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   m_Children:
   - {fileID: 9175280552463510822}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3916229290002533890
 MeshFilter:
@@ -100,7 +100,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: -1
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &2586650074185854642
+--- !u!114 &9197096738226965114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3916229290002533895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fb3b840ac6f9bd419b0238285bb33ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 4bd78f7b374113d4b8ef02c3a5bd8682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   numOfPlayersInHill: 0
