@@ -27,6 +27,7 @@ public class PlayerHealth : MonoBehaviour
     private CapsuleCollider playerCollider;
     private PlayerAbilityHandler playerAbilityHandler;
     private InputDevice playerController;
+    private PlayerRumbleHandler playerRumble;
 
     // Player Spawner used to Respawn
     private GameObject playerSpawner;
@@ -43,18 +44,20 @@ public class PlayerHealth : MonoBehaviour
 
         // Get Player Components
         playerHUD = gameObject.GetComponent<PlayerHUD>();
-        playerController = gameObject.GetComponent<PlayerController>().GetController();
         playerMovement = gameObject.GetComponent<PlayerMoveBase>();
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
         playerScore = gameObject.GetComponent<PlayerScore>();
         playerGun = gameObject.GetComponent<PlayerGunHandler>();
         playerCollider = gameObject.GetComponent<CapsuleCollider>();
         playerAbilityHandler = gameObject.GetComponent<PlayerAbilityHandler>();
+        playerController = gameObject.GetComponent<PlayerController>().GetController();
+        playerRumble = GetComponent<PlayerRumbleHandler>();
     }
 
     public void TakeDamage(float damage, GameObject attacker, RaycastHit hitPoint)
     {
         TakeDamage(damage, attacker);
+        if (playerRumble) playerRumble.StartRumble(damage/1f, 0f, 0.1f);
         if (hitEffect)
         {
             ParticleSystem effect = Instantiate(
