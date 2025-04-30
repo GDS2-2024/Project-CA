@@ -159,6 +159,7 @@ public class GameModeMenu : MonoBehaviour
     IEnumerator ShowGamemodeRules()
     {
         if (chosenMode == "King of the Hill") rulesKOTH.SetActive(true);
+        if (chosenMode == "Death Match") sceneManagement.LoadDeathMatch();
         yield return new WaitForSeconds(5.0f);
         LoadGameScene();
     }
