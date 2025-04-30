@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -130,19 +131,7 @@ public class GameModeMenu : MonoBehaviour
             }
         }
     }
-
-    void HandleGameStart()
-    {
-        if (!validDraw) return;
-
-        startGameTimer -= Time.deltaTime;
-        timerTxt.text = Mathf.Round(startGameTimer).ToString();
-
-        if (startGameTimer > 0) return;
-
-        if (chosenMode == "Death Match") sceneManagement.LoadDeathMatch();
-        else if (chosenMode == "King of the Hill") sceneManagement.LoadKingOfTheHill();
-    }
+    public bool IsGameStarting() { return validDraw; }
 
     public void Draw()
     {
@@ -154,5 +143,29 @@ public class GameModeMenu : MonoBehaviour
         PlayerVotesObj.SetActive(false);
     }
 
-    public bool IsGameStarting() { return validDraw; }
+    void HandleGameStart()
+    {
+        if (!validDraw) return;
+
+        startGameTimer -= Time.deltaTime;
+        timerTxt.text = Mathf.Round(startGameTimer).ToString();
+
+        if (startGameTimer > 0) return;
+
+        StartCoroutine(ShowGamemodeRules());
+    }
+
+    [SerializeField] private GameObject rulesKOTH;
+    IEnumerator ShowGamemodeRules()
+    {
+        if (chosenMode == "King of the Hill") rulesKOTH.SetActive(true);
+        yield return new WaitForSeconds(5.0f);
+        LoadGameScene();
+    }
+
+    void LoadGameScene()
+    {
+        if (chosenMode == "Death Match") sceneManagement.LoadDeathMatch();
+        else if (chosenMode == "King of the Hill") sceneManagement.LoadKingOfTheHill();
+    }
 }
