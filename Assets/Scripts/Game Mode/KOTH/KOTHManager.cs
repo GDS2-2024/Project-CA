@@ -19,7 +19,20 @@ public class KOTHManager : MonoBehaviour
 
     private void Awake()
     {
+        ShuffleHillOrder();
         activeHill = hills[0];
+    }
+
+    // Randomises the orderr of the hills every game
+    private void ShuffleHillOrder()
+    {
+        for (int i = 0; i < hills.Count; i++)
+        {
+            int randomIndex = Random.Range(i, hills.Count);
+            GameObject temp = hills[i];
+            hills[i] = hills[randomIndex];
+            hills[randomIndex] = temp;
+        }
     }
 
     // Start is called before the first frame update
@@ -62,16 +75,29 @@ public class KOTHManager : MonoBehaviour
         activeHill = hills[hillIndex];
         activeHill.GetComponent<HillObjective>().SetVisibility(true);
         if (matchManager.remainingGameTime != 360) { TellPlayersNewHill(); } // ignore at game start
+        else { GameStartMessage(); }
         EnableObjectiveMarker();
     }
 
     private void UpdateHillTimer()
     {
         remainingHillTime -= Time.deltaTime;
+        TellPlayersHillTimer();
         if (remainingHillTime < 0)
         {
             remainingHillTime = 60;
             SwitchToNextHill();
+        }
+    }
+
+    // Add text to HUD for all players showing the hill timer countdown
+    private void TellPlayersHillTimer()
+    {
+        if (remainingHillTime > 55) { return; }
+        foreach (GameObject player in playerList)
+        {
+            PlayerHUD hud = player.GetComponent<PlayerHUD>();
+            hud.UpdateObjectivePrompt($"{(int)remainingHillTime}");
         }
     }
 
@@ -82,6 +108,15 @@ public class KOTHManager : MonoBehaviour
         {
             PlayerHUD hud = player.GetComponent<PlayerHUD>();
             hud.UpdateObjectivePrompt("The Hill has moved!", 5.0f);
+        }
+    }
+
+    private void GameStartMessage()
+    {
+        foreach (GameObject player in playerList)
+        {
+            PlayerHUD hud = player.GetComponent<PlayerHUD>();
+            hud.UpdateObjectivePrompt("Stand in the hill to score!", 5.0f);
         }
     }
 

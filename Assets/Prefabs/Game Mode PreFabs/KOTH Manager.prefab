@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6660858813532343493}
-  - component: {fileID: 6660858813532343492}
-  - component: {fileID: 260802004776874493}
+  - component: {fileID: 112192605}
+  - component: {fileID: 163430621}
   m_Layer: 0
   m_Name: KOTH Manager
   m_TagString: Untagged
@@ -37,9 +37,9 @@ Transform:
   - {fileID: 3916229290758473512}
   - {fileID: 3916229290772813699}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6660858813532343492
+--- !u!114 &112192605
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,13 +48,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6660858813532343494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddbe823e3015e1042aedc37dd39ffb31, type: 3}
+  m_Script: {fileID: 11500000, guid: dcd4315d88248d9409af7c2737f4bc0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasGameFinished: 0
-  remainingGameTime: 360
   remainingHillTime: 60
-  scoreToWin: 200
   hills:
   - {fileID: 3916229289863877727}
   - {fileID: 3916229290674994637}
@@ -63,7 +60,7 @@ MonoBehaviour:
   - {fileID: 3916229290758473516}
   - {fileID: 3916229290772813703}
   activeHill: {fileID: 0}
---- !u!114 &260802004776874493
+--- !u!114 &163430621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,10 +69,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6660858813532343494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80ee63a9fd6e37447b67d3b4e3bb7da5, type: 3}
+  m_Script: {fileID: 11500000, guid: ed377987ca7627f42a54a3d57497c31f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistanceFromPlayers: 6
+  minDistanceFromPlayers: 10
 --- !u!1001 &147184216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,17 +81,13 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 6660858813532343493}
     m_Modifications:
-    - target: {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
-      propertyPath: KOTHManager
-      value: 
-      objectReference: {fileID: 6660858813532343492}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_RootOrder
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: -0.89
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -102,7 +95,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14
+      value: -17.17
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -136,7 +129,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: KOTH Objective
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
 --- !u!4 &3916229289863877723 stripped
@@ -149,6 +143,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3916229290002533895, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
   m_PrefabInstance: {fileID: 147184216}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &633336476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916229289863877727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd78f7b374113d4b8ef02c3a5bd8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfPlayersInHill: 0
+  KOTHManager: {fileID: 112192605}
 --- !u!1001 &699477641
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,17 +165,13 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 6660858813532343493}
     m_Modifications:
-    - target: {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
-      propertyPath: KOTHManager
-      value: 
-      objectReference: {fileID: 6660858813532343492}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_RootOrder
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -30.8
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -175,7 +179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 34.6
+      value: 71.3
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -209,7 +213,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: KOTH Objective (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
 --- !u!4 &3916229290381140106 stripped
@@ -222,6 +227,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3916229290002533895, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
   m_PrefabInstance: {fileID: 699477641}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &633336474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916229290381140110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd78f7b374113d4b8ef02c3a5bd8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfPlayersInHill: 0
+  KOTHManager: {fileID: 112192605}
 --- !u!1001 &943551434
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -230,17 +249,13 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 6660858813532343493}
     m_Modifications:
-    - target: {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
-      propertyPath: KOTHManager
-      value: 
-      objectReference: {fileID: 6660858813532343492}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_RootOrder
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 49.8
+      value: 48.3
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -248,7 +263,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 26.5
+      value: 61.7
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -282,7 +297,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: KOTH Objective (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
 --- !u!4 &3916229290674994633 stripped
@@ -295,6 +311,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3916229290002533895, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
   m_PrefabInstance: {fileID: 943551434}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &633336475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916229290674994637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd78f7b374113d4b8ef02c3a5bd8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfPlayersInHill: 0
+  KOTHManager: {fileID: 112192605}
 --- !u!1001 &1055562112
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -303,17 +333,13 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 6660858813532343493}
     m_Modifications:
-    - target: {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
-      propertyPath: KOTHManager
-      value: 
-      objectReference: {fileID: 6660858813532343492}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_RootOrder
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -35.8
+      value: -84.05
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -321,7 +347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -50.1
+      value: -4.14
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -355,7 +381,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: KOTH Objective (5)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
 --- !u!4 &3916229290772813699 stripped
@@ -368,6 +395,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3916229290002533895, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
   m_PrefabInstance: {fileID: 1055562112}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1147748761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916229290772813703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd78f7b374113d4b8ef02c3a5bd8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfPlayersInHill: 0
+  KOTHManager: {fileID: 112192605}
 --- !u!1001 &1060587819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -376,17 +417,13 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 6660858813532343493}
     m_Modifications:
-    - target: {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
-      propertyPath: KOTHManager
-      value: 
-      objectReference: {fileID: 6660858813532343492}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_RootOrder
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 46.5
+      value: -40.7
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -394,7 +431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -62.8
+      value: -63.15
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -428,7 +465,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: KOTH Objective (4)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
 --- !u!4 &3916229290758473512 stripped
@@ -441,6 +479,20 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3916229290002533895, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
   m_PrefabInstance: {fileID: 1060587819}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &633336472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916229290758473516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd78f7b374113d4b8ef02c3a5bd8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfPlayersInHill: 0
+  KOTHManager: {fileID: 112192605}
 --- !u!1001 &1072808611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -449,17 +501,13 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 6660858813532343493}
     m_Modifications:
-    - target: {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
-      propertyPath: KOTHManager
-      value: 
-      objectReference: {fileID: 6660858813532343492}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_RootOrder
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 80.8
+      value: 74
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -467,7 +515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -27.4
+      value: -12.97
       objectReference: {fileID: 0}
     - target: {fileID: 3916229290002533891, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -501,7 +549,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: KOTH Objective (3)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2586650074185854642, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
 --- !u!4 &3916229290754378912 stripped
@@ -514,3 +563,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3916229290002533895, guid: b3ae10159a385a7488271d97795a46a5, type: 3}
   m_PrefabInstance: {fileID: 1072808611}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &633336473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3916229290754378916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bd78f7b374113d4b8ef02c3a5bd8682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numOfPlayersInHill: 0
+  KOTHManager: {fileID: 112192605}

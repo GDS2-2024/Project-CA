@@ -8,6 +8,7 @@ public class PlayerGunHandler : MonoBehaviour
     private PlayerHUD playerHUD;
     private PlayerMoveBase playerMovement;
     private InputDevice playerController;
+    private PlayerRumbleHandler playerRumble;
 
     // Gun & Shooting
     public GameObject gunObject;
@@ -46,6 +47,7 @@ public class PlayerGunHandler : MonoBehaviour
         playerHUD = GetComponent<PlayerHUD>();
         playerMovement = GetComponent<PlayerMoveBase>();
         playerController = GetComponent<PlayerController>().GetController();
+        playerRumble = GetComponent<PlayerRumbleHandler>();
 
         // Setup Ammo
         currentAmmo = maxAmmoInClip;
@@ -100,6 +102,7 @@ public class PlayerGunHandler : MonoBehaviour
     void ShootBullet()
     {        
         ReduceAmmo();
+        if (playerRumble) playerRumble.StartRumble(0f, 1f, 0.1f);
 
         // Perform a raycast from the center of the camera
         RaycastHit hit;
