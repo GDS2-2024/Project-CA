@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6977938446653619675}
   - component: {fileID: 6977938446653619672}
-  - component: {fileID: 6977938446653619673}
   - component: {fileID: 8485114328989743592}
   m_Layer: 0
   m_Name: Blank Camera
@@ -32,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &6977938446653619672
 Camera:
@@ -53,10 +52,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.5
+    x: 0
     y: 0
-    width: 0.5
-    height: 0.5
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -77,14 +76,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &6977938446653619673
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6977938446653619670}
-  m_Enabled: 1
 --- !u!114 &8485114328989743592
 MonoBehaviour:
   m_ObjectHideFlags: 0

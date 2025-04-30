@@ -2077,8 +2077,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2519,8 +2519,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3114,7 +3114,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -250}
-  m_SizeDelta: {x: 500, y: 50}
+  m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7589526251357757736
 CanvasRenderer:
@@ -3171,8 +3171,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3807,8 +3807,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b440c078cd89114b989c9587ebef4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UtilityAbility: {fileID: 0}
-  DamageAbility: {fileID: 0}
+  LeftAbility: {fileID: 0}
+  RightAbility: {fileID: 0}
   UltimateAbility: {fileID: 0}
 --- !u!114 &5862432884533016789
 MonoBehaviour:

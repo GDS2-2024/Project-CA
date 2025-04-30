@@ -73,10 +73,14 @@ public class PlayerSpawner : MonoBehaviour
             switch (playerNumber)
             {
                 case 0:
-                    thisCam.rect = new Rect(0f, 0f, 0.5f, 1f);
+                    thisCam.rect = new Rect(0.2f, 0.5f, 0.6f, 0.5f);
+                    GameObject blackBarLeft = Instantiate(blankCameraPrefab);
+                    blackBarLeft.GetComponent<Camera>().rect = new Rect(0f, 0f, 0.2f, 1f);
                     break;
                 case 1:
-                    thisCam.rect = new Rect(0.5f, 0f, 0.5f, 1f);
+                    thisCam.rect = new Rect(0.2f, 0f, 0.6f, 0.5f);
+                    GameObject blackBarRight = Instantiate(blankCameraPrefab);
+                    blackBarRight.GetComponent<Camera>().rect = new Rect(0.8f, 0f, 0.2f, 1f);
                     break;
             }
         }
@@ -93,7 +97,11 @@ public class PlayerSpawner : MonoBehaviour
                     break;
                 case 2:
                     thisCam.rect = new Rect(0f, 0f, 0.5f, 0.5f);
-                    if (playerCount == 3) { GameObject blankCam = Instantiate(blankCameraPrefab); }
+                    if (playerCount == 3)
+                    {
+                        GameObject blankCam = Instantiate(blankCameraPrefab);
+                        blankCam.GetComponent<Camera>().rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
+                    }
                     break;
                 case 3:
                     thisCam.rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
