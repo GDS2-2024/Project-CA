@@ -23,6 +23,7 @@ public class PlayerMoveBase : MonoBehaviour
     public float jumpForce;
     public bool isGrounded { get; private set; }
     private bool movementDisabled = false;
+    private bool movementSlowed = false;
 
     //Camera variables
     public Camera playerCam;
@@ -98,6 +99,8 @@ public class PlayerMoveBase : MonoBehaviour
     {
         if (movementDisabled) { return; }
         Vector3 desiredVelocity = moveDir * moveSpeed;
+        if (movementSlowed) { desiredVelocity = moveDir * moveSpeed * 0.5f; }
+
         if (moveDir.magnitude > 0)
         {           
             // If move input then add to existing velocity
@@ -151,23 +154,24 @@ public class PlayerMoveBase : MonoBehaviour
     // Temporary Disable/Enable
     public void TempDisableMovement(float duration)
     {
-        StartCoroutine(TempAction(duration, () => movementDisabled = true, () => movementDisabled = false));
+        StartCoroutine(TempAction(duration, () => DisableMovement(), () => EnableMovement()));
     }
 
     public void TempDisableCamera(float duration)
     {
-        StartCoroutine(TempAction(duration, () => cameraDisabled = true, () => cameraDisabled = false));
+        StartCoroutine(TempAction(duration, () => DisableCamera(), () => EnableCamera()));
     }
 
     public void TempSlowMovement(float duration)
     {
-        StartCoroutine(TempAction(duration, () => moveSpeed *= 0.5f, () => moveSpeed *= 2f));
+        StartCoroutine(TempAction(duration, () => EnableSlowMovement(), () => DisableSlowMovement()));
     }
 
     // Manual control methods
     public void DisableMovement() => movementDisabled = true;
     public void EnableMovement() => movementDisabled = false;
-
+    public void EnableSlowMovement() => movementSlowed = true;
+    public void DisableSlowMovement() => movementSlowed = false;
     public void DisableCamera() => cameraDisabled = true;
     public void EnableCamera() => cameraDisabled = false;
     
