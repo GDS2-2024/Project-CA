@@ -75,16 +75,29 @@ public class KOTHManager : MonoBehaviour
         activeHill = hills[hillIndex];
         activeHill.GetComponent<HillObjective>().SetVisibility(true);
         if (matchManager.remainingGameTime != 360) { TellPlayersNewHill(); } // ignore at game start
+        else { GameStartMessage(); }
         EnableObjectiveMarker();
     }
 
     private void UpdateHillTimer()
     {
         remainingHillTime -= Time.deltaTime;
+        TellPlayersHillTimer();
         if (remainingHillTime < 0)
         {
             remainingHillTime = 60;
             SwitchToNextHill();
+        }
+    }
+
+    // Add text to HUD for all players showing the hill timer countdown
+    private void TellPlayersHillTimer()
+    {
+        if (remainingHillTime > 55) { return; }
+        foreach (GameObject player in playerList)
+        {
+            PlayerHUD hud = player.GetComponent<PlayerHUD>();
+            hud.UpdateObjectivePrompt($"{(int)remainingHillTime}");
         }
     }
 
@@ -95,6 +108,15 @@ public class KOTHManager : MonoBehaviour
         {
             PlayerHUD hud = player.GetComponent<PlayerHUD>();
             hud.UpdateObjectivePrompt("The Hill has moved!", 5.0f);
+        }
+    }
+
+    private void GameStartMessage()
+    {
+        foreach (GameObject player in playerList)
+        {
+            PlayerHUD hud = player.GetComponent<PlayerHUD>();
+            hud.UpdateObjectivePrompt("Stand in the hill to score!", 5.0f);
         }
     }
 
