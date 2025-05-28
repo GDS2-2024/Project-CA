@@ -434,11 +434,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903094052215905936, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5903094052215905936, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.25
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5903094052215905936, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_LocalScale.z
@@ -450,7 +450,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5903094052215905936, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.32
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5903094052215905936, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5903094052215905937, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
       propertyPath: m_Name
@@ -575,22 +579,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5903094052215905937, guid: 89b01c49e99970d49837f73ba42ef705, type: 3}
   m_PrefabInstance: {fileID: 7151161618206565580}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &1338367012
+--- !u!33 &8149626739033066697
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3661997529237617245}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1338367013
+  m_Mesh: {fileID: -3822211756982555812, guid: 39973c941742f56498b3c5a32421407d, type: 3}
+--- !u!23 &9165300739289682128
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3661997529237617245}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -603,7 +607,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 832a84db2782b6b449a0107b25897c5b, type: 2}
+  - {fileID: -1444460858095362738, guid: 39973c941742f56498b3c5a32421407d, type: 3}
+  - {fileID: -4973734387028869240, guid: 39973c941742f56498b3c5a32421407d, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
